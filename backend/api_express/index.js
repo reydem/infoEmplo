@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 // Conectar con mongoose 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://127.0.0.1:27017/restapis');
+mongoose.connect('mongodb://127.0.0.1:27017/infoempleo');
  
 // Crear el servidor
 const app = express();
