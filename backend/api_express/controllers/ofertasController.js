@@ -11,3 +11,22 @@ exports.nuevaOferta = async (req, res, next) => {
         next();
     }
 }
+
+
+exports.mostrarOferta = async (req, res, next) => {
+    try {
+        const oferta = await Ofertas.findById(req.params.idOferta)
+            .populate('empleado')
+            .populate('vacante.vacante'); // Cambiar a vacante.vacante para referenciar correctamente el path
+
+        if (!oferta) {
+            res.json({ mensaje: 'Esta oferta no existe' });
+            return next();
+        }
+
+        res.json(oferta);
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+};
