@@ -25,8 +25,8 @@ const configuracionMulter = {
     }
   }
 };
-// Configuración de Multer para subir un solo archivo con el nombre de campo 'imagen'
-const upload = multer(configuracionMulter).single('imagen_empresa');
+// Configuración de Multer para subir archivos con cualquier nombre de campo
+const upload = multer(configuracionMulter).any();
 
 exports.subirArchivo = (req, res, next) => {
   upload(req, res, function (error) {
@@ -38,15 +38,19 @@ exports.subirArchivo = (req, res, next) => {
     next();
   });
 };
+
 exports.nuevoVacante = async (req, res, next) => {
   console.log('Datos del cuerpo:', req.body); // Depurar datos enviados
-  console.log('Archivo subido:', req.file); // Depurar archivo subido
+  console.log('Archivos subidos:', req.files); // Depurar archivos subidos
+
   const vacante = new Vacantes(req.body);
+
   try {
-    console.log('Archivo subido:', req.file); // Depuración
-    if (req.file && req.file.filename) {
-      vacante.imagen_empresa = req.file.filename;
+    // Verifica si hay un archivo subido y guarda su nombre
+    if (req.files && req.files.length > 0) {
+      vacante.imagen_empresa = req.files[0].filename;
     }
+
     await vacante.save();
     res.json({ mensaje: 'Se agregó un nuevo vacante' });
   } catch (error) {
