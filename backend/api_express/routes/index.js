@@ -18,7 +18,7 @@ module.exports = function() {
     router.delete('/empleados/:idEmpleado', empleadoController.eliminarEmpleado);
     /** vacantes */
     // nuevos vacantes
-    router.post('/vacantes', vacantesController.nuevoVacante );
+    router.post('/vacantes', vacantesController.subirArchivo, vacantesController.nuevoVacante);
 
     return router;
 };
