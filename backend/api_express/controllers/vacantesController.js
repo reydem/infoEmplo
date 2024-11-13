@@ -10,11 +10,14 @@ const configuracionMulter = {
     destination: (req, file, cb) => {
       const dir = path.join(__dirname, '../../uploads/');
       fs.mkdirSync(dir, { recursive: true });
+      console.log('Guardar en directorio:', dir); // Verifica la ruta aquí
       cb(null, dir);
     },
     filename: (req, file, cb) => {
       const extension = file.mimetype.split('/')[1];
-      cb(null, `${shortid.generate()}.${extension}`);
+      const filename = `${shortid.generate()}.${extension}`;
+      console.log('Guardar archivo como:', filename); // Verifica el nombre de archivo aquí
+      cb(null, filename);
     }
   }),
   fileFilter(req, file, cb) {
@@ -31,10 +34,14 @@ const upload = multer(configuracionMulter).any();
 exports.subirArchivo = (req, res, next) => {
   upload(req, res, function (error) {
     if (error) {
+      console.log('Error de subida:', error);
       res.status(400).json({ mensaje: error.message });
       return;
     }
     // Pasa al siguiente middleware sin enviar respuesta aún
+    if (req.files) {
+      console.log('Archivos subidos:', req.files); // Verifica si hay archivos
+    }
     next();
   });
 };
@@ -62,29 +69,29 @@ exports.nuevoVacante = async (req, res, next) => {
 // Muestra todas las vacantes
 exports.mostrarVacantes = async (req, res, next) => {
   try {
-      // Obtener todos los productos
-      const vacantes = await Vacantes.find({});
-      
-      // Enviar la respuesta en formato JSON
-      res.json(vacantes);
+    // Obtener todos los productos
+    const vacantes = await Vacantes.find({});
+
+    // Enviar la respuesta en formato JSON
+    res.json(vacantes);
   } catch (error) {
-      console.log(error);
-      next(error);
+    console.log(error);
+    next(error);
   }
 };
 
 // Muestra vacante por (ID)
 exports.mostrarVacante = async (req, res, next) => {
   try {
-      const vacante = await Vacantes.findById(req.params.idVacante);
-      
-      if (!vacante) {
-          res.json({ mensaje: 'Ese vacante no existe' });
-          return next();
-      }
-      res.json(vacante);
+    const vacante = await Vacantes.findById(req.params.idVacante);
+
+    if (!vacante) {
+      res.json({ mensaje: 'Ese vacante no existe' });
+      return next();
+    }
+    res.json(vacante);
   } catch (error) {
-      console.log(error);
-      next(error);
+    console.log(error);
+    next(error);
   }
 };
