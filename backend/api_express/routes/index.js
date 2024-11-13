@@ -6,6 +6,8 @@ const empleadoController = require('../controllers/empleadoController'); // Aseg
 module.exports = function() {
     // Agregar nuevo empleado 
     router.post('/empleados', empleadoController.nuevoEmpleado); 
+    // Obtener todos los empleados 
+    router.get('/empleados', empleadoController.mostrarEmpleados);
 
     return router;
 };
