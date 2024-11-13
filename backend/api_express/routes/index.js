@@ -21,6 +21,8 @@ module.exports = function () {
     router.post('/vacantes', vacantesController.subirArchivo, vacantesController.nuevoVacante);
     // Muestra todas las vacantes
     router.get('/vacantes', vacantesController.mostrarVacantes);
+    // muestra un vacante en especifico por su ID
+    router.get('/vacantes/:idVacante', vacantesController.mostrarVacante);
 
     return router;
 };

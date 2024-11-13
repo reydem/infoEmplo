@@ -72,3 +72,19 @@ exports.mostrarVacantes = async (req, res, next) => {
       next(error);
   }
 };
+
+// Muestra vacante por (ID)
+exports.mostrarVacante = async (req, res, next) => {
+  try {
+      const vacante = await Vacantes.findById(req.params.idVacante);
+      
+      if (!vacante) {
+          res.json({ mensaje: 'Ese vacante no existe' });
+          return next();
+      }
+      res.json(vacante);
+  } catch (error) {
+      console.log(error);
+      next(error);
+  }
+};
