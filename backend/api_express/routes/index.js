@@ -12,6 +12,8 @@ module.exports = function() {
     router.get('/empleados/:idEmpleado', empleadoController.mostrarEmpleado);
     // Actualiza empleado 
     router.put('/empleados/:idEmpleado', empleadoController.actualizarEmpleado);
+    // Eliminar cliente 
+    router.delete('/empleados/:idEmpleado', empleadoController.eliminarEmpleado);
 
     return router;
 };
