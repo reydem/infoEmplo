@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const empleadoController = require('../controllers/empleadoController'); // Asegúrate de tener la ruta correcta
 const vacantesController = require('../controllers/vacantesController');
+const ofertasController = require('../controllers/ofertasController');
 
 
 module.exports = function () {
@@ -27,6 +28,9 @@ module.exports = function () {
     router.put('/vacantes/:idVacante', vacantesController.subirArchivo, vacantesController.actualizarVacante);
     // Eliminar Productos
     router.delete('/vacantes/:idVacante', vacantesController.eliminarVacante);
+    /*** PEDIDOS */
+    // Agrega nuevos pedidos
+    router.post('/ofertas', ofertasController.nuevaOferta);
 
     return router;
 };
