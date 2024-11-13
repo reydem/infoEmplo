@@ -21,3 +21,16 @@ exports.mostrarEmpleados = async (req, res, next) => {
       next(error);
     }
   };
+  // Muestra un empleado en espefifico por su (ID)
+exports.mostrarEmpleado = async (req, res, next) => {
+  try {
+      const empleado = await Empleados.findById(req.params.idEmpleado);
+      if (!empleado) {
+          return res.json({ mensaje: 'Ese empleado no existe' });
+      }
+      res.json(empleado);
+  } catch (error) {
+      console.error(error);
+      next(error);
+  }
+};

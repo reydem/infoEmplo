@@ -8,6 +8,8 @@ module.exports = function() {
     router.post('/empleados', empleadoController.nuevoEmpleado); 
     // Obtener todos los empleados 
     router.get('/empleados', empleadoController.mostrarEmpleados);
+    // Muestra un empleado en espefifico por su (ID)
+    router.get('/empleados/:idEmpleado', empleadoController.mostrarEmpleado);
 
     return router;
 };
