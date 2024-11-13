@@ -12,7 +12,21 @@ exports.nuevaOferta = async (req, res, next) => {
     }
 }
 
+// Mostrar todas las ofertas
+exports.mostrarOfertas = async (req, res, next) => {
+    try {
+        const ofertas = await Ofertas.find()
+            .populate('empleado') // Relaciona el empleado
+            .populate('vacante.vacante'); // Relaciona las vacantes en cada oferta
 
+        res.json(ofertas); // Devuelve todas las ofertas como un JSON
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+};
+
+// Mostrar oferta por (ID)
 exports.mostrarOferta = async (req, res, next) => {
     try {
         const oferta = await Ofertas.findById(req.params.idOferta)

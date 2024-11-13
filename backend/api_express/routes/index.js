@@ -31,6 +31,8 @@ module.exports = function () {
     /*** PEDIDOS */
     // Agrega nuevos pedidos
     router.post('/ofertas', ofertasController.nuevaOferta);
+    // Mostrar todas las ofertas
+    router.get('/ofertas', ofertasController.mostrarOfertas);
     // Mostrar un pedido por su ID
     router.get('/ofertas/:idOferta', ofertasController.mostrarOferta);
 
