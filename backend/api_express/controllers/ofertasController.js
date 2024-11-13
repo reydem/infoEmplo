@@ -26,21 +26,18 @@ exports.mostrarOfertas = async (req, res, next) => {
     }
 };
 
-// Mostrar oferta por (ID)
+// Muestra oferta por (ID)
 exports.mostrarOferta = async (req, res, next) => {
     try {
-        const oferta = await Ofertas.findById(req.params.idOferta)
-            .populate('empleado')
-            .populate('vacante.vacante'); // Cambiar a vacante.vacante para referenciar correctamente el path
-
+        const oferta = await Ofertas.findById(req.params.idOferta);
+        
         if (!oferta) {
             res.json({ mensaje: 'Esta oferta no existe' });
             return next();
         }
-
         res.json(oferta);
     } catch (error) {
         console.log(error);
-        next();
+        next(error);
     }
 };
