@@ -95,3 +95,26 @@ exports.mostrarVacante = async (req, res, next) => {
     next(error);
   }
 };
+// Actualiza un vacante via (ID)
+exports.actualizarVacante = async (req, res, next) => {
+  try {
+      // construir un nuevo vacante
+      let nuevoVacante = req.body;
+      // verificar si hay imagen nueva
+      if (req.files && req.files[0] && req.files[0].filename) {
+        nuevoVacante.imagen = req.files[0].filename;
+      } else {
+          let vacanteAnterior = await Vacantes.findById(req.params.idVacante);
+          nuevoVacante.imagen = vacanteAnterior.imagen;
+      }
+      let vacante = await Vacantes.findOneAndUpdate(
+          { _id: req.params.idVacante },
+          nuevoVacante,
+          { new: true }
+      );
+      res.json(vacante);
+  } catch (error) {
+      console.log(error);
+      next();
+  }
+};

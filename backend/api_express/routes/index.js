@@ -23,6 +23,8 @@ module.exports = function () {
     router.get('/vacantes', vacantesController.mostrarVacantes);
     // muestra un vacante en especifico por su ID
     router.get('/vacantes/:idVacante', vacantesController.mostrarVacante);
+    // Actualizar Productos
+    router.put('/vacantes/:idVacante', vacantesController.subirArchivo, vacantesController.actualizarVacante);
 
     return router;
 };
