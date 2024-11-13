@@ -2,6 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const empleadoController = require('../controllers/empleadoController'); // Asegúrate de tener la ruta correcta
+const vacantesController = require('../controllers/vacantesController');
+
 
 module.exports = function() {
     // Agregar nuevo empleado 
@@ -14,6 +16,9 @@ module.exports = function() {
     router.put('/empleados/:idEmpleado', empleadoController.actualizarEmpleado);
     // Eliminar cliente 
     router.delete('/empleados/:idEmpleado', empleadoController.eliminarEmpleado);
+    /** vacantes */
+    // nuevos vacantes
+    router.post('/vacantes', vacantesController.nuevoVacante );
 
     return router;
 };
