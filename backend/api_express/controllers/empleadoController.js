@@ -34,3 +34,17 @@ exports.mostrarEmpleado = async (req, res, next) => {
       next(error);
   }
 };
+
+exports.actualizarEmpleado = async (req, res, next) => {
+  try {
+      const empleado = await Empleados.findOneAndUpdate(
+          { _id: req.params.idEmpleado },
+          req.body,
+          { new: true }
+      );
+      res.json(empleado);
+  } catch (error) {
+      console.log(error);
+      next(error);
+  }
+};

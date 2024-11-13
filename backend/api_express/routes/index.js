@@ -10,6 +10,8 @@ module.exports = function() {
     router.get('/empleados', empleadoController.mostrarEmpleados);
     // Muestra un empleado en espefifico por su (ID)
     router.get('/empleados/:idEmpleado', empleadoController.mostrarEmpleado);
+    // Actualiza empleado 
+    router.put('/empleados/:idEmpleado', empleadoController.actualizarEmpleado);
 
     return router;
 };
