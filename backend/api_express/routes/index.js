@@ -25,6 +25,8 @@ module.exports = function () {
     router.get('/vacantes/:idVacante', vacantesController.mostrarVacante);
     // Actualizar Productos
     router.put('/vacantes/:idVacante', vacantesController.subirArchivo, vacantesController.actualizarVacante);
+    // Eliminar Productos
+    router.delete('/vacantes/:idVacante', vacantesController.eliminarVacante);
 
     return router;
 };

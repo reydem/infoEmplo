@@ -118,3 +118,13 @@ exports.actualizarVacante = async (req, res, next) => {
       next();
   }
 };
+// Elimina un producto via (ID)
+exports.eliminarVacante = async (req, res, next) => {
+  try {
+      await Vacantes.findByIdAndDelete({ _id : req.params.idVacante });
+      res.json({mensaje : 'La vacante se ha eliminado'});
+  } catch (error) {
+      console.log(error);
+      next();
+  }
+}
