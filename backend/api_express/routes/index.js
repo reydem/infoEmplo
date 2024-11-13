@@ -6,6 +6,7 @@ const vacantesController = require('../controllers/vacantesController');
 const ofertasController = require('../controllers/ofertasController');
 
 
+
 module.exports = function () {
     // Agregar nuevo empleado 
     router.post('/empleados', empleadoController.nuevoEmpleado);
@@ -34,7 +35,8 @@ module.exports = function () {
     // Mostrar todas las ofertas
     router.get('/ofertas', ofertasController.mostrarOfertas);
     // Mostrar un pedido por su ID
-    router.get('/ofertas/:idOferta', ofertasController.mostrarOferta);
+
+
 
     return router;
 };

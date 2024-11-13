@@ -11,33 +11,16 @@ exports.nuevaOferta = async (req, res, next) => {
         next();
     }
 }
-
-// Mostrar todas las ofertas
+// Muestra todos los pedidos
 exports.mostrarOfertas = async (req, res, next) => {
     try {
-        const ofertas = await Ofertas.find()
-            .populate('empleado') // Relaciona el empleado
-            .populate('vacante.vacante'); // Relaciona las vacantes en cada oferta
-
-        res.json(ofertas); // Devuelve todas las ofertas como un JSON
+        const ofertas = await Ofertas.find({}).populate('empleado').populate({
+            path: 'oferta.vacante',
+            model: 'Vacantes'
+        });
+        res.json(ofertas);
     } catch (error) {
         console.log(error);
         next();
     }
-};
-
-// Muestra oferta por (ID)
-exports.mostrarOferta = async (req, res, next) => {
-    try {
-        const oferta = await Ofertas.findById(req.params.idOferta);
-        
-        if (!oferta) {
-            res.json({ mensaje: 'Esta oferta no existe' });
-            return next();
-        }
-        res.json(oferta);
-    } catch (error) {
-        console.log(error);
-        next(error);
-    }
-};
+}
