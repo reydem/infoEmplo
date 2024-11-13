@@ -58,3 +58,17 @@ exports.nuevoVacante = async (req, res, next) => {
     next();
   }
 };
+
+// Muestra todas las vacantes
+exports.mostrarVacantes = async (req, res, next) => {
+  try {
+      // Obtener todos los productos
+      const vacantes = await Vacantes.find({});
+      
+      // Enviar la respuesta en formato JSON
+      res.json(vacantes);
+  } catch (error) {
+      console.log(error);
+      next(error);
+  }
+};

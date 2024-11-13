@@ -5,9 +5,9 @@ const empleadoController = require('../controllers/empleadoController'); // Aseg
 const vacantesController = require('../controllers/vacantesController');
 
 
-module.exports = function() {
+module.exports = function () {
     // Agregar nuevo empleado 
-    router.post('/empleados', empleadoController.nuevoEmpleado); 
+    router.post('/empleados', empleadoController.nuevoEmpleado);
     // Obtener todos los empleados 
     router.get('/empleados', empleadoController.mostrarEmpleados);
     // Muestra un empleado en espefifico por su (ID)
@@ -19,6 +19,8 @@ module.exports = function() {
     /** vacantes */
     // nuevos vacantes
     router.post('/vacantes', vacantesController.subirArchivo, vacantesController.nuevoVacante);
+    // Muestra todas las vacantes
+    router.get('/vacantes', vacantesController.mostrarVacantes);
 
     return router;
 };
