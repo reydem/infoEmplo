@@ -41,3 +41,21 @@ exports.mostrarOferta = async (req, res, next) => {
         next();
     }
 }
+
+// Actualizar el oferta via (ID)
+exports.actualizarOferta = async (req, res, next) => {
+    try {
+        let oferta = await Ofertas.findOneAndUpdate({_id : req.params.idOferta}, req.body, {
+            new: true
+        } )
+        .populate('empleado')
+        .populate({
+            path: 'oferta.vacante',
+            model: 'Vacantes'
+        });
+        res.json(oferta)
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+}

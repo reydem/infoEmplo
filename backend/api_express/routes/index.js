@@ -36,6 +36,8 @@ module.exports = function () {
     router.get('/ofertas', ofertasController.mostrarOfertas);
     // Mostrar un oferta por su ID
     router.get('/ofertas/:idOferta', ofertasController.mostrarOferta);
+    // Actualizar oferta
+    router.put('/ofertas/:idOferta', ofertasController.actualizarOferta);
 
 
 
