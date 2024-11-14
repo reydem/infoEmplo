@@ -38,6 +38,8 @@ module.exports = function () {
     router.get('/ofertas/:idOferta', ofertasController.mostrarOferta);
     // Actualizar oferta
     router.put('/ofertas/:idOferta', ofertasController.actualizarOferta);
+    // Elimina una oferta
+    router.delete('/ofertas/:idOferta', ofertasController.eliminarOferta);
 
 
 

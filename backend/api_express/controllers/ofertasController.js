@@ -59,3 +59,14 @@ exports.actualizarOferta = async (req, res, next) => {
         next();
     }
 }
+
+// elimina una oferta por su (ID)
+exports.eliminarOferta = async (req, res, next) => {
+    try {
+        await Ofertas.findOneAndDelete({ _id : req.params.idOferta});
+        res.json({ mensaje : 'La oferta se ha eliminado' });
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+}
