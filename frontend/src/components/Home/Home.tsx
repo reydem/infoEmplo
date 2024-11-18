@@ -29,7 +29,7 @@ function Home() {
             <img
               alt="Your Company"
               src={Logo}
-              className="h-8 w-auto"
+              className="h-10 w-auto"
             />
             <div>
               <Button color="dark">
@@ -69,8 +69,28 @@ function Home() {
             <Input name="search" placeholder="Search&hellip;" aria-label="Search" />
           </InputGroup>
           <EmploymentOffer
-            buttonText="Ver empleo disponible"
-            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+            buttonText='Oferta de empleo'
+            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+          />
+          <EmploymentOffer
+            buttonText="Oferta de empleo"
+            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+          />
+          <EmploymentOffer
+            buttonText="Oferta de empleo"
+            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+          />
+          <EmploymentOffer
+            buttonText="Oferta de empleo"
+            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+          />
+          <EmploymentOffer
+            buttonText="Oferta de empleo"
+            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+          />
+          <EmploymentOffer
+            buttonText="Oferta de empleo"
+            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
           />
           {/* Main area */}
 

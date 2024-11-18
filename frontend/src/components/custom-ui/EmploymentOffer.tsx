@@ -1,3 +1,4 @@
+// /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/custom-ui/EmploymentOffer.tsx
 import React from 'react';
 import { Button } from '../ui';
 import { BriefcaseIcon } from '@heroicons/react/24/outline';
@@ -19,7 +20,7 @@ const EmploymentOffer: React.FC<EmploymentOfferProps> = ({
           {buttonText}
         </Button>
       </div>
-      <div className="mx-auto flex h-2 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <p>{description}</p>
       </div>
     </div>
