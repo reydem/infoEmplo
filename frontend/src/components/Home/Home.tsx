@@ -1,34 +1,39 @@
-import { BellIcon } from '@heroicons/react/24/outline'
+// /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Home/Home.tsx
+import Logo from '../../assets/Logo.png';
+import { Button } from '../ui';
+
 
 function Home() {
   return (
     <div className="flex min-h-full flex-col">
-      <header className="shrink-0 border-b border-gray-200 bg-white">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <img
-            alt="Your Company"
-            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-            className="h-8 w-auto"
-          />
-          <div className="flex items-center gap-x-8">
-            <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
-              <span className="sr-only">View notifications</span>
-              <BellIcon aria-hidden="true" className="size-6" />
-            </button>
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your profile</span>
-              <img
-                alt=""
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                className="size-8 rounded-full bg-gray-800"
-              />
-            </a>
-          </div>
-        </div>
-      </header>
+
 
       <div className="mx-auto flex w-full max-w-7xl items-start gap-x-8 px-4 py-10 sm:px-6 lg:px-8 border-dashed border-2 border-sky-500">
-        <aside className="sticky top-8 hidden w-64 shrink-0 lg:block border-dashed border-2 border-sky-500">{/* Left column area */}</aside>
+        <aside className="sticky top-8 hidden w-64 shrink-0 lg:block border-dashed border-2 border-sky-500">
+          <header className="shrink-0 border-b border-gray-200 bg-white">
+            <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+              <img
+                alt="Your Company"
+                src={Logo}
+                className="h-8 w-auto"
+              />
+              <div>
+                <Button color="dark">
+                  Entrar
+                </Button>
+              </div>
+            </div>
+          </header>
+          <h3>Navegacion</h3>
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12.75 19.5v-.75a7.5 7.5 0 0 0-7.5-7.5H4.5m0-6.75h.75c7.87 0 14.25 6.38 14.25 14.25v.75M6 18.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+            </svg>
+          </div>
+          {/* Left column area */}
+
+
+        </aside>
 
         <main className="flex-1 border-dashed border-2 border-sky-500">{/* Main area */}</main>
 
