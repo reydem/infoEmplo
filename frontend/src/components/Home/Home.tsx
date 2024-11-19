@@ -72,6 +72,13 @@ function Home() {
           <InputGroup className="flex-1 border-4 border-gray-400" >
             <MagnifyingGlassIcon className='ml-5' />
             <Input name="search" placeholder="Search&hellip;" aria-label="Search" className="border-2 border-gray-400 rounded-lg my-5 mx-5 w-auto max-w-screen-md" />
+            <div className="absolute top-[5px] right-[-80px] bg-white text-black font-bold">
+              Comunidad
+            </div>
+            <div className="absolute top-[5px] right-[-150px] bg-white text-black font-bold">
+              Soporte
+            </div>
+
           </InputGroup>
           <EmploymentOffer
             buttonText='Oferta de empleo'
