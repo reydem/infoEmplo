@@ -1,9 +1,14 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Home/Home.tsx
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
-import { SignalIcon, FolderIcon, DocumentCheckIcon, ChartBarIcon, BuildingOffice2Icon } from '@heroicons/react/24/outline';
 import Logo from '../../assets/Logo.png';
 import { Button, Input, InputGroup } from '../ui';
 import EmploymentOffer from '../custom-ui/EmploymentOffer';
+import { 
+  SignalIcon, 
+  FolderIcon, 
+  DocumentCheckIcon, 
+  ChartBarIcon, 
+  BuildingOffice2Icon } from '@heroicons/react/24/outline';
 
 function Home() {
   return (
@@ -22,7 +27,7 @@ function Home() {
           </div>
         </div>
       </header> */}
-      <div className="mx-auto flex w-full max-w-7xl items-start gap-x-8 px-4 py-10 sm:px-6 lg:px-8 border-dashed border-2 border-sky-500">
+      <div className="mx-auto flex w-full max-w-7xl items-start gap-x-8 px-4 py-10 sm:px-6 lg:px-8 border-dashed border-2 border-sky-500 mt-10">
         <aside className="sticky top-8 hidden w-64 shrink-0 lg:block border-dashed border-2 border-sky-500">
           <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <img
@@ -64,8 +69,8 @@ function Home() {
         </aside>
         <main className="flex-1 border-dashed border-2 border-sky-500">
           <InputGroup >
-            <MagnifyingGlassIcon />
-            <Input name="search" placeholder="Search&hellip;" aria-label="Search" />
+            <MagnifyingGlassIcon className='ml-5'/>
+            <Input name="search" placeholder="Search&hellip;" aria-label="Search" className="border-2 border-sky-500 rounded-lg my-5 mx-5 w-auto max-w-screen-md"  />
           </InputGroup>
           <EmploymentOffer
             buttonText='Oferta de empleo'
