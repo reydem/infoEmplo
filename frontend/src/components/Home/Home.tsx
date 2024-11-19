@@ -13,7 +13,7 @@ import {
 function Home() {
   return (
     <div className="flex min-h-full flex-col">
-      {/* <header className="shrink-0 border-b border-gray-200 bg-white">
+      <header className="shrink-0 border-b border-gray-200 bg-white mt-10">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <img
             alt="Your Company"
@@ -26,8 +26,8 @@ function Home() {
             </Button>
           </div>
         </div>
-      </header> */}
-      <div className="mx-auto flex w-full max-w-7xl items-start gap-x-8 px-4 py-10 sm:px-6 lg:px-8 border-dashed border-2 border-sky-500 mt-10">
+      </header>
+      <div className="mx-auto flex w-full max-w-7xl items-start px-4 py-10 sm:px-6 lg:px-8 border-dashed border-2 border-sky-500">
         <aside className="sticky top-8 hidden w-64 shrink-0 lg:block border-dashed border-2 border-sky-500">
           <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <img
@@ -99,7 +99,7 @@ function Home() {
           {/* Main area */}
 
         </main>
-        <aside className="sticky top-8 hidden w-44 shrink-0 xl:block border-dashed border-2 border-sky-500">
+        <aside className="sticky top-8 hidden w-44 shrink-0 xl:block border-dashed border-2 border-sky-500 mt-10">
 
           <div className="mx-auto flex h-16 max-w-7xl items-center justify-between ">
             <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
