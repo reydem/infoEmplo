@@ -13,7 +13,7 @@ const EmploymentOffer: React.FC<EmploymentOfferProps> = ({
   description,
 }) => {
   return (
-    <div className="border-gray-400 border-t-4 h-32 my-0">
+    <div className="border-gray-400 border-t-4 h-24 my-0">
       <div className="mx-auto flex mt-3  max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 ">
         <Button 
         color="white"
