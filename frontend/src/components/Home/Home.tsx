@@ -13,7 +13,7 @@ import {
 
 function Home() {
   return (
-    <div className="flex min-h-full flex-col p-20 bg-slate-300">
+    <div className="flex min-h-full flex-col p-20 bg-slate-300 font-nanum">
       {/* <header className="shrink-0 border-b border-gray-200 bg-white mt-10">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <img

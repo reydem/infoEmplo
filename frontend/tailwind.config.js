@@ -6,7 +6,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        nanum: ['"Nanum Gothic Coding"', 'monospace'],
+      },
+    },
   },
   plugins: [],
 }
