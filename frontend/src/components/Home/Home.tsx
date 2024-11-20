@@ -48,8 +48,12 @@ function Home() {
             </h2>
           </div>
           <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-            <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
-              <SignalIcon aria-hidden="true" className="size-6" />
+            <Button color="white" className="-m-2.5 p-2.5 text-black">
+              <SignalIcon 
+              aria-hidden="true"
+              className="w-6 h-6 font-bold"
+              strokeWidth={2.5} // Ajusta el grosor del trazo
+              />
               Actividades
             </Button>
           </div>

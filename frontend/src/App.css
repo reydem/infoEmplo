@@ -18,3 +18,7 @@
     line-height: 0.5rem;
   }
 }
+
+.\[\&\>\[data-slot\=icon\]\]\:text-\[--btn-icon\]>[data-slot=icon] {
+  color: #000000;
+}
