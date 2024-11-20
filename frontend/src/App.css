@@ -22,3 +22,10 @@
 .\[\&\>\[data-slot\=icon\]\]\:text-\[--btn-icon\]>[data-slot=icon] {
   color: #000000;
 }
+
+@media (prefers-color-scheme: dark) {
+  .dark\:text-white {
+      --tw-text-opacity: 1;
+      color: rgb(0 0 0);
+  }
+}
