@@ -1,9 +1,9 @@
 // /webapps/infoEmplo-venv/infoEmplo/backend/api_express/controllers/vacantesController.js
-const Vacantes = require('../models/Vacantes');
-const multer = require('multer');
-const shortid = require('shortid');
-const path = require('path');
-const fs = require('fs');
+import Vacantes from '../models/Vacantes.js';
+import multer from 'multer';
+import shortid from 'shortid';
+import path from 'path';
+import fs from 'fs';
 
 const configuracionMulter = {
   storage: multer.diskStorage({
@@ -31,8 +31,8 @@ const configuracionMulter = {
 // Configuración de Multer para subir archivos con cualquier nombre de campo
 const upload = multer(configuracionMulter).any();
 
-exports.subirArchivo = (req, res, next) => {
-  upload(req, res, function (error) {
+export const subirArchivo = (req, res, next) => {
+  upload(req, res, (error) => {
     if (error) {
       console.log('Error de subida:', error);
       res.status(400).json({ mensaje: error.message });
@@ -46,7 +46,7 @@ exports.subirArchivo = (req, res, next) => {
   });
 };
 
-exports.nuevoVacante = async (req, res, next) => {
+export const nuevoVacante = async (req, res, next) => {
   console.log('Datos del cuerpo:', req.body); // Depurar datos enviados
   console.log('Archivos subidos:', req.files); // Depurar archivos subidos
 
@@ -67,7 +67,7 @@ exports.nuevoVacante = async (req, res, next) => {
 };
 
 // Muestra todas las vacantes
-exports.mostrarVacantes = async (req, res, next) => {
+export const mostrarVacantes = async (req, res, next) => {
   try {
     // Obtener todos los productos
     const vacantes = await Vacantes.find({});
@@ -81,7 +81,7 @@ exports.mostrarVacantes = async (req, res, next) => {
 };
 
 // Muestra vacante por (ID)
-exports.mostrarVacante = async (req, res, next) => {
+export const mostrarVacante = async (req, res, next) => {
   try {
     const vacante = await Vacantes.findById(req.params.idVacante);
 
@@ -96,35 +96,35 @@ exports.mostrarVacante = async (req, res, next) => {
   }
 };
 // Actualiza un vacante via (ID)
-exports.actualizarVacante = async (req, res, next) => {
+export const actualizarVacante = async (req, res, next) => {
   try {
-      // construir un nuevo vacante
-      let nuevoVacante = req.body;
-      // verificar si hay imagen nueva
-      if (req.files && req.files[0] && req.files[0].filename) {
-        nuevoVacante.imagen = req.files[0].filename;
-      } else {
-          let vacanteAnterior = await Vacantes.findById(req.params.idVacante);
-          nuevoVacante.imagen = vacanteAnterior.imagen;
-      }
-      let vacante = await Vacantes.findOneAndUpdate(
-          { _id: req.params.idVacante },
-          nuevoVacante,
-          { new: true }
-      );
-      res.json(vacante);
+    // construir un nuevo vacante
+    const nuevoVacante = req.body;
+    // verificar si hay imagen nueva
+    if (req.files && req.files[0] && req.files[0].filename) {
+      nuevoVacante.imagen = req.files[0].filename;
+    } else {
+      const vacanteAnterior = await Vacantes.findById(req.params.idVacante);
+      nuevoVacante.imagen = vacanteAnterior.imagen;
+    }
+    const vacante = await Vacantes.findOneAndUpdate(
+      { _id: req.params.idVacante },
+      nuevoVacante,
+      { new: true }
+    );
+    res.json(vacante);
   } catch (error) {
-      console.log(error);
-      next();
+    console.log(error);
+    next(error);
   }
 };
 // Elimina un producto via (ID)
-exports.eliminarVacante = async (req, res, next) => {
+export const eliminarVacante = async (req, res, next) => {
   try {
-      await Vacantes.findByIdAndDelete({ _id : req.params.idVacante });
-      res.json({mensaje : 'La vacante se ha eliminado'});
+    await Vacantes.findByIdAndDelete({ _id: req.params.idVacante });
+    res.json({ mensaje: 'La vacante se ha eliminado' });
   } catch (error) {
-      console.log(error);
-      next();
+    console.log(error);
+    next();
   }
 }

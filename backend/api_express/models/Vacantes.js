@@ -1,5 +1,5 @@
 // /webapps/infoEmplo-venv/infoEmplo/backend/api_express/models/Vacantes.js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const vacantesSchema = new Schema({
     titulo: { // Cambiado de "nombre" a "titulo" para mayor claridad
@@ -13,4 +13,4 @@ const vacantesSchema = new Schema({
         type: String
     }
 });
-module.exports = mongoose.model('Vacantes', vacantesSchema);
+export default mongoose.model('Vacantes', vacantesSchema);

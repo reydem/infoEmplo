@@ -1,13 +1,14 @@
 // /webapps/infoEmplo-venv/infoEmplo/backend/api_express/routes/index.js
-const express = require("express");
+import express from "express";
+import * as empleadoController from "../controllers/empleadoController.js"; // Asegúrate de tener la ruta correcta
+import * as vacantesController from "../controllers/vacantesController.js";
+import * as ofertasController from "../controllers/ofertasController.js";
+
 const router = express.Router();
-const empleadoController = require('../controllers/empleadoController'); // Asegúrate de tener la ruta correcta
-const vacantesController = require('../controllers/vacantesController');
-const ofertasController = require('../controllers/ofertasController');
 
 
 
-module.exports = function () {
+const routes = () => {
     // Agregar nuevo empleado 
     router.post('/empleados', empleadoController.nuevoEmpleado);
     // Obtener todos los empleados 
@@ -45,3 +46,5 @@ module.exports = function () {
 
     return router;
 };
+
+export default routes;

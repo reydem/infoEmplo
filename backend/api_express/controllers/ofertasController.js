@@ -1,7 +1,7 @@
 // /webapps/infoEmplo-venv/infoEmplo/backend/api_express/controllers/ofertasController.js
-const Ofertas = require('../models/Ofertas');
+import Ofertas from '../models/Ofertas.js';
 
-exports.nuevaOferta = async (req, res, next) => {
+export const nuevaOferta = async (req, res, next) => {
     const oferta = new Ofertas(req.body);
     try {
         await oferta.save();
@@ -12,7 +12,7 @@ exports.nuevaOferta = async (req, res, next) => {
     }
 }
 // Muestra todos los ofertas
-exports.mostrarOfertas = async (req, res, next) => {
+export const mostrarOfertas = async (req, res, next) => {
     try {
         const oferta = await Ofertas.find({}).populate('empleado').populate({
             path: 'oferta.vacante',
@@ -25,7 +25,7 @@ exports.mostrarOfertas = async (req, res, next) => {
     }
 }
 // Muestra oferta por (ID)
-exports.mostrarOferta = async (req, res, next) => {
+export const mostrarOferta = async (req, res, next) => {
     try {
         const oferta = await Ofertas.findById(req.params.idOferta).populate('empleado').populate({
             path: 'oferta.vacante',
@@ -43,7 +43,7 @@ exports.mostrarOferta = async (req, res, next) => {
 }
 
 // Actualizar el oferta via (ID)
-exports.actualizarOferta = async (req, res, next) => {
+export const actualizarOferta = async (req, res, next) => {
     try {
         let oferta = await Ofertas.findOneAndUpdate({_id : req.params.idOferta}, req.body, {
             new: true
@@ -61,7 +61,7 @@ exports.actualizarOferta = async (req, res, next) => {
 }
 
 // elimina una oferta por su (ID)
-exports.eliminarOferta = async (req, res, next) => {
+export const eliminarOferta = async (req, res, next) => {
     try {
         await Ofertas.findOneAndDelete({ _id : req.params.idOferta});
         res.json({ mensaje : 'La oferta se ha eliminado' });

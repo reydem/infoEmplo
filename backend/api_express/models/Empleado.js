@@ -1,5 +1,5 @@
 // /webapps/infoEmplo-venv/infoEmplo/backend/api_express/models/Empleado.js
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const empleadosSchema = new Schema({
     nombre: {
@@ -25,4 +25,4 @@ const empleadosSchema = new Schema({
         trim: true
     }
 });
-module.exports = mongoose.model('Empleado', empleadosSchema);
+export default mongoose.model('Empleado', empleadosSchema);
