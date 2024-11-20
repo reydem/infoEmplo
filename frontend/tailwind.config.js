@@ -8,10 +8,11 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        nanum: ['"Nanum Gothic Coding"', 'monospace'],
+        nanum: ['"Nanum Gothic Coding"', 'monospace'], // Configuración de la fuente personalizada
       },
     },
   },
-  plugins: [],
-}
-
+  plugins: [
+    require('@tailwindcss/forms'), // Agregar el plugin de formularios
+  ],
+};

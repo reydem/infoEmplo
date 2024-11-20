@@ -82,7 +82,6 @@ function Home() {
             <MagnifyingGlassIcon className='ml-5 ' />
             <Input 
             name="search" 
-            placeholder="Search&hellip;" 
             aria-label="Search" 
             className="border-2 border-gray-400 rounded-lg my-5 mx-5 w-auto max-w-[500px] sm:leading-[0.75rem]" />
             <div className="absolute top-[5px] right-[100px] bg-white text-black font-bold">
