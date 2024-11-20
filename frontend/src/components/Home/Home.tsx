@@ -43,9 +43,14 @@ function Home() {
             </div>
           </div>
           <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+            <h2 color="white" className="-m-2.5 p-2.5 text-lg text-black font-bold hover:text-gray-300">              
+              Navegacion
+            </h2>
+          </div>
+          <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
               <SignalIcon aria-hidden="true" className="size-6" />
-              Navegacion
+              Actividades
             </Button>
           </div>
           <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -70,12 +75,16 @@ function Home() {
         </aside>
         <main className="flex-1 border-l-4 border-gray-400 bg-white">
           <InputGroup className="flex-1 border-4 border-gray-400" >
-            <MagnifyingGlassIcon className='ml-5' />
-            <Input name="search" placeholder="Search&hellip;" aria-label="Search" className="border-2 border-gray-400 rounded-lg my-5 mx-5 w-auto max-w-screen-md" />
-            <div className="absolute top-[5px] right-[-80px] bg-white text-black font-bold">
+            <MagnifyingGlassIcon className='ml-5 ' />
+            <Input 
+            name="search" 
+            placeholder="Search&hellip;" 
+            aria-label="Search" 
+            className="border-2 border-gray-400 rounded-lg my-5 mx-5 w-auto max-w-[500px] sm:leading-[0.75rem]" />
+            <div className="absolute top-[5px] right-[100px] bg-white text-black font-bold">
               Comunidad
             </div>
-            <div className="absolute top-[5px] right-[-150px] bg-white text-black font-bold">
+            <div className="absolute top-[5px] right-[-120px] bg-white text-black font-bold">
               Soporte
             </div>
 
@@ -119,7 +128,7 @@ function Home() {
           {/* Main area */}
 
         </main>
-        <aside className="sticky top-8 hidden w-44 shrink-0 xl:block  border-4 border-gray-400 mt-20">
+        <aside className="sticky top-8 hidden w-44 shrink-0 xl:block  border-4 border-gray-400 mt-[70px]">
 
           <div className="mx-auto flex h-16 max-w-7xl items-center justify-between">
             <div className="-m-2.5 p-2.5 flex items-center text-gray-900 text-sm">

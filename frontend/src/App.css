@@ -1,15 +1,20 @@
 /* /webapps/infoEmplo-venv/infoEmplo/frontend/src/App.css */
 @font-face {
-    font-family: 'Nanum Gothic Coding';
-    src: url('./assets/fonts/NanumGothicCoding-Regular.ttf') format('truetype'),
-         url('./assets/fonts/NanumGothicCoding-Bold.ttf') format('truetype');
-    font-weight: 400; /* Regular */
-    font-style: normal;
+  font-family: 'Nanum Gothic Coding';
+  src: url('./assets/fonts/NanumGothicCoding-Regular.ttf') format('truetype');
+  font-weight: 400; /* Regular */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nanum Gothic Coding';
+  src: url('./assets/fonts/NanumGothicCoding-Bold.ttf') format('truetype');
+  font-weight: 700; /* Bold */
+  font-style: normal;
+}
+
+@media (min-width: 640px) {
+  .sm\:text-sm\/6 {
+    line-height: 0.5rem;
   }
-  
-  @font-face {
-    font-family: 'Nanum Gothic Coding';
-    src: url('./assets/fonts/NanumGothicCoding-Bold.ttf') format('truetype');
-    font-weight: 700; /* Bold */
-    font-style: normal;
-  }
+}
