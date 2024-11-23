@@ -11,7 +11,8 @@ import {
     FolderIcon,
     DocumentCheckIcon,
     ChartBarIcon,
-    BuildingOffice2Icon
+    BuildingOffice2Icon,
+    Cog6ToothIcon
 } from '@heroicons/react/24/outline';
 
 export class Content extends Component {
@@ -43,14 +44,21 @@ export class Content extends Component {
                                     className="h-10 w-auto"
                                 />
                             </Link>
-                            <div className='ml-7'>
-                                <Link to="/login">
-                                    <Button color="dark">
-                                        Contenido
-                                    </Button>
-                                </Link>
+                            <div>
+                                <div className='ml-7'>
+                                        <Button color="dark">
+                                            Contenido
+                                        </Button>                                    
+                                </div> <div className='ml-7'>
+                                    <Link to="/login">
+                                        <Button className='bg-purple-custom m-0 p-0'>
+                                            <div className='text-[9px] '>
+                                                Cerrar seccion
+                                            </div>
+                                        </Button>
+                                    </Link>
+                                </div>
                             </div>
-                            
                         </div>
                         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                             <h2 color="white" className="-m-2.5 p-2.5 text-lg text-black font-bold hover:text-gray-300">
@@ -85,6 +93,12 @@ export class Content extends Component {
                                 Lanzamiento de ofertas
                             </Button>
                         </div>
+                        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+                            <Button color="white" className="-m-2.5 p-2.5 text-black font-bold hover:text-gray-300">
+                                <Cog6ToothIcon aria-hidden="true" className="w-6 h-6 font-bold" />
+                                Lanzamiento de ofertas
+                            </Button>
+                        </div>
                         {/* Left column area */}
                     </aside>
                     <main className="flex-1 border-l-4 border-gray-400 bg-white">
@@ -99,6 +113,33 @@ export class Content extends Component {
                             </div>
                             <div className="absolute top-[5px] right-[30px] bg-white text-black font-bold">
                                 Soporte
+                            </div>
+
+                            <div className="absolute top-[5px] right-[-50px] bg-white text-black font-bold">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="size-6">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                                </svg>
+                            </div>
+                            <div className="absolute top-[5px] right-[-150px] bg-white text-black font-bold">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="size-6">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                                </svg>
                             </div>
 
                         </InputGroup>

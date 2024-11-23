@@ -29,3 +29,9 @@
       color: rgb(0 0 0);
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .dark\:\[--btn-bg\:theme\(colors\.zinc\.600\)\] {
+      --btn-bg: #a8a8bc;
+  }
+}

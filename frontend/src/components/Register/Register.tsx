@@ -25,7 +25,7 @@ export class Register extends Component {
                             />
                         </Link>
                         <h2 className="mt-10 text-center text-3xl font-bold tracking-tight text-gray-900">
-                            Registrarse en Info.empleo
+                            Registrarse en INFO.EMPLEO
                         </h2>
                     </div>
                     <div className='mt-10 mx-auto max-w-7xl px-6 lg:px-2 border-4 border-gray-400 rounded-[32px] bg-slate-300'>
@@ -136,12 +136,9 @@ export class Register extends Component {
                                         />
                                     </div>
                                 </div>
-
                             </form>
-
                             <form className="space-y-2">
                                 <p className='font-bold mt-3 text-center text-sm/6'>Estos campos son opcionales:</p>
-
                                 <div className="flex flex-col items-center ">
                                     <div className="flex flex-col items-center gap-4 mt-10">
                                         {/* Botón para subir foto de perfil */}
@@ -162,13 +159,11 @@ export class Register extends Component {
                                                         strokeLinejoin="round"
                                                         d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                                                 </svg>
-
                                                 {/* Texto debajo del ícono */}
                                                 <span className="mt-2 text-xs text-center font-bold text-black">Agregar foto de perfil</span>
                                             </label>
                                             <input id="profilePhoto" type="file" className="hidden" />
                                         </div>
-
                                         {/* Botón para subir hoja de vida */}
                                         <div className="flex flex-col items-center border-[1px] border-black rounded-[10px] mt-10 shadow-custom">
                                             <label
@@ -187,18 +182,14 @@ export class Register extends Component {
                                                         strokeLinejoin="round"
                                                         d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12-3-3m0 0-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                                                 </svg>
-
                                                 {/* Texto debajo del ícono */}
                                                 <span className="mt-2 text-xs text-center font-bold text-black">Agregar hoja de vida</span>
                                             </label>
                                             <input id="cv" type="file" className="hidden" />
                                         </div>
                                     </div>
-
                                 </div>
                             </form>
-
-
                         </div>
                         <div className="flex justify-center mt-10">
                             <button
@@ -209,7 +200,6 @@ export class Register extends Component {
                             </button>
                         </div>
                     </div>
-
                 </div>
             </>
         )
