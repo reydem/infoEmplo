@@ -1,5 +1,4 @@
-// /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Content/Content.tsx
-
+// /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Configuration/Configuration.tsx
 import { Component } from 'react'
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
 import Logo from '../../assets/Logo.png';
@@ -15,24 +14,24 @@ import {
     Cog6ToothIcon
 } from '@heroicons/react/24/outline';
 
-export class Content extends Component {
+export class Configuration extends Component {
     render() {
         return (
             <div className="flex min-h-full flex-col p-20 bg-slate-300 font-nanum">
                 {/* <header className="shrink-0 border-b border-gray-200 bg-white mt-10">
-            <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-              <img
-                alt="Your Company"
-                src={Logo}
-                className="h-8 w-auto"
-              />
-              <div>
-                <Button color="dark">
-                  Entrar
-                </Button>
-              </div>
-            </div>
-          </header> */}
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <img
+            alt="Your Company"
+            src={Logo}
+            className="h-8 w-auto"
+          />
+          <div>
+            <Button color="dark">
+              Entrar
+            </Button>
+          </div>
+        </div>
+      </header> */}
                 <div className="mx-auto flex w-full max-w-7xl items-start px-0 py-0 sm:px-6 lg:px-8 border-4 border-gray-400 rounded-[32px] bg-white">
                     <aside className="sticky top-8 hidden w-64 shrink-0 lg:block ">
                         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -94,12 +93,10 @@ export class Content extends Component {
                             </Button>
                         </div>
                         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                            <Link to="/configuration">
-                                <Button color="white" className="-m-2.5 p-2.5 text-black font-bold hover:text-gray-300">
-                                    <Cog6ToothIcon aria-hidden="true" className="w-6 h-6 font-bold" />
-                                    Configuración
-                                </Button>
-                            </Link>
+                            <Button color="white" className="-m-2.5 p-2.5 text-black font-bold hover:text-gray-300">
+                                <Cog6ToothIcon aria-hidden="true" className="w-6 h-6 font-bold" />
+                                Configuración
+                            </Button>
                         </div>
                         {/* Left column area */}
                     </aside>
@@ -306,4 +303,4 @@ export class Content extends Component {
     }
 }
 
-export default Content
+export default Configuration

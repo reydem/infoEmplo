@@ -6,6 +6,7 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Register from "./components/Register/Register";
 import Content from "./components/Content/Content";
+import Configuration from "./components/Configuration/Configuration";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/content" element={<Content />} />
+            <Route path="/configuration" element={<Configuration />} />
           </Routes>          
         </Fragment>
       </Router>
