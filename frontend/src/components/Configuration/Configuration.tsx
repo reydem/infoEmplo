@@ -6,12 +6,10 @@ import { Button, Input, InputGroup } from '../ui';
 import EmploymentOffer from '../custom-ui/EmploymentOffer';
 import { Link } from 'react-router-dom';
 import {
-    SignalIcon,
-    FolderIcon,
-    DocumentCheckIcon,
-    ChartBarIcon,
-    BuildingOffice2Icon,
-    Cog6ToothIcon
+    UserIcon,
+    LockClosedIcon,
+    Cog8ToothIcon,
+    BellAlertIcon
 } from '@heroicons/react/24/outline';
 
 export class Configuration extends Component {
@@ -66,36 +64,32 @@ export class Configuration extends Component {
                         </div>
                         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                             <Button color="white" className="-m-2.5 p-2.5 text-black">
-                                <SignalIcon
+                                <UserIcon
                                     aria-hidden="true"
                                     className="w-6 h-6 font-bold"
                                     strokeWidth={2.5} // Ajusta el grosor del trazo
                                 />
-                                Actividades
+                                Información personal
+                            </Button>
+                        </div>
+                        <div className="flex h-16 max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                            <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
+                                <LockClosedIcon aria-hidden="true" className="size-6" />
+                                <p className='leading-tight text-left'>
+                                    Inicio de sesión y seguridad
+                                </p>
                             </Button>
                         </div>
                         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                             <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
-                                <FolderIcon aria-hidden="true" className="size-6" />
-                                Proyectos de empleo
+                                <Cog8ToothIcon aria-hidden="true" className="size-6" />
+                                Preferencias
                             </Button>
                         </div>
                         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                             <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
-                                <DocumentCheckIcon aria-hidden="true" className="size-6" />
-                                Informacion de ofertas
-                            </Button>
-                        </div>
-                        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                            <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
-                                <ChartBarIcon aria-hidden="true" className="size-6" />
-                                Lanzamiento de ofertas
-                            </Button>
-                        </div>
-                        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                            <Button color="white" className="-m-2.5 p-2.5 text-black font-bold hover:text-gray-300">
-                                <Cog6ToothIcon aria-hidden="true" className="w-6 h-6 font-bold" />
-                                Configuración
+                                <BellAlertIcon aria-hidden="true" className="size-6" />
+                                Notificaciones
                             </Button>
                         </div>
                         {/* Left column area */}
