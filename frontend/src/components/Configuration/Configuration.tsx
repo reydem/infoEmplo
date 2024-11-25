@@ -29,7 +29,7 @@ export class Configuration extends Component {
           </div>
         </div>
       </header> */}
-                <div className="mx-auto flex w-full max-w-7xl items-start  border-4 border-gray-400 rounded-[32px] bg-white">
+                <div className="mx-auto flex w-full max-w-7xl items-start border-4 border-gray-400 rounded-[32px] bg-white">
                     <aside className="sticky top-8 hidden w-64 shrink-0 lg:block ">
                         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                             {/* Envolver el logo con el componente Link */}
@@ -62,14 +62,16 @@ export class Configuration extends Component {
                             </h2>
                         </div>
                         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                            <Button color="white" className="-m-2.5 p-2.5 text-black">
-                                <UserIcon
-                                    aria-hidden="true"
-                                    className="w-6 h-6 font-bold"
-                                    strokeWidth={2.5} // Ajusta el grosor del trazo
-                                />
-                                Información personal
-                            </Button>
+                            <Link to={'/configuration'}>
+                                <Button color="white" className="-m-2.5 p-2.5 text-black">
+                                    <UserIcon
+                                        aria-hidden="true"
+                                        className="w-6 h-6 font-bold"
+                                        strokeWidth={2.5} // Ajusta el grosor del trazo
+                                    />
+                                    Información personal
+                                </Button>
+                            </Link>
                         </div>
                         <div className="flex h-16 max-w-7xl items-center px-4 sm:px-6 lg:px-8">
                             <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
@@ -195,34 +197,34 @@ export class Configuration extends Component {
                                 </form>
 
                                 {/* Columna central: Formulario principal */}
-                                <div className="col-span-2 space-y-6">
+                                <div className="col-span-2 space-y-6 mr-16">
                                     {/* Sección de nombres y apellidos */}
                                     <div className="grid grid-cols-2 gap-6 p-6 bg-gray-100 rounded-lg shadow-md">
                                         <div className="space-y-4">
                                             <div>
                                                 <label
                                                     htmlFor="primer-nombre"
-                                                    className="block text-sm font-bold text-gray-900"
+                                                    className="block text-xs font-bold text-gray-900"
                                                 >
                                                     Primer nombre*:
                                                 </label>
                                                 <input
                                                     id="primer-nombre"
                                                     type="text"
-                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
                                                 />
                                             </div>
                                             <div>
                                                 <label
                                                     htmlFor="segundo-nombre"
-                                                    className="block text-sm font-bold text-gray-900"
+                                                    className="block text-xs font-bold text-gray-900"
                                                 >
                                                     Segundo nombre:
                                                 </label>
                                                 <input
                                                     id="segundo-nombre"
                                                     type="text"
-                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
                                                 />
                                             </div>
                                         </div>
@@ -230,27 +232,27 @@ export class Configuration extends Component {
                                             <div>
                                                 <label
                                                     htmlFor="primer-apellido"
-                                                    className="block text-sm font-bold text-gray-900"
+                                                    className="block text-xs font-bold text-gray-900"
                                                 >
                                                     Primer apellido*:
                                                 </label>
                                                 <input
                                                     id="primer-apellido"
                                                     type="text"
-                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
                                                 />
                                             </div>
                                             <div>
                                                 <label
                                                     htmlFor="segundo-apellido"
-                                                    className="block text-sm font-bold text-gray-900"
+                                                    className="block text-xs font-bold text-gray-900"
                                                 >
                                                     Segundo apellido*:
                                                 </label>
                                                 <input
                                                     id="segundo-apellido"
                                                     type="text"
-                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
                                                 />
                                             </div>
                                         </div>
@@ -259,135 +261,115 @@ export class Configuration extends Component {
                                     {/* Contenedor principal */}
                                     <div className="grid grid-cols-2 gap-6">
                                         {/* Primer formulario */}
-                                        <div className="grid grid-cols-2 gap-6 p-6 bg-gray-100 rounded-lg shadow-md">
-                                            <div className="space-y-4">
-                                                <div>
-                                                    <label
-                                                        htmlFor="email"
-                                                        className="block text-sm font-bold text-gray-900"
-                                                    >
-                                                        Correo electrónico*:
-                                                    </label>
-                                                    <input
-                                                        id="email"
-                                                        type="email"
-                                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <label
-                                                        htmlFor="telefono"
-                                                        className="block text-sm font-bold text-gray-900"
-                                                    >
-                                                        Teléfono*:
-                                                    </label>
-                                                    <input
-                                                        id="telefono"
-                                                        type="text"
-                                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                    />
-                                                </div>
+                                        <div className="grid gap-6 p-6 bg-gray-100 rounded-lg shadow-md">
+                                            <div>
+                                                <label
+                                                    htmlFor="email"
+                                                    className="block text-xs font-bold text-gray-900"
+                                                >
+                                                    Correo electrónico*:
+                                                </label>
+                                                <input
+                                                    id="email"
+                                                    type="email"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                />
                                             </div>
-                                            <div className="space-y-4">
-                                                <div>
-                                                    <label
-                                                        htmlFor="ciudad"
-                                                        className="block text-sm font-bold text-gray-900"
-                                                    >
-                                                        Ciudad:
-                                                    </label>
+                                            <div>
+                                                <label
+                                                    htmlFor="telefono"
+                                                    className="block text-xs font-bold text-gray-900"
+                                                >
+                                                    Teléfono*:
+                                                </label>
+                                                <input
+                                                    id="telefono"
+                                                    type="tel"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    htmlFor="direccion"
+                                                    className="block text-xs font-bold text-gray-900"
+                                                >
+                                                    Dirección*:
+                                                </label>
+                                                <div className="flex space-x-2">
                                                     <input
-                                                        id="ciudad"
+                                                        id="direccion1"
                                                         type="text"
-                                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                        className="block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
                                                     />
-                                                </div>
-                                                <div>
-                                                    <label
-                                                        htmlFor="ocupacion"
-                                                        className="block text-sm font-bold text-gray-900"
-                                                    >
-                                                        Ocupación:
-                                                    </label>
                                                     <input
-                                                        id="ocupacion"
+                                                        id="direccion2"
                                                         type="text"
-                                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                        className="block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                    />
+                                                    <input
+                                                        id="direccion3"
+                                                        type="text"
+                                                        className="block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
                                                     />
                                                 </div>
                                             </div>
                                         </div>
+
 
                                         {/* Segundo formulario */}
-                                        <div className="grid grid-cols-2 gap-6 p-6 bg-gray-100 rounded-lg shadow-md">
-                                            <div className="space-y-4">
-                                                <div>
-                                                    <label
-                                                        htmlFor="email"
-                                                        className="block text-sm font-bold text-gray-900"
-                                                    >
-                                                        Correo electrónico*:
-                                                    </label>
-                                                    <input
-                                                        id="email"
-                                                        type="email"
-                                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <label
-                                                        htmlFor="telefono"
-                                                        className="block text-sm font-bold text-gray-900"
-                                                    >
-                                                        Teléfono*:
-                                                    </label>
-                                                    <input
-                                                        id="telefono"
-                                                        type="text"
-                                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                    />
-                                                </div>
+                                        <div className="grid gap-6 p-6 bg-gray-100 rounded-lg shadow-md">
+                                            <div>
+                                                <label
+                                                    htmlFor="email"
+                                                    className="block text-xs font-bold text-gray-900"
+                                                >
+                                                    Ciudad*:
+                                                </label>
+                                                <input
+                                                    id="email"
+                                                    type="email"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                />
                                             </div>
-                                            <div className="space-y-4">
-                                                <div>
-                                                    <label
-                                                        htmlFor="ciudad"
-                                                        className="block text-sm font-bold text-gray-900"
-                                                    >
-                                                        Ciudad:
-                                                    </label>
-                                                    <input
-                                                        id="ciudad"
-                                                        type="text"
-                                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <label
-                                                        htmlFor="ocupacion"
-                                                        className="block text-sm font-bold text-gray-900"
-                                                    >
-                                                        Ocupación:
-                                                    </label>
-                                                    <input
-                                                        id="ocupacion"
-                                                        type="text"
-                                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                    />
-                                                </div>
+                                            <div>
+                                                <label
+                                                    htmlFor="telefono"
+                                                    className="block text-xs font-bold text-gray-900"
+                                                >
+                                                    Ocupacion*:
+                                                </label>
+                                                <input
+                                                    id="telefono"
+                                                    type="tel"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    htmlFor="telefono"
+                                                    className="block text-xs font-bold text-gray-900"
+                                                >
+                                                    Educacion*:
+                                                </label>
+                                                <input
+                                                    id="telefono"
+                                                    type="tel"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                />
                                             </div>
                                         </div>
+
                                     </div>
 
-                            {/* Botón Guardar */}
-                            <div className="flex justify-center mt-10">
-                                <button
-                                    type="submit"
-                                    className="flex w-44 justify-center rounded-md bg-black px-3 py-1.5 text-base font-semibold text-white shadow-sm hover:bg-gray-500"
-                                >
-                                    Guardar cambios
-                                </button>
-                            </div>
+                                    {/* Botón Guardar */}
+                                    <div className="flex justify-center mt-10">
+                                        <button
+                                            type="submit"
+                                            className="flex w-44 justify-center p-[1px] rounded-md bg-black px-3 py-1.5 text-base font-semibold text-white shadow-sm hover:bg-gray-500"
+                                        >
+                                            Guardar cambios
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
