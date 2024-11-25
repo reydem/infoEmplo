@@ -1,4 +1,4 @@
-// /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Configuration/Configuration.tsx
+// /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Security/Security.tsx
 import { Component } from 'react'
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
 import Logo from '../../assets/Logo.png';
@@ -11,24 +11,24 @@ import {
     BellAlertIcon
 } from '@heroicons/react/24/outline';
 
-export class Configuration extends Component {
+export class Security extends Component {
     render() {
         return (
             <div className="flex min-h-full flex-col p-20 bg-slate-300 font-nanum ">
                 {/* <header className="shrink-0 border-b border-gray-200 bg-white mt-10">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <img
-            alt="Your Company"
-            src={Logo}
-            className="h-8 w-auto"
-          />
-          <div>
-            <Button color="dark">
-              Entrar
-            </Button>
-          </div>
-        </div>
-      </header> */}
+    <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <img
+        alt="Your Company"
+        src={Logo}
+        className="h-8 w-auto"
+      />
+      <div>
+        <Button color="dark">
+          Entrar
+        </Button>
+      </div>
+    </div>
+  </header> */}
                 <div className="mx-auto flex w-full max-w-7xl items-start border-4 border-gray-400 rounded-[32px] bg-white">
                     <aside className="sticky top-8 hidden w-64 shrink-0 lg:block ">
                         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -74,14 +74,12 @@ export class Configuration extends Component {
                             </Link>
                         </div>
                         <div className="flex h-16 max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-                            <Link to={'/security'}>
-                                <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
-                                    <LockClosedIcon aria-hidden="true" className="size-6" />
-                                    <p className='leading-tight text-left'>
-                                        Inicio de sesión y seguridad
-                                    </p>
-                                </Button>
-                            </Link>
+                            <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
+                                <LockClosedIcon aria-hidden="true" className="size-6" />
+                                <p className='leading-tight text-left'>
+                                    Inicio de sesión y seguridad
+                                </p>
+                            </Button>
                         </div>
                         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                             <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
@@ -387,4 +385,4 @@ export class Configuration extends Component {
     }
 }
 
-export default Configuration
+export default Security
