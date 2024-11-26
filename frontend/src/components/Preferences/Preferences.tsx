@@ -1,4 +1,4 @@
-// /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Security/Security.tsx
+// /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Preferences/Preferences.tsx
 import { Component } from 'react'
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
 import Logo from '../../assets/Logo.png';
@@ -11,24 +11,24 @@ import {
     BellAlertIcon
 } from '@heroicons/react/24/outline';
 
-export class Security extends Component {
+export class Preferences extends Component {
     render() {
         return (
             <div className="flex min-h-full flex-col p-20 bg-slate-300 font-nanum ">
                 {/* <header className="shrink-0 border-b border-gray-200 bg-white mt-10">
-    <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-      <img
-        alt="Your Company"
-        src={Logo}
-        className="h-8 w-auto"
-      />
-      <div>
-        <Button color="dark">
-          Entrar
-        </Button>
-      </div>
-    </div>
-  </header> */}
+<div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+  <img
+    alt="Your Company"
+    src={Logo}
+    className="h-8 w-auto"
+  />
+  <div>
+    <Button color="dark">
+      Entrar
+    </Button>
+  </div>
+</div>
+</header> */}
                 <div className="mx-auto flex w-full max-w-7xl items-start border-4 border-gray-400 rounded-[32px] bg-white">
                     <aside className="sticky top-8 hidden w-64 shrink-0 lg:block ">
                         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -143,12 +143,14 @@ export class Security extends Component {
                         {/* Main area */}
                         <div className="mt-3 mx-auto max-w-7xl px-6 lg:px-2 border-t-4 border-gray-400 flex flex-col items-center">
                             <p className="font-bold mt-3 text-center text-2xl">Información del perfil</p>
-                            <div className="grid gap-6 mt-6 mb-14">
-                                <div className="col-span-2 space-y-6 w-[330px]">
+                            <div className="grid gap-6 mt-6 mb-14 ">
+                                <div className="col-span-4 space-y-6 w-auto pr-16">
                                     {/* Contenedor principal */}
-                                    <div className="grid gap-6">
+                                    <div className="grid grid-cols-4 gap-6 ">
+                                    <div className="bg-transparent"></div>
+                                    <div className="bg-transparent"></div>
                                         {/* Primer formulario */}
-                                        <form className="grid gap-6 p-6 bg-gray-100 rounded-lg shadow-md">
+                                        <div className="grid gap-6 p-6 bg-gray-100 rounded-lg shadow-md ">
                                             <div>
                                                 <label
                                                     htmlFor="email"
@@ -200,9 +202,11 @@ export class Security extends Component {
                                                     />
                                                 </div>
                                             </div>
-                                        </form>
+                                        </div>
+
+
                                         {/* Segundo formulario */}
-                                        <form className="grid gap-6 p-6 bg-gray-100 rounded-lg shadow-md">
+                                        <div className="grid gap-6 p-6 bg-gray-100 rounded-lg shadow-md">
                                             <div>
                                                 <label
                                                     htmlFor="email"
@@ -242,7 +246,111 @@ export class Security extends Component {
                                                     className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
                                                 />
                                             </div>
-                                        </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-span-4 space-y-6 w-auto pl-16 ">
+                                    {/* Contenedor principal */}
+                                    <div className="grid grid-cols-4 gap-6">
+                                    
+                                        {/* Primer formulario */}
+                                        <div className="grid gap-6 p-6 bg-gray-100 rounded-lg shadow-md ">
+                                            <div>
+                                                <label
+                                                    htmlFor="email"
+                                                    className="block text-xs font-bold text-gray-900"
+                                                >
+                                                    Correo electrónico*:
+                                                </label>
+                                                <input
+                                                    id="email"
+                                                    type="email"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    htmlFor="telefono"
+                                                    className="block text-xs font-bold text-gray-900"
+                                                >
+                                                    Teléfono*:
+                                                </label>
+                                                <input
+                                                    id="telefono"
+                                                    type="tel"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    htmlFor="direccion"
+                                                    className="block text-xs font-bold text-gray-900"
+                                                >
+                                                    Dirección*:
+                                                </label>
+                                                <div className="flex space-x-2">
+                                                    <input
+                                                        id="direccion1"
+                                                        type="text"
+                                                        className="block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                    />
+                                                    <input
+                                                        id="direccion2"
+                                                        type="text"
+                                                        className="block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                    />
+                                                    <input
+                                                        id="direccion3"
+                                                        type="text"
+                                                        className="block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        {/* Segundo formulario */}
+                                        <div className="grid gap-6 p-6 bg-gray-100 rounded-lg shadow-md">
+                                            <div>
+                                                <label
+                                                    htmlFor="email"
+                                                    className="block text-xs font-bold text-gray-900"
+                                                >
+                                                    Ciudad*:
+                                                </label>
+                                                <input
+                                                    id="email"
+                                                    type="email"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    htmlFor="telefono"
+                                                    className="block text-xs font-bold text-gray-900"
+                                                >
+                                                    Ocupacion*:
+                                                </label>
+                                                <input
+                                                    id="telefono"
+                                                    type="tel"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    htmlFor="telefono"
+                                                    className="block text-xs font-bold text-gray-900"
+                                                >
+                                                    Educacion*:
+                                                </label>
+                                                <input
+                                                    id="telefono"
+                                                    type="tel"
+                                                    className="mt-1 block w-full p-[1px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                     {/* Botón Guardar */}
                                     <div className="flex justify-center mt-10">
@@ -264,4 +372,4 @@ export class Security extends Component {
     }
 }
 
-export default Security
+export default Preferences

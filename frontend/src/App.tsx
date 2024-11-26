@@ -8,6 +8,7 @@ import Register from "./components/Register/Register";
 import Content from "./components/Content/Content";
 import Configuration from "./components/Configuration/Configuration";
 import Security from "./components/Security/Security";
+import Preferences from "./components/Preferences/Preferences";
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
             <Route path="/content" element={<Content />} />
             <Route path="/configuration" element={<Configuration />} />
             <Route path="/security" element={<Security />} />
-          </Routes>          
+            <Route path="/preferences" element={<Preferences />} />
+          </Routes>
         </Fragment>
       </Router>
     </>

@@ -84,10 +84,12 @@ export class Configuration extends Component {
                             </Link>
                         </div>
                         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                            <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
-                                <Cog8ToothIcon aria-hidden="true" className="size-6" />
-                                Preferencias
-                            </Button>
+                            <Link to={'/preferences'}>
+                                <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
+                                    <Cog8ToothIcon aria-hidden="true" className="size-6" />
+                                    Preferencias
+                                </Button>
+                            </Link>
                         </div>
                         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                             <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
