@@ -9,6 +9,7 @@ import Content from "./components/Content/Content";
 import Configuration from "./components/Configuration/Configuration";
 import Security from "./components/Security/Security";
 import Preferences from "./components/Preferences/Preferences";
+import Notifications from "./components/Notifications/Notifications";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/configuration" element={<Configuration />} />
             <Route path="/security" element={<Security />} />
             <Route path="/preferences" element={<Preferences />} />
+            <Route path="/notifications" element={<Notifications />} />
           </Routes>
         </Fragment>
       </Router>
