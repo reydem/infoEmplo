@@ -1,9 +1,12 @@
 // /webapps/infoEmplo-venv/infoEmplo/backend/api_express/index.js
+import getPort from "get-port";
 import express from "express";
 import routes from './routes/index.js';
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
-import getPort from "get-port";
+
+// Cors permite que un cliente se conecta a otro servidor para el intercambio de recursos
+import cors from "cors";
 
 // Conectar con mongoose 
 mongoose.Promise = global.Promise;
@@ -15,6 +18,8 @@ const app = express();
 // Hablititar body-parser 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+// Habilitar cors
+app.use(cors());
 // Rutas de la app
 app.use('/', routes());
 // Puerto predeterminado

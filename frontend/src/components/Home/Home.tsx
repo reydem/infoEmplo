@@ -1,4 +1,5 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Home/Home.tsx
+import {useEffect} from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
 import Logo from '../../assets/Logo.png';
 import { Button, Input, InputGroup } from '../ui';
@@ -11,8 +12,19 @@ import {
   ChartBarIcon,
   BuildingOffice2Icon
 } from '@heroicons/react/24/outline';
+import clienteAxios from '../../config/axios';
 
 function Home() {
+   // Query a la API
+   const consultarAPI = async () => {
+    const clientesConsulta = await clienteAxios.get('/empleados');
+    console.log('Consusltando....', clientesConsulta);
+    
+};
+// use effect es similar a componentdidmount y willmount
+useEffect( () => {
+    consultarAPI();
+}, []);
   return (
     <div className="flex min-h-full flex-col p-20 bg-slate-300 font-nanum">
       {/* <header className="shrink-0 border-b border-gray-200 bg-white mt-10">
