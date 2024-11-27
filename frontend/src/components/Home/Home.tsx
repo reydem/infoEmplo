@@ -1,5 +1,5 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Home/Home.tsx
-import {useEffect} from 'react';
+import { useEffect, useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
 import Logo from '../../assets/Logo.png';
 import { Button, Input, InputGroup } from '../ui';
@@ -14,17 +14,31 @@ import {
 } from '@heroicons/react/24/outline';
 import clienteAxios from '../../config/axios';
 
+// Interfaz para definir un empleado
+interface Empleado {
+  buttonText: string;
+  description: string;
+}
+
 function Home() {
-   // Query a la API
-   const consultarAPI = async () => {
-    const clientesConsulta = await clienteAxios.get('/empleados');
-    console.log('Consusltando....', clientesConsulta);
-    
-};
-// use effect es similar a componentdidmount y willmount
-useEffect( () => {
+  const [empleados, setEmpleados] = useState<Empleado[]>([]); // Estado para almacenar los empleados
+  const [error, setError] = useState<string | null>(null); // Estado para manejar errores
+
+  // Función para consultar la API
+  const consultarAPI = async () => {
+    try {
+      const { data } = await clienteAxios.get('/empleados');
+      setEmpleados(data); // Actualizar el estado con los datos de la API
+    } catch (error) {
+      console.error('Error al consultar la API:', error);
+      setError('No se pudo cargar la lista de empleados.');
+    }
+  };
+
+  // useEffect para realizar la consulta al montar el componente
+  useEffect(() => {
     consultarAPI();
-}, []);
+  }, []);
   return (
     <div className="flex min-h-full flex-col p-20 bg-slate-300 font-nanum">
       {/* <header className="shrink-0 border-b border-gray-200 bg-white mt-10">
@@ -53,10 +67,10 @@ useEffect( () => {
               />
             </Link>
             <div>
-            <Link to="/login">
-              <Button color="dark">
-                Entrar
-              </Button>
+              <Link to="/login">
+                <Button color="dark">
+                  Entrar
+                </Button>
               </Link>
             </div>
           </div>
@@ -82,6 +96,7 @@ useEffect( () => {
             </Button>
           </div>
           <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+
             <Button color="white" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
               <DocumentCheckIcon aria-hidden="true" className="size-6" />
               Informacion de ofertas
@@ -110,42 +125,14 @@ useEffect( () => {
             </div>
 
           </InputGroup>
-          <EmploymentOffer
-            buttonText='Oferta de empleo'
-            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-          />
-          <EmploymentOffer
-            buttonText="Oferta de empleo"
-            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-          />
-          <EmploymentOffer
-            buttonText="Oferta de empleo"
-            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-          />
-          <EmploymentOffer
-            buttonText="Oferta de empleo"
-            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-          />
-          <EmploymentOffer
-            buttonText="Oferta de empleo"
-            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-          />
-          <EmploymentOffer
-            buttonText="Oferta de empleo"
-            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-          />
-          <EmploymentOffer
-            buttonText="Oferta de empleo"
-            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-          />
-          <EmploymentOffer
-            buttonText="Oferta de empleo"
-            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-          />
-          <EmploymentOffer
-            buttonText="Oferta de empleo"
-            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-          />
+          {/* Mostrar errores si ocurren */}
+          {error && (
+            <div className="text-red-500 text-center my-4">{error}</div>
+          )}
+
+          {/* Pasar los empleados como props a EmploymentOffer */}
+          <EmploymentOffer empleados={empleados} />
+         
           {/* Main area */}
 
         </main>
