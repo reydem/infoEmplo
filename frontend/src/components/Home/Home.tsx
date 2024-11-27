@@ -34,20 +34,7 @@ function Home() {
   }, []);
   return (
     <div className="flex min-h-full flex-col p-20 bg-slate-300 font-nanum">
-      {/* <header className="shrink-0 border-b border-gray-200 bg-white mt-10">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <img
-            alt="Your Company"
-            src={Logo}
-            className="h-8 w-auto"
-          />
-          <div>
-            <Button color="dark">
-              Entrar
-            </Button>
-          </div>
-        </div>
-      </header> */}
+      {/* <Header/> */}
       <div className="mx-auto flex w-full max-w-7xl items-start px-0 py-0 sm:px-6 lg:px-8 border-4 border-gray-400 rounded-[32px] bg-white">
         <Asideleft/>
         <main className="flex-1 border-l-4 border-gray-400 bg-white">
