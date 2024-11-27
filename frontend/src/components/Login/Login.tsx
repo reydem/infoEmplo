@@ -87,7 +87,7 @@ export class Login extends Component {
 
                         <p className="mt-4 mb-10 text-center text-sm/6 text-black">
                             Aun no tengo cuenta, quiero{' '}
-                            <Link to="/Register">
+                            <Link to="/register">
                             <a href="#" className="font-semibold text-black hover:text-gray-500 underline">
                                 Registrarme
                             </a>
