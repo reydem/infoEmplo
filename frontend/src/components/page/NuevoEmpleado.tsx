@@ -1,13 +1,14 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/page/NuevoEmpleado.tsx
-import { Fragment, useState, ChangeEvent } from 'react'
+import { Fragment, useState, ChangeEvent, useEffect } from 'react'
 import clienteAxios from '../../config/axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const NuevoEmpleado = () => {
+    const { id } = useParams(); // Obtén el 'id' desde la URL
     const navigate = useNavigate();
     // cliente = state, guardarcliente = funcion para guardar el state
-    const [cliente, guardarCliente] = useState({
+    const [cliente, datosCliente] = useState({
         nombre: '',
         apellido: '',
         empresa: '',
@@ -15,10 +16,26 @@ const NuevoEmpleado = () => {
         telefono: ''
     });
 
+    // Query a la API
+    const consultarAPI = async () => {
+        if (id) { // Verifica que 'id' exista antes de usarlo
+            try {
+                const clienteConsulta = await clienteAxios.get(`/clientes/${id}`);
+                datosCliente(clienteConsulta.data);
+            } catch (error) {
+                console.error('Error consultando el cliente:', error);
+            }
+        }
+    };
+
+    useEffect(() => {
+        consultarAPI();
+    }, [id]);
+
     // leer los datos del formulario
     const actualizarState = (e: ChangeEvent<HTMLInputElement>) => {
         // Almacenar lo que el usuario escribe en el state
-        guardarCliente({
+        datosCliente({
             ...cliente,
             [e.target.name]: e.target.value
         });
@@ -59,6 +76,7 @@ const NuevoEmpleado = () => {
     return (
         <Fragment>
             <form onSubmit={agregarCliente} >
+            <h2>Nuevo Empleado</h2>
                 <legend>Llena todos los campos</legend>
                 <div className="campo">
                     <label>Nombre:</label>
@@ -66,6 +84,7 @@ const NuevoEmpleado = () => {
                         placeholder="Nombre Cliente"
                         name="nombre"
                         onChange={actualizarState}
+                        value={cliente.nombre}
                     />
                 </div>
                 <div className="campo">
@@ -74,6 +93,7 @@ const NuevoEmpleado = () => {
                         placeholder="Apellido Cliente"
                         name="apellido"
                         onChange={actualizarState}
+                        value={cliente.apellido}
                     />
                 </div>
                 <div className="campo">
@@ -82,6 +102,7 @@ const NuevoEmpleado = () => {
                         placeholder="Empresa Cliente"
                         name="empresa"
                         onChange={actualizarState}
+                        value={cliente.empresa}
                     />
                 </div>
                 <div className="campo">
@@ -90,6 +111,7 @@ const NuevoEmpleado = () => {
                         placeholder="Email Cliente"
                         name="email"
                         onChange={actualizarState}
+                        value={cliente.email}
                     />
                 </div>
                 <div className="campo">
@@ -98,12 +120,13 @@ const NuevoEmpleado = () => {
                         placeholder="Teléfono Cliente"
                         name="telefono"
                         onChange={actualizarState}
+                        value={cliente.telefono}
                     />
                 </div>
                 <div className="enviar">
                     <input type="submit"
                         className="btn btn-azul"
-                        value="Agregar Cliente"
+                        value="Guardar cambios"
                     />
                 </div>
             </form>
