@@ -13,6 +13,7 @@ import Security from "./components/Security/Security";
 import Preferences from "./components/Preferences/Preferences";
 import Notifications from "./components/Notifications/Notifications";
 import Home from './components/Home/Home';
+import NuevoEmpleado from './components/page/NuevoEmpleado';
 
 function App() {
   return (
@@ -25,9 +26,13 @@ function App() {
 function AppLayout() {
   const location = useLocation();
 
-  // Definir estilos condicionales para cada ruta
   const isLoginRoute = location.pathname === "/login";
   const isRegisterRoute = location.pathname === "/register";
+  const isContentRoute = location.pathname === "/content";
+  const isConfigurationRoute = location.pathname === "/configuration";
+  const isSecurityRoute = location.pathname === "/security";
+  const isPreferencesRoute = location.pathname === "/preferences";
+  const isNotificationsRoute = location.pathname === "/notifications";
 
   if (isLoginRoute) {
     return (
@@ -44,6 +49,56 @@ function AppLayout() {
       <div>
         <Routes>
           <Route path="/register" element={<Register />} />
+        </Routes>
+      </div>
+    );
+  }
+
+  if (isContentRoute) {
+    return (
+      <div>
+        <Routes>
+          <Route path="/content" element={<Content />} />
+        </Routes>
+      </div>
+    );
+  }
+
+  if (isConfigurationRoute) {
+    return (
+      <div>
+        <Routes>
+          <Route path="/configuration" element={<Configuration />} />
+        </Routes>
+      </div>
+    );
+  }
+
+  if (isSecurityRoute) {
+    return (
+      <div>
+        <Routes>
+          <Route path="/security" element={<Security />} />
+        </Routes>
+      </div>
+    );
+  }
+
+  if (isPreferencesRoute) {
+    return (
+      <div>
+        <Routes>
+          <Route path="/preferences" element={<Preferences />} />
+        </Routes>
+      </div>
+    );
+  }
+
+  if (isNotificationsRoute) {
+    return (
+      <div>
+        <Routes>
+          <Route path="/notifications" element={<Notifications />} />
         </Routes>
       </div>
     );
@@ -69,12 +124,9 @@ function AppLayout() {
             </div>
           </InputGroup>
           <Routes>
-          <Route path="/" element={<Home />} />
-            <Route path="/content" element={<Content />} />
-            <Route path="/configuration" element={<Configuration />} />
-            <Route path="/security" element={<Security />} />
-            <Route path="/preferences" element={<Preferences />} />
-            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/empleados/nuevo" element={<NuevoEmpleado/>} />
+            
           </Routes>
         </main>
         <Asideright />
