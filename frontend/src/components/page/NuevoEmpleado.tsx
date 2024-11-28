@@ -1,5 +1,6 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/page/NuevoEmpleado.tsx
 import { Fragment, useState } from 'react';
+import clienteAxios from '../../config/axios';
 
 const NuevoEmpleado = () => {
   // cliente = state, guardarcliente = funcion para guardar el state
@@ -21,9 +22,24 @@ const NuevoEmpleado = () => {
     console.log([e.target.name] + ':' + e.target.value);
   };
 
+     // Añade en la REST API un cliente nuevo
+     const agregarCliente = e => {
+        e.preventDefault();
+        // enviar petición
+        clienteAxios.post('/clientes', cliente)
+            .then(res => {
+                // validar si hay errores de mongo 
+                if (res.data.code === 11000) {
+                    console.log('Error de duplicado mongo');
+                } else {
+                    console.log(res.data);
+                }
+            });
+    }
+
   return (
     <Fragment>
-    <form >
+    <form onSubmit={agregarCliente} >
         <legend>Llena todos los campos</legend>
         <div className="campo">
             <label>Nombre:</label>
@@ -59,7 +75,7 @@ const NuevoEmpleado = () => {
         </div>
         <div className="campo">
             <label>Teléfono:</label>
-            <input type="email"
+            <input type="tel"
                 placeholder="Teléfono Cliente"
                 name="telefono"
                 onChange={actualizarState}

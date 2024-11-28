@@ -7,8 +7,16 @@ export const nuevoEmpleado = async (req, res, next) => {
     await empleado.save();
     res.json({ mensaje: 'Se agregó un nuevo Empleado' });
   } catch (error) {
-    console.log(error);
-    next(error);
+    if (error.code === 11000) {
+      // Error de clave duplicada
+      res.status(400).json({
+        mensaje: 'Ese cliente ya está registrado',
+        code: 11000
+      });
+    } else {
+      console.log(error);
+      next(error); // Manejamos otros tipos de errores
+    }
   }
 };
 // Muestra todos los Empleados
