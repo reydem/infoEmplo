@@ -12,12 +12,12 @@ import Configuration from "./components/Configuration/Configuration";
 import Security from "./components/Security/Security";
 import Preferences from "./components/Preferences/Preferences";
 import Notifications from "./components/Notifications/Notifications";
-import Home from './components/Home/Home';
-import NuevoEmpleado from './components/page/NuevoEmpleado';
+// import Home from './components/Home/Home';
+import NuevoEmpleado from './components/Empleados/NuevoEmpleado';
 import Vacantes from './components/page/Vacantes';
 import Ofertas from './components/page/Ofertas';
-import EditarEmpleado from './components/page/EditarEmpleado';
-import Empleado from './components/page/Empleado';
+import EditarEmpleado from './components/Empleados/EditarEmpleado';
+import Empleado from './components/Empleados/Empleados';
 
 function App() {
   return (
@@ -128,8 +128,8 @@ function AppLayout() {
             </div>
           </InputGroup>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/empleados" element={<Empleado  />} />
+            {/* <Route path="/" element={<Home />} /> */}
+            <Route path="/" element={<Empleado  />} />
             <Route path="/empleados/nuevo" element={<NuevoEmpleado />} />
             <Route path="/empleados/editar/:id" element={<EditarEmpleado  />} />
 
