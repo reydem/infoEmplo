@@ -4,9 +4,9 @@ import clienteAxios from '../../config/axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-// Definir la interfaz para el cliente
+// Interface para el estado del cliente
 interface Cliente {
-    _id?: string; // Es opcional porque no estará disponible al crear un nuevo cliente
+    _id?: string; // Solo presente cuando el cliente ya existe
     nombre: string;
     apellido: string;
     empresa: string;
@@ -14,91 +14,94 @@ interface Cliente {
     telefono: string;
 }
 
-const EditarEmpleado = () => {
+function EditarEmpleado() {
+
     const navigate = useNavigate();
     // obtener el ID
     const { id } = useParams<Record<string, string | undefined>>(); // Tipo genérico compatible
-    console.log(id);
+    console.log(id)
 
-    // cliente = state, datosCliente = función para actualizar el state
+    // cliente = state, guardarcliente = funcion para guardar el state
     const [cliente, datosCliente] = useState<Cliente>({
         nombre: '',
         apellido: '',
         empresa: '',
         email: '',
-        telefono: '',
+        telefono: ''
     });
 
     // Query a la API
     const consultarAPI = async () => {
-        try {
-            if (id) { // Verifica que el ID exista
-                const clienteConsulta = await clienteAxios.get<Cliente>(`/empleados/${id}`);
-                datosCliente(clienteConsulta.data); // Actualizamos el estado con los datos del cliente
-            }
-        } catch (error) {
-            console.error('Error consultando el cliente:', error);
-        }
-    };
+        const clienteConsulta = await clienteAxios.get(`/empleados/${id}`);
+        console.log(clienteConsulta);
 
-    // useEffect: Ejecutar cuando el componente se carga
+        // colocar en el state
+        datosCliente(clienteConsulta.data);
+    }
+
+    // useEffect, cuando el componente carga
     useEffect(() => {
         consultarAPI();
-    }, [id]);
+    }, []);
 
-    // Actualizar el state con los datos del formulario
+    // leer los datos del formulario
     const actualizarState = (e: ChangeEvent<HTMLInputElement>) => {
+
+        // Almacenar lo que el usuario escribe en el state
         datosCliente({
+            // obtener una copia del state actual
             ...cliente,
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value
         });
-        console.log(`${e.target.name}: ${e.target.value}`);
-    };
+        console.log([e.target.name] + ':' + e.target.value);
+    }
 
-    // Enviar los datos actualizados del cliente
-    const actualizarCliente = async (e: FormEvent) => {
+     // Envia una petición por axios para actualizar el cliente
+     const actualizarCliente = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        try {
-            await clienteAxios.put(`/empleados/${cliente._id}`, cliente);
-            Swal.fire(
-                'Correcto',
-                'Se actualizó correctamente',
-                'success'
-            );
-            navigate('/');
-        } catch (error: any) {
-            if (error.response?.data?.code === 11000) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Hubo un error',
-                    text: 'Ese cliente ya está registrado',
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Hubo un error',
-                    text: 'Error inesperado, intenta de nuevo',
-                });
-            }
-        }
-    };
-
+    
+        // enviar petición por axios
+        clienteAxios.put(`/empleados/${cliente._id}`, cliente) 
+            .then(res => {
+                // validar si hay errores de mongo 
+                if(res.data.code === 11000) {
+                    Swal.fire({
+                        icon: 'error', // Cambié 'type' por 'icon' ya que 'type' está deprecado
+                        title: 'Hubo un error',
+                        text: 'Ese cliente ya está registrado'
+                    });
+                } else {
+                    Swal.fire(
+                        'Correcto',
+                        'Se actualizó correctamente',
+                        'success'
+                    );
+                }
+    
+                // redireccionar usando navigate
+                navigate('/');
+            });
+    }
+    
     // Validar el formulario
     const validarCliente = () => {
-        const { nombre, apellido, empresa, email, telefono } = cliente;
-        return !nombre || !apellido || !empresa || !email || !telefono;
-    };
+        // Destructuring
+        const { nombre, apellido, email, empresa, telefono } = cliente;
 
+        // revisar que las propiedades del state tengan contenido
+        let valido = !nombre.length || !apellido.length || !email.length || !empresa.length || !telefono.length;
+
+        // return true o false
+        return valido;
+    }
     return (
         <Fragment>
-            <h2>Editar Cliente</h2>
-            <form onSubmit={actualizarCliente}>
+            <form onSubmit={actualizarCliente} >
+                <h2>Editar Empleado</h2>
                 <legend>Llena todos los campos</legend>
                 <div className="campo">
                     <label>Nombre:</label>
-                    <input
-                        type="text"
+                    <input type="text"
                         placeholder="Nombre Cliente"
                         name="nombre"
                         onChange={actualizarState}
@@ -107,8 +110,7 @@ const EditarEmpleado = () => {
                 </div>
                 <div className="campo">
                     <label>Apellido:</label>
-                    <input
-                        type="text"
+                    <input type="text"
                         placeholder="Apellido Cliente"
                         name="apellido"
                         onChange={actualizarState}
@@ -117,8 +119,7 @@ const EditarEmpleado = () => {
                 </div>
                 <div className="campo">
                     <label>Empresa:</label>
-                    <input
-                        type="text"
+                    <input type="text"
                         placeholder="Empresa Cliente"
                         name="empresa"
                         onChange={actualizarState}
@@ -127,8 +128,7 @@ const EditarEmpleado = () => {
                 </div>
                 <div className="campo">
                     <label>Email:</label>
-                    <input
-                        type="email"
+                    <input type="email"
                         placeholder="Email Cliente"
                         name="email"
                         onChange={actualizarState}
@@ -137,8 +137,7 @@ const EditarEmpleado = () => {
                 </div>
                 <div className="campo">
                     <label>Teléfono:</label>
-                    <input
-                        type="tel"
+                    <input type="tel"
                         placeholder="Teléfono Cliente"
                         name="telefono"
                         onChange={actualizarState}
@@ -146,8 +145,7 @@ const EditarEmpleado = () => {
                     />
                 </div>
                 <div className="enviar">
-                    <input
-                        type="submit"
+                    <input type="submit"
                         className="btn btn-azul"
                         value="Guardar cambios"
                         disabled={validarCliente()}
