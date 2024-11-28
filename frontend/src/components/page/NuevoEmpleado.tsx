@@ -1,8 +1,11 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/page/NuevoEmpleado.tsx
 import { Fragment, useState, ChangeEvent } from 'react'
 import clienteAxios from '../../config/axios';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const NuevoEmpleado = () => {
+    const navigate = useNavigate();
     // cliente = state, guardarcliente = funcion para guardar el state
     const [cliente, guardarCliente] = useState({
         nombre: '',
@@ -29,11 +32,27 @@ const NuevoEmpleado = () => {
         clienteAxios.post('/clientes', cliente)
             .then(res => {
                 // validar si hay errores de mongo 
-                if (res.data.code === 11000) {
-                    console.log('Error de duplicado mongo');
+                Swal.fire(
+                    'Se agregó el Cliente',
+                    res.data.mensaje,
+                    'success'
+                );
+            })
+            .catch(error => {
+                if (error.response && error.response.data.code === 11000) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hubo un error',
+                        text: 'Ese cliente ya está registrado'
+                    });
                 } else {
-                    console.log(res.data);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hubo un error',
+                        text: 'Error inesperado, intenta de nuevo'
+                    });
                 }
+                navigate('/');
             });
     }
 
