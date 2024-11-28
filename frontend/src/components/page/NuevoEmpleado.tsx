@@ -20,7 +20,7 @@ const NuevoEmpleado = () => {
     const consultarAPI = async () => {
         if (id) { // Verifica que 'id' exista antes de usarlo
             try {
-                const clienteConsulta = await clienteAxios.get(`/clientes/${id}`);
+                const clienteConsulta = await clienteAxios.get(`/empleados/${id}`);
                 datosCliente(clienteConsulta.data);
             } catch (error) {
                 console.error('Error consultando el cliente:', error);
@@ -32,23 +32,12 @@ const NuevoEmpleado = () => {
         consultarAPI();
     }, [id]);
 
-    // leer los datos del formulario
-    const actualizarState = (e: ChangeEvent<HTMLInputElement>) => {
-        // Almacenar lo que el usuario escribe en el state
-        datosCliente({
-            ...cliente,
-            [e.target.name]: e.target.value
-        });
-        console.log([e.target.name] + ':' + e.target.value);
-    };
-
     // Añade en la REST API un cliente nuevo
     const agregarCliente = (e: React.FormEvent) => {
         e.preventDefault();
         // enviar petición
         clienteAxios.post('/empleados', cliente)
             .then(res => {
-                // validar si hay errores de mongo 
                 Swal.fire(
                     'Se agregó el Cliente',
                     res.data.mensaje,
@@ -73,10 +62,31 @@ const NuevoEmpleado = () => {
             });
     }
 
+    // leer los datos del formulario
+    const actualizarState = (e: ChangeEvent<HTMLInputElement>) => {
+        // Almacenar lo que el usuario escribe en el state
+        datosCliente({
+            ...cliente,
+            [e.target.name]: e.target.value
+        });
+        console.log([e.target.name] + ':' + e.target.value);
+    };
+
+    // Validar el formulario
+    const validarCliente = () => {
+        // Destructuring
+        const { nombre, apellido, email, empresa, telefono } = cliente;
+        // revisar que las propiedades del state tengan contenido
+        let valido = !nombre.length || !apellido.length || !email.length || !empresa.length || !telefono.length;
+        // return true o false
+        return valido;
+    }
+
+
     return (
         <Fragment>
             <form onSubmit={agregarCliente} >
-            <h2>Nuevo Empleado</h2>
+                <h2>Nuevo Empleado</h2>
                 <legend>Llena todos los campos</legend>
                 <div className="campo">
                     <label>Nombre:</label>
@@ -127,6 +137,7 @@ const NuevoEmpleado = () => {
                     <input type="submit"
                         className="btn btn-azul"
                         value="Guardar cambios"
+                        disabled={validarCliente()}
                     />
                 </div>
             </form>
