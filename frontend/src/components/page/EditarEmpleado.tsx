@@ -1,8 +1,12 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/page/EditarEmpleado.tsx
-import { Fragment, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Fragment, useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import clienteAxios from '../../config/axios';
+import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
+// Definir la interfaz para el cliente
 interface Cliente {
+    _id?: string; // Es opcional porque no estará disponible al crear un nuevo cliente
     nombre: string;
     apellido: string;
     empresa: string;
@@ -10,87 +14,86 @@ interface Cliente {
     telefono: string;
 }
 
-function EditarEmpleado() {
-    // Obtener el ID del cliente desde los parámetros de la URL
-    const { id } = useParams<{ id: string }>();
-    console.log('ID del cliente:', id);
+const EditarEmpleado = () => {
+    const navigate = useNavigate();
+    // obtener el ID
+    const { id } = useParams<Record<string, string | undefined>>(); // Tipo genérico compatible
+    console.log(id);
 
-    // Estado local para almacenar los datos del cliente
-    const [cliente, guardarCliente] = useState<Cliente>({
+    // cliente = state, datosCliente = función para actualizar el state
+    const [cliente, datosCliente] = useState<Cliente>({
         nombre: '',
         apellido: '',
         empresa: '',
         email: '',
-        telefono: ''
+        telefono: '',
     });
 
-    // Estado para saber si el formulario está cargando
-    const [cargando, setCargando] = useState<boolean>(true);
-
-    // Simula la carga del cliente desde la API al montar el componente
-    useEffect(() => {
-        // Aquí puedes hacer una solicitud HTTP para obtener los datos del cliente
-        const cargarCliente = async () => {
-            setCargando(true);
-            try {
-                // Simulación de una API
-                const respuesta = await fetch(`/api/clientes/${id}`);
-                const datos: Cliente = await respuesta.json();
-                guardarCliente(datos);
-            } catch (error) {
-                console.error('Error cargando el cliente:', error);
-            } finally {
-                setCargando(false);
+    // Query a la API
+    const consultarAPI = async () => {
+        try {
+            if (id) { // Verifica que el ID exista
+                const clienteConsulta = await clienteAxios.get<Cliente>(`/empleados/${id}`);
+                datosCliente(clienteConsulta.data); // Actualizamos el estado con los datos del cliente
             }
-        };
-        cargarCliente();
+        } catch (error) {
+            console.error('Error consultando el cliente:', error);
+        }
+    };
+
+    // useEffect: Ejecutar cuando el componente se carga
+    useEffect(() => {
+        consultarAPI();
     }, [id]);
 
-    // Manejar los cambios en el formulario
-    const actualizarState = (e: React.ChangeEvent<HTMLInputElement>) => {
-        guardarCliente({
+    // Actualizar el state con los datos del formulario
+    const actualizarState = (e: ChangeEvent<HTMLInputElement>) => {
+        datosCliente({
             ...cliente,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
+        console.log(`${e.target.name}: ${e.target.value}`);
+    };
+
+    // Enviar los datos actualizados del cliente
+    const actualizarCliente = async (e: FormEvent) => {
+        e.preventDefault();
+
+        try {
+            await clienteAxios.put(`/empleados/${cliente._id}`, cliente);
+            Swal.fire(
+                'Correcto',
+                'Se actualizó correctamente',
+                'success'
+            );
+            navigate('/');
+        } catch (error: any) {
+            if (error.response?.data?.code === 11000) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hubo un error',
+                    text: 'Ese cliente ya está registrado',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hubo un error',
+                    text: 'Error inesperado, intenta de nuevo',
+                });
+            }
+        }
     };
 
     // Validar el formulario
     const validarCliente = () => {
-        const { nombre, apellido, email, empresa, telefono } = cliente;
-        return !nombre || !apellido || !email || !empresa || !telefono;
+        const { nombre, apellido, empresa, email, telefono } = cliente;
+        return !nombre || !apellido || !empresa || !email || !telefono;
     };
-
-    // Manejar el envío del formulario
-    const manejarSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            // Aquí puedes hacer la solicitud HTTP para actualizar el cliente
-            const respuesta = await fetch(`/api/clientes/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(cliente)
-            });
-
-            if (!respuesta.ok) {
-                throw new Error('Error actualizando el cliente');
-            }
-
-            alert('Cliente actualizado exitosamente');
-        } catch (error) {
-            console.error('Error actualizando el cliente:', error);
-            alert('Hubo un error al actualizar el cliente');
-        }
-    };
-
-    if (cargando) {
-        return <p>Cargando cliente...</p>;
-    }
 
     return (
         <Fragment>
-            <form onSubmit={manejarSubmit}>
+            <h2>Editar Cliente</h2>
+            <form onSubmit={actualizarCliente}>
                 <legend>Llena todos los campos</legend>
                 <div className="campo">
                     <label>Nombre:</label>
@@ -98,8 +101,8 @@ function EditarEmpleado() {
                         type="text"
                         placeholder="Nombre Cliente"
                         name="nombre"
-                        value={cliente.nombre}
                         onChange={actualizarState}
+                        value={cliente.nombre}
                     />
                 </div>
                 <div className="campo">
@@ -108,8 +111,8 @@ function EditarEmpleado() {
                         type="text"
                         placeholder="Apellido Cliente"
                         name="apellido"
-                        value={cliente.apellido}
                         onChange={actualizarState}
+                        value={cliente.apellido}
                     />
                 </div>
                 <div className="campo">
@@ -118,8 +121,8 @@ function EditarEmpleado() {
                         type="text"
                         placeholder="Empresa Cliente"
                         name="empresa"
-                        value={cliente.empresa}
                         onChange={actualizarState}
+                        value={cliente.empresa}
                     />
                 </div>
                 <div className="campo">
@@ -128,8 +131,8 @@ function EditarEmpleado() {
                         type="email"
                         placeholder="Email Cliente"
                         name="email"
-                        value={cliente.email}
                         onChange={actualizarState}
+                        value={cliente.email}
                     />
                 </div>
                 <div className="campo">
@@ -138,21 +141,22 @@ function EditarEmpleado() {
                         type="tel"
                         placeholder="Teléfono Cliente"
                         name="telefono"
-                        value={cliente.telefono}
                         onChange={actualizarState}
+                        value={cliente.telefono}
                     />
                 </div>
                 <div className="enviar">
                     <input
                         type="submit"
                         className="btn btn-azul"
-                        value="Actualizar Cliente"
+                        value="Guardar cambios"
                         disabled={validarCliente()}
                     />
                 </div>
             </form>
         </Fragment>
     );
-}
+};
 
 export default EditarEmpleado;
+

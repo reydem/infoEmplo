@@ -52,6 +52,7 @@ export const actualizarEmpleado = async (req, res, next) => {
     );
     res.json(empleado);
   } catch (error) {
+    res.send(error);
     console.log(error);
     next(error);
   }

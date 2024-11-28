@@ -46,7 +46,7 @@ const NuevoEmpleado = () => {
     const agregarCliente = (e: React.FormEvent) => {
         e.preventDefault();
         // enviar petición
-        clienteAxios.post('/clientes', cliente)
+        clienteAxios.post('/empleados', cliente)
             .then(res => {
                 // validar si hay errores de mongo 
                 Swal.fire(
