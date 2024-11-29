@@ -5,50 +5,53 @@ import clienteAxios from '../../config/axios';
 import Empleado from './Empleado';
 
 interface Cliente {
-  _id: string;
-  nombre: string;
-  apellido: string;
-  empresa: string;
-  email: string;
-  telefono: string;
+    _id: string;
+    nombre: string;
+    apellido: string;
+    empresa: string;
+    email: string;
+    telefono: string;
 }
 
 function Empleados() {
-  const [clientes, guardarClientes] = useState<Cliente[]>([]);
+    const [clientes, guardarClientes] = useState<Cliente[]>([]);
+    const [actualizarClientes, setActualizarClientes] = useState(false); // Estado para actualizar la lista
 
-  useEffect(() => {
-    const consultarAPI = async () => {
-      const clientesConsulta = await clienteAxios.get('/empleados');
-      const clientesConDatosCompletos = clientesConsulta.data.map((cliente: any) => ({
-        ...cliente,
-        apellido: cliente.apellido || '',
-        empresa: cliente.empresa || '',
-        email: cliente.email || '',
-        telefono: cliente.telefono || '',
-      }));
-      guardarClientes(clientesConDatosCompletos);
-    };
-    consultarAPI();
-  }, []);
+    useEffect(() => {
+        const consultarAPI = async () => {
+            const clientesConsulta = await clienteAxios.get('/empleados');
+            const clientesConDatosCompletos = clientesConsulta.data.map((cliente: any) => ({
+                ...cliente,
+                apellido: cliente.apellido || '',
+                empresa: cliente.empresa || '',
+                email: cliente.email || '',
+                telefono: cliente.telefono || '',
+            }));
+            guardarClientes(clientesConDatosCompletos);
+        };
+        consultarAPI();
+    }, [actualizarClientes]);
 
-  return (
-    <Fragment>
-      <h2>Clientes</h2>
-      <Link to={"/empleados/nuevo"} className="btn btn-verde nvo-cliente">
-        <i className="fas fa-plus-circle"></i>
-        Nuevo Cliente
-      </Link>
-      <ul className="listado-clientes">
-        {clientes.map((cliente) => (
-          <Empleado
-            key={cliente._id}
-            cliente={cliente}
-          />
-        ))}
-      </ul>
-    </Fragment>
-  );
+    return (
+        <Fragment>
+            <h2>Clientes</h2>
+            <Link to={"/empleados/nuevo"} className="btn btn-verde nvo-cliente">
+                <i className="fas fa-plus-circle"></i>
+                Nuevo Cliente
+            </Link>
+            <ul className="listado-clientes">
+                {clientes.map((cliente) => (
+                    <Empleado
+                        key={cliente._id}
+                        cliente={cliente}
+                        setActualizarClientes={setActualizarClientes} // Pasamos el estado como prop
+                    />
+                ))}
+            </ul>
+        </Fragment>
+    );
 }
 
 export default Empleados;
+
 

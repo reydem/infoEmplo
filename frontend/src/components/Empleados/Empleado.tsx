@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import clienteAxios from '../../config/axios';
+import { Dispatch, SetStateAction } from 'react';
 
 interface Cliente {
     _id: string;
@@ -10,44 +11,41 @@ interface Cliente {
     empresa: string;
     email: string;
     telefono: string;
-  }
-  
-  interface EmpleadoProps {
-    cliente: Cliente;
-  }
+}
 
-function Empleado({ cliente }: EmpleadoProps) {
+interface EmpleadoProps {
+    cliente: Cliente;
+    setActualizarClientes: Dispatch<SetStateAction<boolean>>;
+}
+
+function Empleado({ cliente, setActualizarClientes }: EmpleadoProps) {
     console.log(cliente.nombre);
-    // extraer los valores
     const { _id, nombre, apellido, empresa, email, telefono } = cliente;
 
-    // Eliminar cliente
     const eliminarCliente = (idCliente: string) => {
-		Swal.fire({
-			title: '¿Estas seguro?',
-			text: "Un cliente eliminado no se puede recuperar",
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
+        Swal.fire({
+            title: '¿Estas seguro?',
+            text: "Un cliente eliminado no se puede recuperar",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
             confirmButtonText: 'Si, eliminar!',
             cancelButtonText: 'Cancelar'
-		}).then((result) => {
-			if (result.value) {
-                // Llamado a axios
+        }).then((result) => {
+            if (result.value) {
                 clienteAxios.delete(`/empleados/${idCliente}`)
                     .then(res => {
-                        Swal.fire(  
-                            'Eliminado', 
-                            res.data.mensaje, 
+                        Swal.fire(
+                            'Eliminado',
+                            res.data.mensaje,
                             'success'
                         );
-                        
+                        setActualizarClientes(prev => !prev); // Alterna el valor para actualizar la lista
                     });
-                    
-			}
-		});
-	};
+            }
+        });
+    };
 
     return (
         <li className="cliente">
@@ -72,7 +70,8 @@ function Empleado({ cliente }: EmpleadoProps) {
                 </button>
             </div>
         </li>
-    )
+    );
 }
 
-export default Empleado
+export default Empleado;
+
