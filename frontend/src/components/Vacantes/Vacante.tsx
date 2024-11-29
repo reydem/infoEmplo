@@ -1,5 +1,7 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Vacantes/Vacantes.tsx
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import clienteAxios from '../../config/axios';
 
 interface Producto {
     _id: string;
@@ -15,6 +17,30 @@ interface VacanteProps {
 function Vacante({ producto }: VacanteProps) {
     const eliminarProducto = (id: string) => {
         console.log('Eliminado...', id);
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Un producto eliminado no se puede recuperar",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, Eliminar',
+            cancelButtonText : 'No, Cancelar'
+        }).then((result) => {
+            if (result.value) {
+              // eliminar en la rest api
+              clienteAxios.delete(`/vacantes/${id}`)
+                .then(res => {
+                    if(res.status === 200) {
+                        Swal.fire(
+                            'Eliminado',
+                            res.data.mensaje,
+                            'success'
+                        )
+                    }
+                })
+            }
+        })
     };
 
     const { _id, nombre, precio, imagen } = producto;
