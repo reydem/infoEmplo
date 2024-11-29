@@ -15,8 +15,11 @@ interface VacanteProps {
 }
 
 function Vacante({ producto }: VacanteProps) {
+
     const eliminarProducto = (id: string) => {
+
         console.log('Eliminado...', id);
+        
         Swal.fire({
             title: '¿Estás seguro?',
             text: "Un producto eliminado no se puede recuperar",
