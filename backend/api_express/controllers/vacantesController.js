@@ -4,6 +4,11 @@ import multer from 'multer';
 import shortid from 'shortid';
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const configuracionMulter = {
   storage: multer.diskStorage({
@@ -98,26 +103,36 @@ export const mostrarVacante = async (req, res, next) => {
 // Actualiza un vacante via (ID)
 export const actualizarVacante = async (req, res, next) => {
   try {
-    // construir un nuevo vacante
     const nuevoVacante = req.body;
-    // verificar si hay imagen nueva
-    if (req.files && req.files[0] && req.files[0].filename) {
+
+    // Verificar si el vacante existe antes de continuar
+    const vacanteAnterior = await Vacantes.findById(req.params.idVacante);
+    if (!vacanteAnterior) {
+      return res.status(404).json({ mensaje: 'Vacante no encontrada' });
+    }
+
+    // Verificar si hay una nueva imagen cargada
+    if (req.files && req.files[0]) {
       nuevoVacante.imagen = req.files[0].filename;
     } else {
-      const vacanteAnterior = await Vacantes.findById(req.params.idVacante);
+      // Mantener la imagen previa si no se subió una nueva
       nuevoVacante.imagen = vacanteAnterior.imagen;
     }
-    const vacante = await Vacantes.findOneAndUpdate(
+
+    // Actualizar el vacante
+    const vacanteActualizado = await Vacantes.findOneAndUpdate(
       { _id: req.params.idVacante },
       nuevoVacante,
       { new: true }
     );
-    res.json(vacante);
+
+    res.json(vacanteActualizado);
   } catch (error) {
-    console.log(error);
+    console.error('Error al actualizar la vacante:', error);
     next(error);
   }
 };
+
 // Elimina un producto via (ID)
 export const eliminarVacante = async (req, res, next) => {
   try {

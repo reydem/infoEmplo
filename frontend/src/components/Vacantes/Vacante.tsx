@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import clienteAxios from '../../config/axios';
+import { Dispatch, SetStateAction } from 'react';
 
 interface Producto {
     _id: string;
@@ -12,14 +13,12 @@ interface Producto {
 
 interface VacanteProps {
     producto: Producto;
+    setActualizarProductos: Dispatch<SetStateAction<boolean>>;
 }
 
-function Vacante({ producto }: VacanteProps) {
-
+function Vacante({ producto, setActualizarProductos }: VacanteProps) {
+    // Elimina un producto
     const eliminarProducto = (id: string) => {
-
-        console.log('Eliminado...', id);
-        
         Swal.fire({
             title: '¿Estás seguro?',
             text: "Un producto eliminado no se puede recuperar",
@@ -27,23 +26,23 @@ function Vacante({ producto }: VacanteProps) {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, Eliminar',
-            cancelButtonText : 'No, Cancelar'
+            confirmButtonText: 'Sí, Eliminar',
+            cancelButtonText: 'No, Cancelar'
         }).then((result) => {
             if (result.value) {
-              // eliminar en la rest api
-              clienteAxios.delete(`/vacantes/${id}`)
-                .then(res => {
-                    if(res.status === 200) {
-                        Swal.fire(
-                            'Eliminado',
-                            res.data.mensaje,
-                            'success'
-                        )
-                    }
-                })
+                clienteAxios.delete(`/vacantes/${id}`)
+                    .then(res => {
+                        if (res.status === 200) {
+                            Swal.fire(
+                                'Eliminado',
+                                res.data.mensaje,
+                                'success'
+                            );
+                            setActualizarProductos((prev: boolean) => !prev); // Alterna el valor para actualizar la lista
+                        }
+                    });
             }
-        })
+        });
     };
 
     const { _id, nombre, precio, imagen } = producto;
@@ -76,4 +75,6 @@ function Vacante({ producto }: VacanteProps) {
 }
 
 export default Vacante;
+
+
 

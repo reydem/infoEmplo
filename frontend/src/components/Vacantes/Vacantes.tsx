@@ -13,6 +13,7 @@ interface Producto {
 
 function Vacantes() {
     const [productos, guardarProductos] = useState<Producto[]>([]);
+    const [actualizarProductos, setActualizarProductos] = useState(false); // Estado para actualizar lista
 
     useEffect(() => {
         const consultarAPI = async () => {
@@ -20,7 +21,7 @@ function Vacantes() {
             guardarProductos(productosConsulta.data);
         };
         consultarAPI();
-    }, []);
+    }, [actualizarProductos]);
 
     return (
         <Fragment>
@@ -34,6 +35,7 @@ function Vacantes() {
                     <Vacante
                         key={producto._id}
                         producto={producto}
+                        setActualizarProductos={setActualizarProductos} // Pasamos el estado como prop
                     />
                 ))}
             </ul>
@@ -42,4 +44,5 @@ function Vacantes() {
 }
 
 export default Vacantes;
+
 
