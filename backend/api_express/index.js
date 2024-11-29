@@ -18,10 +18,16 @@ const app = express();
 // Hablititar body-parser 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
 // Habilitar cors
 app.use(cors());
+
 // Rutas de la app
 app.use('/', routes());
+
+// carpeta publica
+app.use(express.static('uploads'));
+
 // Puerto predeterminado
 const defaultPort = 5000;
 getPort({ port: [...Array(101).keys()].map(i => defaultPort + i) })
