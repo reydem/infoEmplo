@@ -1,9 +1,9 @@
-
+// /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Vacantes/EditarVacante.tsx
 
 function EditarVacante() {
   return (
     <div>
-      EditarVacante
+      <h2>Editar Vacante</h2>
     </div>
   )
 }
