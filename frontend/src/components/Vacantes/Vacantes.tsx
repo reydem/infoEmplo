@@ -3,6 +3,7 @@ import { useEffect, useState, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import clienteAxios from '../../config/axios';
 import Vacante from './Vacante';
+import Spinner from '../layout/Spinner';
 
 interface Producto {
     _id: string;
@@ -22,6 +23,9 @@ function Vacantes() {
         };
         consultarAPI();
     }, [actualizarProductos]);
+
+     // spinner de carga
+     if (!productos.length) return <Spinner />
 
     return (
         <Fragment>
