@@ -14,10 +14,11 @@ import Preferences from "./components/Preferences/Preferences";
 import Notifications from "./components/Notifications/Notifications";
 // import Home from './components/Home/Home';
 import NuevoEmpleado from './components/Empleados/NuevoEmpleado';
-import Vacantes from './components/page/Vacantes';
-import Ofertas from './components/page/Ofertas';
+
 import EditarEmpleado from './components/Empleados/EditarEmpleado';
 import Empleado from './components/Empleados/Empleados';
+import NuevoVacante from './components/Vacantes/NuevoVacante';
+import EditarVacante from './components/Vacantes/EditarVacante';
 
 function App() {
   return (
@@ -132,9 +133,8 @@ function AppLayout() {
             <Route path="/" element={<Empleado  />} />
             <Route path="/empleados/nuevo" element={<NuevoEmpleado />} />
             <Route path="/empleados/editar/:id" element={<EditarEmpleado  />} />
-
-            <Route path="/vacantes" element={<Vacantes />} />
-            <Route path="/ofertas" element={<Ofertas />} />
+            <Route path="/vacantes/nuevo" element={<NuevoVacante />} />
+            <Route path="/vacantes/editar/:id" element={<EditarVacante />} />
 
           </Routes>
         </main>
