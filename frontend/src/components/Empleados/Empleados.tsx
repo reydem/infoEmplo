@@ -40,7 +40,10 @@ function Empleados() {
       </Link>
       <ul className="listado-clientes">
         {clientes.map((cliente) => (
-          <Empleado key={cliente._id} cliente={cliente} />
+          <Empleado
+            key={cliente._id}
+            cliente={cliente}
+          />
         ))}
       </ul>
     </Fragment>

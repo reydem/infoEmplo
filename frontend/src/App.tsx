@@ -21,6 +21,7 @@ import EditarVacante from './components/Vacantes/EditarVacante';
 import Vacante from './components/Vacantes/Vacante';
 import Empleados from './components/Empleados/Empleados';
 import Vacantes from './components/Vacantes/Vacantes';
+import Ofertas from './components/Ofertas/Ofertas';
 
 function App() {
   return (
@@ -138,6 +139,8 @@ function AppLayout() {
             <Route path="/vacantes" element={<Vacantes />} />
             <Route path="/vacantes/nuevo" element={<NuevoVacante />} />
             <Route path="/vacantes/editar/:id" element={<EditarVacante />} />
+
+            <Route path="/ofertas" element={<Ofertas />} />
 
           </Routes>
         </main>
