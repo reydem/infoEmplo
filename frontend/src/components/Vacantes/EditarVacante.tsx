@@ -9,22 +9,22 @@ import { AxiosError } from 'axios';
 function EditarVacante() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [producto, guardarProducto] = useState<{
-    nombre: string;
-    precio: string;
-    imagen: string;
-  } | null>(null); // Estado inicial como null para diferenciar entre "cargando" y datos vacíos
+  const [vacante, guardarVacante] = useState<{
+    titulo: string;
+    salario_ofrecido: string;
+    imagen_empresa: string;
+  } | null>(null);
   const [archivo, guardarArchivo] = useState<File | null>(null);
-  const [error, setError] = useState(false); // Nuevo estado para manejar errores
+  const [error, setError] = useState(false);
 
   const consultarAPI = async () => {
     try {
-      const productoConsulta = await clienteAxios.get(`/vacantes/${id}`);
-      guardarProducto(productoConsulta.data);
-      setError(false); // Si hay datos, no hay error
+      const vacanteConsulta = await clienteAxios.get(`/vacantes/${id}`);
+      guardarVacante(vacanteConsulta.data);
+      setError(false);
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 404) {
-        setError(true); // Si es 404, activa el estado de error
+        setError(true);
       } else {
         console.error('Error desconocido:', error);
         setError(true);
@@ -36,14 +36,19 @@ function EditarVacante() {
     consultarAPI();
   }, []);
 
-  const editarProducto = async (e: React.FormEvent<HTMLFormElement>) => {
+  const editarVacante = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const formData = new FormData();
-    formData.append('nombre', producto!.nombre);
-    formData.append('precio', producto!.precio);
+    formData.append('titulo', vacante!.titulo);
+    formData.append('salario_ofrecido', vacante!.salario_ofrecido);
     if (archivo) {
-      formData.append('imagen', archivo);
+      formData.append('imagen_empresa', archivo);
     }
+
+    // Depuración: Ver los datos enviados
+    console.log('Datos enviados:', Array.from(formData.entries()));
+
     try {
       const res = await clienteAxios.put(`/vacantes/${id}`, formData, {
         headers: {
@@ -64,10 +69,10 @@ function EditarVacante() {
     }
   };
 
-  const leerInformacionProducto = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (producto) {
-      guardarProducto({
-        ...producto,
+  const leerInformacionVacante = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (vacante) {
+      guardarVacante({
+        ...vacante,
         [e.target.name]: e.target.value,
       });
     }
@@ -79,53 +84,54 @@ function EditarVacante() {
     }
   };
 
-  // Si el producto es null, mostramos un spinner (cargando)
-  if (producto === null && !error) return <Spinner />;
+  if (vacante === null && !error) return <Spinner />;
 
-  // Si hay un error, mostramos un mensaje en lugar de la interfaz
   if (error) {
-    return <h2>No se pudo cargar la información del producto. Verifica el ID.</h2>;
+    return <h2>No se pudo cargar la información de la vacante. Verifica el ID.</h2>;
   }
 
-  // Si tenemos datos válidos, desestructuramos y renderizamos la interfaz
-  const { nombre, precio, imagen } = producto!;
+  const { titulo, salario_ofrecido, imagen_empresa } = vacante!;
 
   return (
     <Fragment>
-      <h2>Editar Producto</h2>
-      <form onSubmit={editarProducto}>
+      <h2>Editar Vacante</h2>
+      <form onSubmit={editarVacante}>
         <legend>Llena todos los campos</legend>
         <div className="campo">
-          <label>Nombre:</label>
+          <label>Título:</label>
           <input
             type="text"
-            placeholder="Nombre Producto"
-            name="nombre"
-            onChange={leerInformacionProducto}
-            defaultValue={nombre}
+            placeholder="Título de la vacante"
+            name="titulo"
+            onChange={leerInformacionVacante}
+            defaultValue={titulo}
           />
         </div>
         <div className="campo">
-          <label>Precio:</label>
+          <label>Salario Ofrecido:</label>
           <input
             type="number"
-            name="precio"
+            name="salario_ofrecido"
             min="0.00"
             step="0.01"
-            placeholder="Precio"
-            onChange={leerInformacionProducto}
-            defaultValue={precio}
+            placeholder="Salario Ofrecido"
+            onChange={leerInformacionVacante}
+            defaultValue={salario_ofrecido}
           />
         </div>
         <div className="campo">
-          <label>Imagen:</label>
-          {imagen ? (
-            <img src={`http://localhost:5000/${imagen}`} alt="imagen" width="300" />
+          <label>Imagen Empresa:</label>
+          {imagen_empresa ? (
+            <img
+              src={`http://localhost:5000/uploads/${imagen_empresa}`}
+              alt="Imagen Empresa"
+              width="300"
+            />
           ) : null}
-          <input type="file" name="imagen" onChange={leerArchivo} />
+          <input type="file" name="imagen_empresa" onChange={leerArchivo} />
         </div>
         <div className="enviar">
-          <input type="submit" className="btn btn-azul" value="Editar Producto" />
+          <input type="submit" className="btn btn-azul" value="Editar Vacante" />
         </div>
       </form>
     </Fragment>
@@ -133,5 +139,6 @@ function EditarVacante() {
 }
 
 export default EditarVacante;
+
 
 

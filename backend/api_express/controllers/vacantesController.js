@@ -100,10 +100,12 @@ export const mostrarVacante = async (req, res, next) => {
     res.status(500).json({ mensaje: 'Error interno del servidor' });
   }
 };
-// Actualiza un vacante via (ID)
 export const actualizarVacante = async (req, res, next) => {
   try {
-    const nuevoVacante = req.body;
+    const nuevoVacante = {
+      titulo: req.body.titulo,
+      salario_ofrecido: req.body.salario_ofrecido,
+    };
 
     // Verificar si el vacante existe antes de continuar
     const vacanteAnterior = await Vacantes.findById(req.params.idVacante);
@@ -111,17 +113,21 @@ export const actualizarVacante = async (req, res, next) => {
       return res.status(404).json({ mensaje: 'Vacante no encontrada' });
     }
 
+    // Depuración: Imprimir la vacante anterior y los datos a actualizar
+    console.log('Vacante anterior:', vacanteAnterior);
+    console.log('Datos a actualizar:', nuevoVacante);
+
     // Verificar si hay una nueva imagen cargada
     if (req.files && req.files[0]) {
-      nuevoVacante.imagen = req.files[0].filename;
+      nuevoVacante.imagen_empresa = req.files[0].filename;
     } else {
       // Mantener la imagen previa si no se subió una nueva
-      nuevoVacante.imagen = vacanteAnterior.imagen;
+      nuevoVacante.imagen_empresa = vacanteAnterior.imagen_empresa;
     }
 
     // Actualizar el vacante
-    const vacanteActualizado = await Vacantes.findOneAndUpdate(
-      { _id: req.params.idVacante },
+    const vacanteActualizado = await Vacantes.findByIdAndUpdate(
+      req.params.idVacante,
       nuevoVacante,
       { new: true }
     );
