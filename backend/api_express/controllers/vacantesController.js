@@ -91,13 +91,13 @@ export const mostrarVacante = async (req, res, next) => {
     const vacante = await Vacantes.findById(req.params.idVacante);
 
     if (!vacante) {
-      res.json({ mensaje: 'Ese vacante no existe' });
-      return next();
+      return res.status(404).json({ mensaje: 'Ese vacante no existe' });
     }
-    res.json(vacante);
+
+    res.status(200).json(vacante); // Enviar el vacante con estado 200
   } catch (error) {
-    console.log(error);
-    next(error);
+    console.error('Error al buscar la vacante:', error);
+    res.status(500).json({ mensaje: 'Error interno del servidor' });
   }
 };
 // Actualiza un vacante via (ID)

@@ -4,25 +4,31 @@ import Swal from 'sweetalert2';
 import clienteAxios from '../../config/axios';
 import Spinner from '../layout/Spinner';
 import { useParams, useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 function EditarVacante() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [producto, guardarProducto] = useState({
-    nombre: '',
-    precio: '',
-    imagen: '',
-  });
-
+  const [producto, guardarProducto] = useState<{
+    nombre: string;
+    precio: string;
+    imagen: string;
+  } | null>(null); // Estado inicial como null para diferenciar entre "cargando" y datos vacíos
   const [archivo, guardarArchivo] = useState<File | null>(null);
+  const [error, setError] = useState(false); // Nuevo estado para manejar errores
 
   const consultarAPI = async () => {
     try {
       const productoConsulta = await clienteAxios.get(`/vacantes/${id}`);
-      console.log(productoConsulta);
       guardarProducto(productoConsulta.data);
+      setError(false); // Si hay datos, no hay error
     } catch (error) {
-      console.error('Error al consultar el producto:', error);
+      if (error instanceof AxiosError && error.response?.status === 404) {
+        setError(true); // Si es 404, activa el estado de error
+      } else {
+        console.error('Error desconocido:', error);
+        setError(true);
+      }
     }
   };
 
@@ -33,8 +39,8 @@ function EditarVacante() {
   const editarProducto = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('nombre', producto.nombre);
-    formData.append('precio', producto.precio);
+    formData.append('nombre', producto!.nombre);
+    formData.append('precio', producto!.precio);
     if (archivo) {
       formData.append('imagen', archivo);
     }
@@ -46,8 +52,8 @@ function EditarVacante() {
       });
       if (res.status === 200) {
         Swal.fire('Editado Correctamente', res.data.mensaje, 'success');
+        navigate('/vacantes');
       }
-      navigate('/vacantes');
     } catch (error) {
       console.error(error);
       Swal.fire({
@@ -59,22 +65,30 @@ function EditarVacante() {
   };
 
   const leerInformacionProducto = (e: React.ChangeEvent<HTMLInputElement>) => {
-    guardarProducto({
-      ...producto,
-      [e.target.name]: e.target.value,
-    });
-    console.log(producto);
+    if (producto) {
+      guardarProducto({
+        ...producto,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const leerArchivo = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
     if (e.target.files && e.target.files[0]) {
       guardarArchivo(e.target.files[0]);
     }
   };
 
-  const { nombre, precio, imagen } = producto;
-  if (!nombre) return <Spinner />;
+  // Si el producto es null, mostramos un spinner (cargando)
+  if (producto === null && !error) return <Spinner />;
+
+  // Si hay un error, mostramos un mensaje en lugar de la interfaz
+  if (error) {
+    return <h2>No se pudo cargar la información del producto. Verifica el ID.</h2>;
+  }
+
+  // Si tenemos datos válidos, desestructuramos y renderizamos la interfaz
+  const { nombre, precio, imagen } = producto!;
 
   return (
     <Fragment>
@@ -119,4 +133,5 @@ function EditarVacante() {
 }
 
 export default EditarVacante;
+
 
