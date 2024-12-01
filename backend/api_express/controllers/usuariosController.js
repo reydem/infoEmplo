@@ -5,67 +5,61 @@ import bcrypt from 'bcrypt';
 
 export const registrarUsuario = async (req, res) => {
     try {
-        // Leer datos del cuerpo de la solicitud
-        const { email, nombre, password, telefono, direccion, fechaNacimiento } = req.body;
+        // Procesar archivo de foto de perfil y hoja de vida si están presentes
+        const { 
+            nombre, 
+            primerApellido, 
+            segundoApellido, 
+            correo, 
+            telefono, 
+            password 
+        } = req.body;
 
-        // Verificar si el usuario ya existe
-        const existeUsuario = await Usuarios.findOne({ email });
-        if (existeUsuario) {
-            return res.status(400).json({ mensaje: 'El usuario ya está registrado' });
-        }
-
-        // Crear el nuevo usuario
         const usuario = new Usuarios({
-            email,
             nombre,
-            password: await bcrypt.hash(password, 12),
+            primerApellido,
+            segundoApellido,
+            correo,
             telefono,
-            direccion,
-            fechaNacimiento,
+            password: await bcrypt.hash(password, 12), // Hashear contraseña
+            fotoPerfil: req.files?.fotoPerfil?.path || null, // Ruta del archivo cargado
+            hojaVida: req.files?.hojaVida?.path || null // Ruta del archivo cargado
         });
 
-        // Guardar en la base de datos
         await usuario.save();
-
-        res.status(201).json({ mensaje: 'Usuario creado correctamente' });
+        res.json({ mensaje: 'Usuario creado correctamente' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ mensaje: 'Hubo un error al registrar el usuario' });
     }
 };
+
 export const autenticarUsuario = async (req, res, next) => {
-    // buscar el usuario
-    const { email, password } = req.body;
-    const usuario = await Usuarios.findOne({ email });
-    if(!usuario) {
-        // Si el usuario no existe
-        await res.status(401).json({mensaje : 'Ese usuario no existe'});
-        next();
-    } else {
-        if(!usuario) {
-            // Si el usuario no existe
-            await res.status(401).json({mensaje : 'Ese usuario no existe'});
-            next();
-        } else {
-            // El usuario existe, verificar si el password es correcto o incorrecto
-            if(!bcrypt.compareSync(password, usuario.password )) {
-                // si el password es incorrecto
-                await res.status(401).json({ mensaje : 'Password Incorrecto'});
-                next();
-            } else {
-                // password correcto, firmar el token
-                const token = jwt.sign({
-                    email : usuario.email, 
-                    nombre: usuario.nombre, 
-                    id : usuario._id
-                }, 
-                'LLAVESECRETA', 
-                {
-                    expiresIn : '1h'
-                });     
-                // retornar el TOKEN
-                res.json({ token });
-            }   
+    const { correo, password } = req.body;
+
+    try {
+        const usuario = await Usuarios.findOne({ correo });
+
+        if (!usuario) {
+            return res.status(401).json({ mensaje: 'El usuario no existe' });
         }
+
+        // Comparar contraseñas
+        const passwordCorrecto = await bcrypt.compare(password, usuario.password);
+        if (!passwordCorrecto) {
+            return res.status(401).json({ mensaje: 'Contraseña incorrecta' });
+        }
+
+        // Generar token
+        const token = jwt.sign(
+            { id: usuario._id, correo: usuario.correo, nombre: usuario.nombre },
+            'LLAVESECRETA',
+            { expiresIn: '1h' }
+        );
+
+        res.json({ token });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ mensaje: 'Error al autenticar usuario' });
     }
 };

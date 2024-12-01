@@ -3,37 +3,42 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const usuariosSchema = new Schema({
-    email: {
+    nombre: {
+        type: String,
+        required: 'El nombre es obligatorio'
+    },
+    primerApellido: {
+        type: String,
+        required: 'El primer apellido es obligatorio'
+    },
+    segundoApellido: {
+        type: String,
+        required: 'El segundo apellido es obligatorio'
+    },
+    correo: {
         type: String,
         unique: true,
         lowercase: true,
         trim: true,
-        required: 'El correo electrónico es obligatorio'
-    },
-    nombre: {
-        type: String,
-        required: 'Agrega tu nombre',
-        trim: true
-    },
-    password: {
-        type: String,
-        required: true,
-        trim: true
+        required: 'El correo es obligatorio'
     },
     telefono: {
         type: String,
-        trim: true
+        required: 'El teléfono es obligatorio'
     },
-    direccion: {
+    password: {
         type: String,
-        trim: true
+        required: 'La contraseña es obligatoria'
     },
-    fechaNacimiento: {
-        type: Date,
-        required: false
+    fotoPerfil: {
+        type: String, // Ruta o URL al archivo de la foto de perfil
+        default: null
+    },
+    hojaVida: {
+        type: String, // Ruta o URL al archivo de la hoja de vida
+        default: null
     }
-}, {
-    timestamps: true // Agrega createdAt y updatedAt automáticamente
-});
+}, { timestamps: true });
 
 export default mongoose.model('Usuarios', usuariosSchema);
+
