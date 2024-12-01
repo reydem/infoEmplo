@@ -32,6 +32,7 @@ function App() {
         <Routes>
           {/* Ruta específica para el componente de Login */}
           <Route path="/iniciar-sesion" element={<LoginComponent />} />
+          <Route path="/register" element={<Register />} /> 
 
           {/* Rutas que requieren la interfaz principal */}
           <Route path="/*" element={<AppLayout />} />
@@ -45,7 +46,7 @@ function AppLayout() {
   const location = useLocation();
 
   const isLoginRoute = location.pathname === "/login";
-  const isRegisterRoute = location.pathname === "/register";
+  // const isRegisterRoute = location.pathname === "/register";
   const isContentRoute = location.pathname === "/content";
   const isConfigurationRoute = location.pathname === "/configuration";
   const isSecurityRoute = location.pathname === "/security";
@@ -62,15 +63,15 @@ function AppLayout() {
     );
   }
 
-  if (isRegisterRoute) {
-    return (
-      <div>
-        <Routes>
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </div>
-    );
-  }
+  // if (isRegisterRoute) {
+  //   return (
+  //     <div>
+  //       <Routes>
+  //         <Route path="/register" element={<Register />} />
+  //       </Routes>
+  //     </div>
+  //   );
+  // }
 
   if (isContentRoute) {
     return (
