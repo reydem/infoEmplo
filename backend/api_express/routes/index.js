@@ -48,7 +48,7 @@ const routes = () => {
     // Busqueda de Ofertas
     router.post('/ofertas/busqueda/:query', auth, ofertasController.buscarOferta);
     // Usuarios
-    router.post('/crear-cuenta', usuariosController.registrarUsuario);
+    router.post('/crear-cuenta', vacantesController.subirArchivo, usuariosController.registrarUsuario);
     router.post('/iniciar-sesion', usuariosController.autenticarUsuario);
 
 

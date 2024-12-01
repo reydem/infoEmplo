@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 
 export const registrarUsuario = async (req, res) => {
     try {
-        // Procesar archivo de foto de perfil y hoja de vida si están presentes
+        // Procesar datos del formulario y archivos
         const { 
             nombre, 
             primerApellido, 
@@ -15,6 +15,11 @@ export const registrarUsuario = async (req, res) => {
             password 
         } = req.body;
 
+        // Obtener rutas de archivos subidos
+        const fotoPerfil = req.files?.find(file => file.fieldname === 'fotoPerfil')?.path || null;
+        const hojaVida = req.files?.find(file => file.fieldname === 'hojaVida')?.path || null;
+
+        // Crear usuario
         const usuario = new Usuarios({
             nombre,
             primerApellido,
@@ -22,8 +27,8 @@ export const registrarUsuario = async (req, res) => {
             correo,
             telefono,
             password: await bcrypt.hash(password, 12), // Hashear contraseña
-            fotoPerfil: req.files?.fotoPerfil?.path || null, // Ruta del archivo cargado
-            hojaVida: req.files?.hojaVida?.path || null // Ruta del archivo cargado
+            fotoPerfil,
+            hojaVida
         });
 
         await usuario.save();
