@@ -1,6 +1,7 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/custom-ui/Asideleft.tsx
 import { Component } from "react";
-import Navegacion from "../layout/Navegacion";
+import Navegacion from "./Navegacion";
+
 
 export class Asideleft extends Component {
   render() {
