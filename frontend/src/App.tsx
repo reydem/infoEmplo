@@ -5,7 +5,7 @@ import Asideleft from "./components/custom-ui/Asideleft";
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { Input, InputGroup } from "./components/ui";
 import Asideright from "./components/custom-ui/Asideright";
-import Login from "./components/Login/Login";
+import LoginComponent from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import Content from "./components/Content/Content";
 import Configuration from "./components/Configuration/Configuration";
@@ -22,11 +22,16 @@ import Empleados from './components/Empleados/Empleados';
 import Vacantes from './components/Vacantes/Vacantes';
 import Ofertas from './components/Ofertas/Ofertas';
 import NuevaOferta from './components/Ofertas/NuevaOferta';
+import Login from './components/auth/Login';
+import { CRMContext, CRMProvider } from './context/CRMContext';
+
 
 function App() {
   return (
     <Router>
-      <AppLayout />
+      <CRMProvider>
+        <AppLayout />
+      </CRMProvider>
     </Router>
   );
 }
@@ -46,7 +51,7 @@ function AppLayout() {
     return (
       <div>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<LoginComponent />} />
         </Routes>
       </div>
     );
@@ -133,15 +138,16 @@ function AppLayout() {
           </InputGroup>
           <Routes>
             {/* <Route path="/" element={<Home />} /> */}
-            <Route path="/" element={<Empleados  />} />
+            <Route path="/" element={<Empleados />} />
             <Route path="/empleados/nuevo" element={<NuevoEmpleado />} />
-            <Route path="/empleados/editar/:id" element={<EditarEmpleado  />} />
+            <Route path="/empleados/editar/:id" element={<EditarEmpleado />} />
             <Route path="/vacantes" element={<Vacantes />} />
             <Route path="/vacantes/nuevo" element={<NuevoVacante />} />
             <Route path="/vacantes/editar/:id" element={<EditarVacante />} />
 
             <Route path="/ofertas" element={<Ofertas />} />
             <Route path="/ofertas/nuevo" element={<NuevaOferta />} />
+            <Route path="/iniciar-sesion" element={<Login />} />
 
           </Routes>
         </main>

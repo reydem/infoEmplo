@@ -70,3 +70,15 @@ export const eliminarOferta = async (req, res, next) => {
         next();
     }
 }
+
+export const buscarOferta  = async (req, res, next) => {
+    try {
+        // obtener el query
+        const { query } = req.params;
+        const producto = await Productos.find({ nombre: new RegExp(query, 'i') });
+        res.json(producto);
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+}
