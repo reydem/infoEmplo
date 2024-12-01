@@ -1,27 +1,32 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/auth/Login.tsx
-import React, {useState, useContext} from 'react';
+import React, { useState, useContext, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import clienteAxios from '../../config/axios';
+import { AxiosError } from 'axios';
 
 // Context
 import { CRMContext } from '../../context/CRMContext';
 
-function Login(props) {
-
+function Login() {
     // Auth y token
-    const [auth, guardarAuth] = useContext(CRMContext);
+    const context = useContext(CRMContext);
+
+    if (!context) {
+        throw new Error('CRMContext must be used within a CRMProvider');
+    }
+
+    const [auth, guardarAuth] = context;
+
     console.log(auth);
-    
+
     // State con los datos del formulario
     const [credenciales, guardarCredenciales] = useState({});
     const navigate = useNavigate();
 
     // iniciar sesión en el servidor
-    const iniciarSesion = async e => {
+    const iniciarSesion = async (e: FormEvent) => {
         e.preventDefault();
-
-        // autenticar al usuario
 
         try {
             const respuesta = await clienteAxios.post('/iniciar-sesion', credenciales);
@@ -33,45 +38,50 @@ function Login(props) {
 
             // colocarlo en el state
             guardarAuth({
-                token, 
-                auth: true
-            })
+                token,
+                auth: true,
+            });
+
             // alerta
-            Swal.fire(
-                'Login Correcto',
-                'Has iniciado Sesión',
-                'success'
-            )
+            Swal.fire('Login Correcto', 'Has iniciado Sesión', 'success');
 
-             // redireccionar usando navigate
-             navigate('/');
-
+            // redireccionar usando navigate
+            navigate('/');
         } catch (error) {
-            console.log(error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Hubo un error',
-                text: error.response.data.mensaje
-            })
+            console.error(error);
+
+            // Verifica si el error es de Axios
+            if (error instanceof AxiosError) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hubo un error',
+                    text: error.response?.data?.mensaje || 'Error desconocido',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hubo un error',
+                    text: 'Error inesperado. Por favor, inténtalo de nuevo.',
+                });
+            }
         }
-    }
+    };
 
     // almacenar lo que el usuario escribe en el state
-    const leerDatos = e => {
+    const leerDatos = (e: React.ChangeEvent<HTMLInputElement>) => {
         guardarCredenciales({
             ...credenciales,
-            [e.target.name]: e.target.value
-        })
-    }
+            [e.target.name]: e.target.value,
+        });
+    };
+    
+
     return (
         <div className="login">
             <h2>Iniciar Sesión</h2>
 
             <div className="contenedor-formulario">
-                <form
-                    onSubmit={iniciarSesion}
-                >
-
+                <form onSubmit={iniciarSesion}>
                     <div className="campo">
                         <label>Email</label>
                         <input
@@ -94,11 +104,15 @@ function Login(props) {
                         />
                     </div>
 
-                    <input type="submit" value="Iniciar Sesión" className="btn btn-verde btn-block" />
+                    <input
+                        type="submit"
+                        value="Iniciar Sesión"
+                        className="btn btn-verde btn-block"
+                    />
                 </form>
             </div>
         </div>
-    )
+    );
 }
 
-export default Login
+export default Login;
