@@ -21,7 +21,8 @@ function Login() {
     const [auth, guardarAuth] = context;
 
     // State con los datos del formulario
-    const [credenciales, guardarCredenciales] = useState({ email: '', password: '' });
+    const [credenciales, guardarCredenciales] = useState({ correo: '', password: '' });
+
     const navigate = useNavigate();
 
     // iniciar sesión en el servidor
@@ -96,8 +97,8 @@ function Login() {
                         </label>
                         <div className="mt-2 flex justify-center">
                             <input
-                                id="email"
-                                name="email"
+                                id="correo"
+                                name="correo"
                                 type="email"
                                 required
                                 autoComplete="email"

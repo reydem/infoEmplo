@@ -3,8 +3,10 @@ import { useState } from "react";
 import clienteAxios from "../../config/axios";
 import Logo from "../../assets/Logo.png";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+    const navigate = useNavigate(); 
     const [formData, setFormData] = useState({
         nombre: "",
         primerApellido: "",
@@ -58,6 +60,9 @@ const Register = () => {
                 },
             });
             alert(response.data.mensaje);
+
+            // Redirigir a la página de empleados después del registro exitoso
+            navigate("/");
         } catch (error: any) {
             alert(error.response?.data?.mensaje || "Error al registrar usuario");
         }
