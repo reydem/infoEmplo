@@ -22,7 +22,6 @@ import Empleados from './components/Empleados/Empleados';
 import Vacantes from './components/Vacantes/Vacantes';
 import Ofertas from './components/Ofertas/Ofertas';
 import NuevaOferta from './components/Ofertas/NuevaOferta';
-import Login from './components/auth/Login';
 import { CRMContext, CRMProvider } from './context/CRMContext';
 
 
@@ -30,7 +29,13 @@ function App() {
   return (
     <Router>
       <CRMProvider>
-        <AppLayout />
+        <Routes>
+          {/* Ruta específica para el componente de Login */}
+          <Route path="/iniciar-sesion" element={<LoginComponent />} />
+
+          {/* Rutas que requieren la interfaz principal */}
+          <Route path="/*" element={<AppLayout />} />
+        </Routes>
       </CRMProvider>
     </Router>
   );
@@ -147,8 +152,6 @@ function AppLayout() {
 
             <Route path="/ofertas" element={<Ofertas />} />
             <Route path="/ofertas/nuevo" element={<NuevaOferta />} />
-            <Route path="/iniciar-sesion" element={<Login />} />
-
           </Routes>
         </main>
         <Asideright />
