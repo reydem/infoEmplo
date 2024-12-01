@@ -7,57 +7,42 @@ import { Link, useNavigate } from 'react-router-dom';
 import { CRMContext } from '../../context/CRMContext';
 import axios from 'axios';
 
-interface Cliente {
+interface EmpleadoData {
     _id: string;
-    nombre: string;
-    apellido: string;
-    empresa: string;
-    email: string;
-    telefono: string;
+    buttonText: string;
+    description: string;
 }
 
 function Empleados() {
-    const [clientes, guardarClientes] = useState<Cliente[]>([]);
+    const [empleados, guardarEmpleados] = useState<EmpleadoData[]>([]);
     const [loading, setLoading] = useState(true);
     const [actualizarClientes, setActualizarClientes] = useState(false);
 
     // Obtener el contexto
     const crmContext = useContext(CRMContext);
-
-    // Verificar que el contexto no sea undefined
     if (!crmContext) {
         throw new Error('CRMContext debe ser utilizado dentro de un CRMProvider');
     }
 
-    // Desestructurar el contexto
-    const [auth] = crmContext; // No necesitas `guardarAuth` aquí
+    const [auth] = crmContext;
     const navigate = useNavigate();
 
-    // Manejar la autenticación y redirección
     useEffect(() => {
         if (!auth.auth) {
             navigate('/iniciar-sesion');
         }
     }, [auth, navigate]);
 
-    // Consultar la API de empleados
     useEffect(() => {
         if (auth.token) {
             const consultarAPI = async () => {
                 try {
-                    const clientesConsulta = await clienteAxios.get('/empleados', {
+                    const empleadosConsulta = await clienteAxios.get('/empleados', {
                         headers: { Authorization: `Bearer ${auth.token}` },
                     });
-                    const clientesConDatosCompletos = clientesConsulta.data.map((cliente: any) => ({
-                        ...cliente,
-                        apellido: cliente.apellido || '',
-                        empresa: cliente.empresa || '',
-                        email: cliente.email || '',
-                        telefono: cliente.telefono || '',
-                    }));
-                    guardarClientes(clientesConDatosCompletos);
+                    guardarEmpleados(empleadosConsulta.data);
                 } catch (error) {
-                    if (axios.isAxiosError(error) && error.response?.status === 500) {
+                    if (axios.isAxiosError(error) && error.response?.status === 401) {
                         navigate('/iniciar-sesion');
                     }
                 } finally {
@@ -70,22 +55,21 @@ function Empleados() {
         }
     }, [auth.token, navigate, actualizarClientes]);
 
-    // Mostrar spinner mientras se cargan los datos
     if (loading) return <Spinner />;
-    if (!clientes.length) return <p>No hay empleados disponibles.</p>;
+    if (!empleados.length) return <p>No hay empleados disponibles.</p>;
 
     return (
         <Fragment>
-            <h2>Clientes</h2>
-            <Link to={"/empleados/nuevo"} className="btn btn-verde nvo-cliente">
+            {/* <h2>Empleados</h2>
+            <Link to="/empleados/nuevo" className="btn btn-verde nvo-empleado">
                 <i className="fas fa-plus-circle"></i>
-                Nuevo Cliente
-            </Link>
-            <ul className="listado-clientes">
-                {clientes.map((cliente) => (
+                Nuevo Empleado
+            </Link> */}
+            <ul className="listado-empleados border-gray-400 border-t-4 my-0">
+                {empleados.map((empleado) => (
                     <Empleado
-                        key={cliente._id}
-                        cliente={cliente}
+                        key={empleado._id}
+                        empleado={empleado}
                         setActualizarClientes={setActualizarClientes}
                     />
                 ))}
@@ -95,3 +79,5 @@ function Empleados() {
 }
 
 export default Empleados;
+
+

@@ -1,20 +1,30 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/custom-ui/EmploymentOffer.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import clienteAxios from '../../config/axios'; // Asegúrate de importar correctamente
 import { Button } from '../ui';
 import { BriefcaseIcon } from '@heroicons/react/24/outline';
 
-// Interfaz para los empleados
 interface Empleado {
-  buttonText: string; // Campo desde la base de datos
-  description: string; // Campo desde la base de datos
+  buttonText: string;
+  description: string;
 }
 
-// Props para el componente EmploymentOffer
-interface EmploymentOfferProps {
-  empleados: Empleado[]; // Lista de empleados pasada como prop
-}
+const EmploymentOffer: React.FC = () => {
+  const [empleados, setEmpleados] = useState<Empleado[]>([]);
 
-const EmploymentOffer: React.FC<EmploymentOfferProps> = ({ empleados }) => {
+  useEffect(() => {
+    const obtenerEmpleados = async () => {
+      try {
+        const respuesta = await clienteAxios.get('/empleados'); // Endpoint correcto
+        setEmpleados(respuesta.data);
+      } catch (error) {
+        console.error('Error al obtener los empleados:', error);
+      }
+    };
+
+    obtenerEmpleados();
+  }, []);
+
   return (
     <div className="border-gray-400 border-t-4 my-0">
       {empleados.map((empleado, index) => (
@@ -22,10 +32,9 @@ const EmploymentOffer: React.FC<EmploymentOfferProps> = ({ empleados }) => {
           key={index}
           className="mx-auto flex flex-col mt-3 max-w-7xl items-start justify-between px-4 sm:px-6 lg:px-8"
         >
-          {/* Botón con texto del empleado */}
           <Button
             color="white"
-            className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300"
+            className="-m-2.5 p-2.5 text-black hover:text-gray-300"
             style={{ '--btn-icon': 'rgb(0, 0, 0)' } as React.CSSProperties}
           >
             <BriefcaseIcon
@@ -35,8 +44,6 @@ const EmploymentOffer: React.FC<EmploymentOfferProps> = ({ empleados }) => {
             />
             {empleado.buttonText}
           </Button>
-
-          {/* Descripción del empleado */}
           <p className="text-xs leading-tight mt-2 font-bold">{empleado.description}</p>
         </div>
       ))}
@@ -45,4 +52,5 @@ const EmploymentOffer: React.FC<EmploymentOfferProps> = ({ empleados }) => {
 };
 
 export default EmploymentOffer;
+
 

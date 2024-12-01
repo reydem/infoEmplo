@@ -1,77 +1,61 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Empleados/Empleado.tsx
-import { Link } from 'react-router-dom';
+import { BriefcaseIcon } from '@heroicons/react/24/outline';
 import Swal from 'sweetalert2';
 import clienteAxios from '../../config/axios';
 import { Dispatch, SetStateAction } from 'react';
 
-interface Cliente {
+interface EmpleadoData {
     _id: string;
-    nombre: string;
-    apellido: string;
-    empresa: string;
-    email: string;
-    telefono: string;
+    buttonText: string;
+    description: string;
 }
 
 interface EmpleadoProps {
-    cliente: Cliente;
+    empleado: EmpleadoData;
     setActualizarClientes: Dispatch<SetStateAction<boolean>>;
 }
 
-function Empleado({ cliente, setActualizarClientes }: EmpleadoProps) {
-    console.log(cliente.nombre);
-    const { _id, nombre, apellido, empresa, email, telefono } = cliente;
+function Empleado({ empleado, setActualizarClientes }: EmpleadoProps) {
+    const { _id, buttonText, description } = empleado;
 
-    const eliminarCliente = (idCliente: string) => {
+    const eliminarEmpleado = (idEmpleado: string) => {
         Swal.fire({
-            title: '¿Estas seguro?',
-            text: "Un cliente eliminado no se puede recuperar",
+            title: '¿Estás seguro?',
+            text: 'Un empleado eliminado no se puede recuperar.',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, eliminar!',
-            cancelButtonText: 'Cancelar'
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
         }).then((result) => {
             if (result.value) {
-                clienteAxios.delete(`/empleados/${idCliente}`)
-                    .then(res => {
-                        Swal.fire(
-                            'Eliminado',
-                            res.data.mensaje,
-                            'success'
-                        );
-                        setActualizarClientes(prev => !prev); // Alterna el valor para actualizar la lista
-                    });
+                clienteAxios.delete(`/empleados/${idEmpleado}`).then((res) => {
+                    Swal.fire('Eliminado', res.data.mensaje, 'success');
+                    setActualizarClientes((prev) => !prev); // Alterna el valor para actualizar la lista
+                });
             }
         });
     };
 
     return (
-        <li className="cliente">
-            <div className="info-cliente">
-                <p className="nombre">{nombre} {apellido}</p>
-                <p className="empresa">{empresa}</p>
-                <p>{email}</p>
-                <p>Tel: {telefono}</p>
-            </div>
-            <div className="acciones">
-                <Link to={`/empleados/editar/${_id}`} className="btn btn-azul">
-                    <i className="fas fa-pen-alt" />
-                    Editar Cliente
-                </Link>
-                <button
-                    type="button"
-                    className="btn btn-rojo btn-eliminar"
-                    onClick={() => eliminarCliente(_id)}
-                >
-                    <i className="fas fa-times" />
-                    Eliminar Cliente
-                </button>
-            </div>
+        <li className="empleado mx-auto flex flex-col mt-3 max-w-7xl items-start justify-between px-4 sm:px-6 lg:px-8">
+            <button
+                className="btn btn-light text-black  hover:text-gray-300 flex items-center gap-2"
+                onClick={() => eliminarEmpleado(_id)}
+            >
+                <BriefcaseIcon
+                    aria-hidden="true"
+                    className="w-6 h-6 text-black"
+                    strokeWidth={2.5}
+                />
+                {buttonText}
+            </button>
+            <p className="text-xs leading-tight mt-2 font-bold">{description}</p>
         </li>
     );
 }
 
 export default Empleado;
+
 

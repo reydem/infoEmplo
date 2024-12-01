@@ -16,37 +16,37 @@ const routes = () => {
     // Agregar nuevo empleado 
     router.post('/empleados', empleadoController.nuevoEmpleado);
     // Obtener todos los empleados 
-    router.get('/empleados', auth, empleadoController.mostrarEmpleados);
+    router.get('/empleados',  empleadoController.mostrarEmpleados);
     // Muestra un empleado en espefifico por su (ID)
-    router.get('/empleados/:idEmpleado', auth, empleadoController.mostrarEmpleado);
+    router.get('/empleados/:idEmpleado',  empleadoController.mostrarEmpleado);
     // Actualiza empleado 
-    router.put('/empleados/:idEmpleado', auth, empleadoController.actualizarEmpleado);
+    router.put('/empleados/:idEmpleado',  empleadoController.actualizarEmpleado);
     // Eliminar cliente 
-    router.delete('/empleados/:idEmpleado', auth, empleadoController.eliminarEmpleado);
+    router.delete('/empleados/:idEmpleado',  empleadoController.eliminarEmpleado);
     /** vacantes */
     // nuevos vacantes
-    router.post('/vacantes', auth, vacantesController.subirArchivo, vacantesController.nuevoVacante);
+    router.post('/vacantes',  vacantesController.subirArchivo, vacantesController.nuevoVacante);
     // Muestra todas las vacantes
-    router.get('/vacantes', auth, vacantesController.mostrarVacantes);
+    router.get('/vacantes',  vacantesController.mostrarVacantes);
     // muestra un vacante en especifico por su ID
-    router.get('/vacantes/:idVacante', auth, vacantesController.mostrarVacante);
+    router.get('/vacantes/:idVacante',  vacantesController.mostrarVacante);
     // Actualizar Productos
-    router.put('/vacantes/:idVacante', auth, vacantesController.subirArchivo, vacantesController.actualizarVacante);
+    router.put('/vacantes/:idVacante',  vacantesController.subirArchivo, vacantesController.actualizarVacante);
     // Eliminar Productos
-    router.delete('/vacantes/:idVacante', auth, vacantesController.eliminarVacante);
+    router.delete('/vacantes/:idVacante',  vacantesController.eliminarVacante);
     /*** PEDIDOS */
     // Agrega nuevos pedidos
-    router.post('/ofertas/nuevo/:idUsuario', auth, ofertasController.nuevaOferta);
+    router.post('/ofertas/nuevo/:idUsuario',  ofertasController.nuevaOferta);
     // Mostrar todas las ofertas
-    router.get('/ofertas', auth, ofertasController.mostrarOfertas);
+    router.get('/ofertas',  ofertasController.mostrarOfertas);
     // Mostrar un oferta por su ID
-    router.get('/ofertas/:idOferta', auth, ofertasController.mostrarOferta);
+    router.get('/ofertas/:idOferta',  ofertasController.mostrarOferta);
     // Actualizar oferta
-    router.put('/ofertas/:idOferta', auth, ofertasController.actualizarOferta);
+    router.put('/ofertas/:idOferta',  ofertasController.actualizarOferta);
     // Elimina una oferta
-    router.delete('/ofertas/:idOferta', auth, ofertasController.eliminarOferta);
+    router.delete('/ofertas/:idOferta',  ofertasController.eliminarOferta);
     // Busqueda de Ofertas
-    router.post('/ofertas/busqueda/:query', auth, ofertasController.buscarOferta);
+    router.post('/ofertas/busqueda/:query',  ofertasController.buscarOferta);
     // Usuarios
     router.post('/crear-cuenta', vacantesController.subirArchivo, usuariosController.registrarUsuario);
     router.post('/iniciar-sesion', usuariosController.autenticarUsuario);
