@@ -41,7 +41,7 @@ function Empleado({ empleado, setActualizarClientes }: EmpleadoProps) {
     return (
         <li className="empleado mx-auto flex flex-col mt-3 max-w-7xl items-start justify-between px-4 sm:px-6 lg:px-8">
             <button
-                className="btn btn-light text-black  hover:text-gray-300 flex items-center gap-2"
+                className="btn btn-light text-black font-bold hover:text-gray-300 flex items-center gap-2"
                 onClick={() => eliminarEmpleado(_id)}
             >
                 <BriefcaseIcon
