@@ -1,9 +1,11 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Register/Register.tsx
+// /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Register/Register.tsx
 import { useState } from "react";
 import clienteAxios from "../../config/axios";
 import Logo from "../../assets/Logo.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 const Register = () => {
     const navigate = useNavigate(); 
@@ -37,7 +39,11 @@ const Register = () => {
         e.preventDefault();
 
         if (formData.password !== formData.repetirPassword) {
-            alert("Las contraseñas no coinciden");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Las contraseñas no coinciden',
+            });
             return;
         }
 
@@ -59,12 +65,22 @@ const Register = () => {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            alert(response.data.mensaje);
+
+            // Alerta de éxito usando Swal
+            Swal.fire({
+                icon: 'success',
+                title: 'Registro exitoso',
+                text: response.data.mensaje || 'Será redirigido a la dashboard de infoEmpleo',
+            });
 
             // Redirigir a la página de empleados después del registro exitoso
             navigate("/");
         } catch (error: any) {
-            alert(error.response?.data?.mensaje || "Error al registrar usuario");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.response?.data?.mensaje || "Error al registrar usuario",
+            });
         }
     };
 
