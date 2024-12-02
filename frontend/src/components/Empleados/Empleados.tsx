@@ -11,7 +11,9 @@ interface EmpleadoData {
     _id: string;
     buttonText: string;
     description: string;
+    createdAt: string; // Agregamos esta propiedad
 }
+
 
 function Empleados() {
     const [empleados, guardarEmpleados] = useState<EmpleadoData[]>([]);
@@ -33,6 +35,7 @@ function Empleados() {
         }
     }, [auth, navigate]);
 
+    // Consultar la API cuando `auth.token` o `actualizarClientes` cambie
     useEffect(() => {
         if (auth.token) {
             const consultarAPI = async () => {
@@ -40,11 +43,13 @@ function Empleados() {
                     const empleadosConsulta = await clienteAxios.get('/empleados', {
                         headers: { Authorization: `Bearer ${auth.token}` },
                     });
-                    
-                    // Ordenar los empleados en orden descendente por `buttonText`
+    
+                    // Ordenar los empleados en orden descendente por `createdAt`
                     const empleadosOrdenados = empleadosConsulta.data.sort(
-                        (a: EmpleadoData, b: EmpleadoData) => b.buttonText.localeCompare(a.buttonText)
+                        (a: EmpleadoData, b: EmpleadoData) =>
+                            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                     );
+    
                     guardarEmpleados(empleadosOrdenados);
                 } catch (error) {
                     if (axios.isAxiosError(error) && error.response?.status === 401) {
@@ -59,6 +64,7 @@ function Empleados() {
             navigate('/iniciar-sesion');
         }
     }, [auth.token, navigate, actualizarClientes]);
+    
 
     if (loading) return <Spinner />;
     if (!empleados.length) return <p>No hay empleados disponibles.</p>;
@@ -79,6 +85,7 @@ function Empleados() {
 }
 
 export default Empleados;
+
 
 
 
