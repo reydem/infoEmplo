@@ -40,7 +40,12 @@ function Empleados() {
                     const empleadosConsulta = await clienteAxios.get('/empleados', {
                         headers: { Authorization: `Bearer ${auth.token}` },
                     });
-                    guardarEmpleados(empleadosConsulta.data);
+                    
+                    // Ordenar los empleados en orden descendente por `buttonText`
+                    const empleadosOrdenados = empleadosConsulta.data.sort(
+                        (a: EmpleadoData, b: EmpleadoData) => b.buttonText.localeCompare(a.buttonText)
+                    );
+                    guardarEmpleados(empleadosOrdenados);
                 } catch (error) {
                     if (axios.isAxiosError(error) && error.response?.status === 401) {
                         navigate('/iniciar-sesion');
@@ -60,11 +65,6 @@ function Empleados() {
 
     return (
         <Fragment>
-            {/* <h2>Empleados</h2>
-            <Link to="/empleados/nuevo" className="btn btn-verde nvo-empleado">
-                <i className="fas fa-plus-circle"></i>
-                Nuevo Empleado
-            </Link> */}
             <ul className="listado-empleados border-gray-400 border-t-4 my-0">
                 {empleados.map((empleado) => (
                     <Empleado
@@ -79,5 +79,6 @@ function Empleados() {
 }
 
 export default Empleados;
+
 
 
