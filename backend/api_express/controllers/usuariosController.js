@@ -116,3 +116,19 @@ export const autenticarUsuario = async (req, res) => {
         res.status(500).json({ mensaje: '❌ Error al autenticar usuario' });
     }
 };
+
+// 📌 Obtener el usuario autenticado
+export const obtenerUsuarioAutenticado = async (req, res) => {
+    try {
+        const usuario = await Usuarios.findById(req.usuario.id).select('-password'); // Excluye la contraseña
+
+        if (!usuario) {
+            return res.status(404).json({ mensaje: '❌ Usuario no encontrado' });
+        }
+
+        res.json(usuario);
+    } catch (error) {
+        console.error("❌ Error al obtener usuario autenticado:", error);
+        res.status(500).json({ mensaje: '❌ Error interno del servidor' });
+    }
+};

@@ -48,6 +48,8 @@ const routes = () => {
     router.post('/crear-cuenta', vacantesController.subirArchivo, usuariosController.registrarUsuario);
     router.post('/iniciar-sesion', usuariosController.autenticarUsuario);
     router.get('/usuarios', usuariosController.obtenerUsuarios);
+    router.get('/usuario/me', auth, usuariosController.obtenerUsuarioAutenticado);
+
 
     return router;
 };
