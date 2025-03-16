@@ -1,5 +1,4 @@
 // /webapps/infoEmplo-venv/infoEmplo/backend/api_express/index.js
-// /webapps/infoEmplo-venv/infoEmplo/backend/api_express/index.js
 import getPort from "get-port";
 import express from "express";
 import routes from "./routes/index.js";
@@ -27,7 +26,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Habilitar CORS
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
 
 // Obtener __dirname en módulos ES6
 const __filename = fileURLToPath(import.meta.url);
@@ -51,6 +53,7 @@ getPort({ port: [...Array(101).keys()].map(i => defaultPort + i) })
   .catch(err => {
     console.error("❌ Error al iniciar el servidor:", err);
   });
+
 
 
 // mongoose.connect('mongodb://127.0.0.1:27017/restapis')

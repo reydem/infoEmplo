@@ -1,3 +1,4 @@
+// /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Configuration/UserSession.tsx
 import React, { Component } from 'react'
 import clienteAxios from '../../config/axios';
 import { AxiosError } from 'axios';
@@ -105,4 +106,4 @@ export class UserSession extends Component {
     }
 }
 
-export default UserSession
+export default UserSession;
