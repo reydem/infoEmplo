@@ -5,6 +5,7 @@ import * as vacantesController from "../controllers/vacantesController.js";
 import * as ofertasController from "../controllers/ofertasController.js";
 import * as usuariosController from '../controllers/usuariosController.js';
 
+
 // middle para proteger las rutas
 import auth from '../middleware/auth.js';
 
@@ -50,6 +51,8 @@ const routes = () => {
     // Usuarios
     router.post('/crear-cuenta', vacantesController.subirArchivo, usuariosController.registrarUsuario);
     router.post('/iniciar-sesion', usuariosController.autenticarUsuario);
+
+    router.get('/usuarios', usuariosController.obtenerUsuarios); // Aquí se conecta con el controlador
 
 
 
