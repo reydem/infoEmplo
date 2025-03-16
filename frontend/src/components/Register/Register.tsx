@@ -95,7 +95,10 @@ const Register = () => {
                             className="mx-auto h-16 w-auto"
                         />
                     </Link>
-                    <h2 className="mt-10 text-center text-3xl font-bold tracking-tight text-gray-900">
+                    <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900 bg-amber-300">
+                    "Registro de Usuario"
+                    </h1>
+                    <h2 className="mt-10 text-center  text-3xl font-bold tracking-tight text-gray-900">
                         Registrarse en INFO.EMPLEO
                     </h2>
                 </div>

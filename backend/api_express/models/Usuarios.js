@@ -37,6 +37,10 @@ const usuariosSchema = new Schema({
     hojaVida: {
         type: String, // Ruta o URL al archivo de la hoja de vida
         default: null
+    },
+    esReclutador: {
+        type: Boolean,
+        default: false // Si no se marca, el usuario es "no empleado"
     }
 }, { timestamps: true });
 
