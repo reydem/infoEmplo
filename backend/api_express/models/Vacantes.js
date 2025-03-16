@@ -3,20 +3,29 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const vacantesSchema = new Schema({
-    titulo: { // Cambiado de "nombre" a "titulo" para mayor claridad
+    titulo: {
         type: String,
         trim: true
     },
-    descripcion: { // Nueva sección para la descripción de la vacante
+    descripcion: {
         type: String,
         trim: true
     },
-    salario_ofrecido: { // Más descriptivo que "salario"
+    salario_ofrecido: {
         type: Number
     },
-    imagen_empresa: { // Cambiado de "imagen" a "imagen_empresa" para reflejar su propósito
+    imagen_empresa: {
         type: String
-    }
+    },
+    reclutador: { // Asociamos la vacante con el usuario reclutador
+        type: Schema.Types.ObjectId,
+        ref: 'Usuarios',
+        required: true
+    },
+    postulantes: [{ // Lista de usuarios que se postulan
+        type: Schema.Types.ObjectId,
+        ref: 'Usuarios'
+    }]
 });
 
 export default mongoose.model('Vacantes', vacantesSchema);

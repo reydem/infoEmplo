@@ -1,60 +1,53 @@
 // /webapps/infoEmplo-venv/infoEmplo/backend/api_express/routes/index.js
 import express from "express";
-import * as empleadoController from "../controllers/empleadoController.js"; // Asegúrate de tener la ruta correcta
+import * as empleadoController from "../controllers/empleadoController.js"; 
 import * as vacantesController from "../controllers/vacantesController.js";
 import * as ofertasController from "../controllers/ofertasController.js";
 import * as usuariosController from '../controllers/usuariosController.js';
 
-
-// middle para proteger las rutas
+// Middleware para proteger rutas
 import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
-
-
 const routes = () => {
-    // Agregar nuevo empleado 
+    /** EMPLEADOS */
     router.post('/empleados', empleadoController.nuevoEmpleado);
-    // Obtener todos los empleados 
-    router.get('/empleados',  empleadoController.mostrarEmpleados);
-    // Muestra un empleado en espefifico por su (ID)
-    router.get('/empleados/:idEmpleado',  empleadoController.mostrarEmpleado);
-    // Actualiza empleado 
-    router.put('/empleados/:idEmpleado',  empleadoController.actualizarEmpleado);
-    // Eliminar cliente 
-    router.delete('/empleados/:idEmpleado',  empleadoController.eliminarEmpleado);
-    /** vacantes */
-    // nuevos vacantes
-    router.post('/vacantes',  vacantesController.subirArchivo, vacantesController.nuevoVacante);
-    // Muestra todas las vacantes
-    router.get('/vacantes',  vacantesController.mostrarVacantes);
-    // muestra un vacante en especifico por su ID
-    router.get('/vacantes/:idVacante',  vacantesController.mostrarVacante);
-    // Actualizar Productos
-    router.put('/vacantes/:idVacante',  vacantesController.subirArchivo, vacantesController.actualizarVacante);
-    // Eliminar Productos
-    router.delete('/vacantes/:idVacante',  vacantesController.eliminarVacante);
-    /*** PEDIDOS */
-    // Agrega nuevos pedidos
-    router.post('/ofertas/nuevo/:idUsuario',  ofertasController.nuevaOferta);
-    // Mostrar todas las ofertas
-    router.get('/ofertas',  ofertasController.mostrarOfertas);
-    // Mostrar un oferta por su ID
-    router.get('/ofertas/:idOferta',  ofertasController.mostrarOferta);
-    // Actualizar oferta
-    router.put('/ofertas/:idOferta',  ofertasController.actualizarOferta);
-    // Elimina una oferta
-    router.delete('/ofertas/:idOferta',  ofertasController.eliminarOferta);
-    // Busqueda de Ofertas
-    router.post('/ofertas/busqueda/:query',  ofertasController.buscarOferta);
-    // Usuarios
+    router.get('/empleados', empleadoController.mostrarEmpleados);
+    router.get('/empleados/:idEmpleado', empleadoController.mostrarEmpleado);
+    router.put('/empleados/:idEmpleado', empleadoController.actualizarEmpleado);
+    router.delete('/empleados/:idEmpleado', empleadoController.eliminarEmpleado);
+
+    /** VACANTES */
+    router.post('/vacantes', 
+        auth, // Solo usuarios autenticados
+        vacantesController.subirArchivo, 
+        vacantesController.nuevoVacante
+    );
+    router.get('/vacantes', vacantesController.mostrarVacantes);
+    router.get('/vacantes/:idVacante', vacantesController.mostrarVacante);
+    router.put('/vacantes/:idVacante', 
+        auth, // Solo usuarios autenticados
+        vacantesController.subirArchivo, 
+        vacantesController.actualizarVacante
+    );
+    router.delete('/vacantes/:idVacante', auth, vacantesController.eliminarVacante);
+    
+    // Postulación a una vacante
+    router.post('/vacantes/:idVacante/postular', auth, vacantesController.postularVacante);
+
+    /** OFERTAS */
+    router.post('/ofertas/nuevo/:idUsuario', ofertasController.nuevaOferta);
+    router.get('/ofertas', ofertasController.mostrarOfertas);
+    router.get('/ofertas/:idOferta', ofertasController.mostrarOferta);
+    router.put('/ofertas/:idOferta', ofertasController.actualizarOferta);
+    router.delete('/ofertas/:idOferta', ofertasController.eliminarOferta);
+    router.post('/ofertas/busqueda/:query', ofertasController.buscarOferta);
+
+    /** USUARIOS */
     router.post('/crear-cuenta', vacantesController.subirArchivo, usuariosController.registrarUsuario);
     router.post('/iniciar-sesion', usuariosController.autenticarUsuario);
-
-    router.get('/usuarios', usuariosController.obtenerUsuarios); // Aquí se conecta con el controlador
-
-
+    router.get('/usuarios', usuariosController.obtenerUsuarios);
 
     return router;
 };

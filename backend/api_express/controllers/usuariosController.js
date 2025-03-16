@@ -4,6 +4,22 @@ import Usuarios from '../models/Usuarios.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
+export const verificarToken = (req, res, next) => {
+    const token = req.header('Authorization');
+
+    if (!token) {
+        return res.status(401).json({ mensaje: '❌ Acceso denegado, se requiere un token' });
+    }
+
+    try {
+        const usuarioVerificado = jwt.verify(token, 'LLAVESECRETA');
+        req.usuario = usuarioVerificado; // Agregamos el usuario al request
+        next();
+    } catch (error) {
+        res.status(401).json({ mensaje: '❌ Token no válido' });
+    }
+};
+
 // 📌 Obtener todos los usuarios (excluyendo contraseñas)
 export const obtenerUsuarios = async (req, res) => {
     try {

@@ -52,25 +52,28 @@ export const subirArchivo = (req, res, next) => {
 };
 
 export const nuevoVacante = async (req, res, next) => {
-  console.log('Datos del cuerpo:', req.body);
-  console.log('Archivos subidos:', req.files);
-
-  const vacante = new Vacantes({
-    titulo: req.body.titulo,
-    descripcion: req.body.descripcion, // Nueva propiedad agregada
-    salario_ofrecido: req.body.salario_ofrecido
-  });
-
   try {
-    if (req.files && req.files.length > 0) {
-      vacante.imagen_empresa = req.files[0].filename;
-    }
+      // Verificar si el usuario autenticado es reclutador
+      if (!req.usuario || !req.usuario.esReclutador) {
+          return res.status(403).json({ mensaje: '❌ No tienes permiso para crear vacantes' });
+      }
 
-    await vacante.save();
-    res.json({ mensaje: 'Se agregó una nueva vacante' });
+      const vacante = new Vacantes({
+          titulo: req.body.titulo,
+          descripcion: req.body.descripcion,
+          salario_ofrecido: req.body.salario_ofrecido,
+          reclutador: req.usuario.id // Asigna la vacante al usuario reclutador
+      });
+
+      if (req.files && req.files.length > 0) {
+          vacante.imagen_empresa = req.files[0].filename;
+      }
+
+      await vacante.save();
+      res.json({ mensaje: '✅ Vacante creada correctamente' });
   } catch (error) {
-    console.log(error);
-    next();
+      console.log(error);
+      next();
   }
 };
 
@@ -144,5 +147,34 @@ export const eliminarVacante = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next();
+  }
+};
+
+export const postularVacante = async (req, res, next) => {
+  try {
+      // Verificar si el usuario está autenticado
+      if (!req.usuario) {
+          return res.status(401).json({ mensaje: '❌ Debes iniciar sesión para postularte' });
+      }
+
+      const vacante = await Vacantes.findById(req.params.idVacante);
+
+      if (!vacante) {
+          return res.status(404).json({ mensaje: '❌ La vacante no existe' });
+      }
+
+      // Verificar si el usuario ya está postulado
+      if (vacante.postulantes.includes(req.usuario.id)) {
+          return res.status(400).json({ mensaje: '⚠️ Ya te has postulado a esta vacante' });
+      }
+
+      // Agregar el usuario a la lista de postulantes
+      vacante.postulantes.push(req.usuario.id);
+      await vacante.save();
+
+      res.json({ mensaje: '✅ Te has postulado exitosamente a la vacante' });
+  } catch (error) {
+      console.error('Error al postularse a la vacante:', error);
+      res.status(500).json({ mensaje: '❌ Hubo un error al postularse' });
   }
 };
