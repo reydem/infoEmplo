@@ -173,21 +173,17 @@ export class Configuration extends Component {
                     <p className="text-center text-gray-600">No hay usuarios registrados.</p>
                   )}
                 </ul>
-
                 <div className="max-w-2xl xl:col-span-2 ">
-
                   <form className='pb-10'>
-                    <div className="space-y-12 sm:space-y-16">
+                    <div className="">
                       <div>
-
-
                         <div className=" pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
                           <div className="sm:grid sm:grid-cols-2 sm:items-start sm:gap-4 sm:py-6">
                             <label htmlFor="username" className="block text-lg font-bold text-gray-900 ">
                               Empresa
                             </label>
                             <div className="mt-2 sm:col-span-2 sm:mt-0">
-                              <div className="flex items-center rounded-md bg-white outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 sm:max-w-md">
+                              <div className="flex items-center rounded-md bg-white outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-gray-600 sm:max-w-md">
 
                                 <input
                                   id="username"
@@ -199,7 +195,6 @@ export class Configuration extends Component {
                               </div>
                             </div>
                           </div>
-
                           <div className="sm:grid sm:items-start sm:gap-4 sm:py-6">
                             <label htmlFor="about" className="block text-lg font-bold text-gray-900">
                               Descripción de la vacante
@@ -209,7 +204,7 @@ export class Configuration extends Component {
                                 id="about"
                                 name="about"
                                 rows={3}
-                                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+                                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:gray-indigo-600"
                                 defaultValue={''}
                               />
                             </div>
@@ -217,41 +212,24 @@ export class Configuration extends Component {
                         </div>
                       </div>
                       <div>
-
-
-                        <div className="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
-                          <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-                            <label htmlFor="first-name" className="block text-sm/6 font-medium text-gray-900 sm:pt-1.5">
-                              First name
+                        <div className=" ">
+                          <div className="sm:grid sm:grid-cols-2 sm:items-start sm:gap-4 sm:py-6">
+                            <label htmlFor="first-name" className="block text-lg font-bold text-gray-900">
+                              Salario
                             </label>
-                            <div className="mt-2 sm:col-span-2 sm:mt-0">
+                            <div className="sm:col-span-2 sm:mt-0">
                               <input
                                 id="first-name"
                                 name="first-name"
                                 type="text"
                                 autoComplete="given-name"
-                                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:max-w-xs sm:text-sm/6"
+                                className="block w-full rounded-md bg-white  py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:max-w-xs sm:text-sm/6"
                               />
                             </div>
                           </div>
-
-
-
-
-
-
-
-
-
-
-
                         </div>
                       </div>
-
                       <div>
-
-
-
                       </div>
                     </div>
 
@@ -259,7 +237,7 @@ export class Configuration extends Component {
 
                       <button
                         type="submit"
-                        className="inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="inline-flex justify-center rounded-md bg-gray-950 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
                       >
                         Save
                       </button>
