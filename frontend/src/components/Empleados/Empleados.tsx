@@ -67,7 +67,7 @@ function Empleados() {
     
 
     if (loading) return <Spinner />;
-    if (!empleados.length) return <p>No hay empleados disponibles.</p>;
+    if (!empleados.length) return <p>No hay postulante disponibles.</p>;
 
     return (
         <Fragment>
