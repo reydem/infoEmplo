@@ -12,7 +12,8 @@ export const registrarUsuario = async (req, res) => {
             segundoApellido, 
             correo, 
             telefono, 
-            password 
+            password,
+            esReclutador // Nuevo campo
         } = req.body;
 
         // Obtener rutas de archivos subidos
@@ -28,7 +29,8 @@ export const registrarUsuario = async (req, res) => {
             telefono,
             password: await bcrypt.hash(password, 12), // Hashear contraseña
             fotoPerfil,
-            hojaVida
+            hojaVida,
+            esReclutador: esReclutador === 'true' // Convertir string a booleano si es necesario
         });
 
         await usuario.save();
@@ -55,9 +57,14 @@ export const autenticarUsuario = async (req, res, next) => {
             return res.status(401).json({ mensaje: 'Contraseña incorrecta' });
         }
 
-        // Generar token
+        // Generar token incluyendo el rol del usuario
         const token = jwt.sign(
-            { id: usuario._id, correo: usuario.correo, nombre: usuario.nombre },
+            { 
+                id: usuario._id, 
+                correo: usuario.correo, 
+                nombre: usuario.nombre,
+                esReclutador: usuario.esReclutador // Incluir el rol en el token
+            },
             'LLAVESECRETA',
             { expiresIn: '1h' }
         );

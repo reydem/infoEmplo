@@ -1,5 +1,4 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Register/Register.tsx
-// /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Register/Register.tsx
 import { useState } from "react";
 import clienteAxios from "../../config/axios";
 import Logo from "../../assets/Logo.png";
@@ -8,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 
 const Register = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         nombre: "",
         primerApellido: "",
@@ -21,6 +20,12 @@ const Register = () => {
 
     const [fotoPerfil, setFotoPerfil] = useState<File | null>(null);
     const [hojaVida, setHojaVida] = useState<File | null>(null);
+    const [esReclutador, setEsReclutador] = useState(false);
+
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEsReclutador(e.target.checked);
+    };
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -59,6 +64,9 @@ const Register = () => {
             formDataToSend.append("hojaVida", hojaVida);
         }
 
+        // Agregar el campo esReclutador al FormData
+        formDataToSend.append("esReclutador", esReclutador.toString());
+
         try {
             const response = await clienteAxios.post("/crear-cuenta", formDataToSend, {
                 headers: {
@@ -66,14 +74,12 @@ const Register = () => {
                 },
             });
 
-            // Alerta de éxito usando Swal
             Swal.fire({
                 icon: 'success',
                 title: 'Registro exitoso',
                 text: response.data.mensaje || 'Será redirigido a la dashboard de infoEmpleo',
             });
 
-            // Redirigir a la página de empleados después del registro exitoso
             navigate("/");
         } catch (error: any) {
             Swal.fire({
@@ -83,6 +89,7 @@ const Register = () => {
             });
         }
     };
+
 
     return (
         <>
@@ -96,7 +103,7 @@ const Register = () => {
                         />
                     </Link>
                     <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900 bg-amber-300">
-                    "Registro de Usuario"
+                        "Registro de Usuario"
                     </h1>
                     <h2 className="mt-10 text-center  text-3xl font-bold tracking-tight text-gray-900">
                         Registrarse en INFO.EMPLEO
@@ -104,9 +111,13 @@ const Register = () => {
                 </div>
 
                 <form
+                    autoComplete="off"
                     className='mt-10 mx-auto max-w-7xl px-6 lg:px-2 border-4 border-gray-400 rounded-[32px] bg-slate-300'
                     onSubmit={handleSubmit}
                 >
+                    {/* Input invisible para "engañar" al autocompletado */}
+                    <input type="text" name="fake-user" autoComplete="off" style={{ display: 'none' }} />
+                    <input type="password" name="fake-pass" autoComplete="new-password" style={{ display: 'none' }} />
                     <div className=" col-span-3 grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2">
 
                         <div className="space-y-3">
@@ -117,12 +128,14 @@ const Register = () => {
                                 <div className="ml-4 flex ">
                                     <input
                                         type="text"
+                                        id="nombre"
                                         name="nombre"
                                         placeholder="Nombre"
                                         value={formData.nombre}
                                         onChange={handleChange}
                                         required
-                                        id="email"
+                                        autoComplete="new-password"
+
                                         className="block w-60 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                                     />
                                 </div>
@@ -140,6 +153,7 @@ const Register = () => {
                                         onChange={handleChange}
                                         required
                                         id="email"
+                                        autoComplete="new-password"
                                         className="block w-60 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                                     />
                                 </div>
@@ -157,6 +171,7 @@ const Register = () => {
                                         onChange={handleChange}
                                         required
                                         id="email"
+                                        autoComplete="new-password"
                                         className="block w-60 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                                     />
                                 </div>
@@ -174,6 +189,7 @@ const Register = () => {
                                         onChange={handleChange}
                                         required
                                         id="email"
+                                        autoComplete="new-password"
                                         className="block w-60 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                                     />
                                 </div>
@@ -191,6 +207,7 @@ const Register = () => {
                                         onChange={handleChange}
                                         required
                                         id="email"
+                                        autoComplete="new-password"
                                         className="block w-60 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                                     />
                                 </div>
@@ -208,6 +225,7 @@ const Register = () => {
                                         onChange={handleChange}
                                         required
                                         id="email"
+                                        autoComplete="new-password"
                                         className="block w-60 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                                     />
                                 </div>
@@ -225,6 +243,7 @@ const Register = () => {
                                         onChange={handleChange}
                                         required
                                         id="email"
+                                        autoComplete="new-password"
                                         className="block w-60 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                                     />
                                 </div>
@@ -290,6 +309,19 @@ const Register = () => {
                                         />
                                     </div>
                                 </div>
+                                <div className="ml-4 flex items-center mt-14">
+                                    <input
+                                        type="checkbox"
+                                        id="esReclutador"
+                                        name="esReclutador"
+                                        checked={esReclutador}
+                                        onChange={handleCheckboxChange}
+                                        className="mr-2"
+                                    />
+                                    <label htmlFor="esReclutador" className="text-sm font-bold text-gray-900">
+                                        Soy reclutador
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -300,11 +332,8 @@ const Register = () => {
                         >
                             Registrarse
                         </button>
-
                     </div>
-
                 </form>
-
             </div>
         </>
     )
