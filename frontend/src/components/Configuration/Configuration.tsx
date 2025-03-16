@@ -6,6 +6,7 @@ import { Input, InputGroup } from '../ui';
 import Navegacion from '../custom-ui/Navegacion';
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
+import { AxiosError } from 'axios';
 
 interface Usuario {
     _id: string;
@@ -17,6 +18,10 @@ interface Usuario {
     esReclutador: boolean;
     hojaVida?: string;
     fotoPerfil?: string;
+}
+
+interface ErrorResponse {
+    mensaje?: string;
 }
 
 export class Configuration extends Component {
@@ -44,7 +49,8 @@ export class Configuration extends Component {
             console.log("✅ Usuario autenticado:", response.data);
             this.setState({ users: [response.data] }); // Guarda solo el usuario autenticado
         } catch (error) {
-            console.error('❌ Error obteniendo el usuario autenticado:', error.response?.data?.mensaje || error.message);
+            const err = error as AxiosError<ErrorResponse>; // 🔹 Especificamos el tipo de `data`
+            console.error('❌ Error obteniendo el usuario autenticado:', err.response?.data?.mensaje || err.message);
         }
     }
     render() {
