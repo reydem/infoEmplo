@@ -59,7 +59,7 @@ const VacantesSession: React.FC = () => {
                 <form className='pb-10' onSubmit={handleSubmit}>
                     <div className="">
                         <div>
-                            <div className=" pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
+                            <div className=" pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0 mb-3">
                                 <div className="sm:grid sm:grid-cols-2 sm:items-start sm:gap-4 sm:py-6">
                                     <label htmlFor="username" className="block text-lg font-bold text-gray-900 ">
                                         Empresa
@@ -127,7 +127,7 @@ const VacantesSession: React.FC = () => {
 
                     </div>
                     {/* Botón para subir foto de perfil */}
-                    <div className="flex flex-col items-center border-[1px] border-black rounded-[10px] shadow-custom w-24 h-24">
+                    <div className="flex flex-col items-center border-[1px] border-black rounded-[10px] shadow-custom w-24 h-24 ">
                         <label
                             htmlFor="profilePhoto"
                             className="flex flex-col items-center justify-center w-full h-full cursor-pointer border-gray-400 rounded-[10px] bg-slate-300 hover:bg-gray-200"
