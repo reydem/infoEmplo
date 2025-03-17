@@ -1,59 +1,112 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Configuration/VacantesSession.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clienteAxios from '../../config/axios';
 
-const VacantesSession: React.FC = () => {
+interface Vacante {
+    _id: string;
+    titulo: string;
+    descripcion: string;
+    salario_ofrecido?: string;
+    imagen_empresa?: string;
+}
+
+interface VacantesSessionProps {
+    vacanteToEdit?: Vacante | null;      // Vacante que llega para editar
+    onVacanteUpdated?: () => void;       // Callback para refrescar la lista
+}
+
+const VacantesSession: React.FC<VacantesSessionProps> = ({
+    vacanteToEdit,
+    onVacanteUpdated
+}) => {
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [salario, setSalario] = useState('');
     const [imagen, setImagen] = useState<File | null>(null);
     const [mensaje, setMensaje] = useState('');
 
+    // Cada vez que vacanteToEdit cambie, rellenamos el formulario
+    useEffect(() => {
+        if (vacanteToEdit) {
+            setTitulo(vacanteToEdit.titulo || '');
+            setDescripcion(vacanteToEdit.descripcion || '');
+            setSalario(vacanteToEdit.salario_ofrecido || '');
+            setImagen(null); // Resetea la imagen
+        }
+    }, [vacanteToEdit]);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+      
         try {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                setMensaje('⚠️ No estás autenticado. Inicia sesión.');
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append("titulo", titulo);
-            formData.append("descripcion", descripcion);
-            formData.append("salario_ofrecido", isNaN(parseFloat(salario)) ? "0" : salario);
-            if (imagen) {
-                formData.append("imagen_empresa", imagen);
-            }
-
-            const response = await clienteAxios.post('/vacantes', formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data"
-                },
-                withCredentials: true
-            });
-
-            setMensaje(response.data.mensaje || '✅ Vacante publicada con éxito');
-            setTitulo('');
-            setDescripcion('');
-            setSalario('');
-            setImagen(null);
-            // Disparar evento para actualizar la lista de vacantes sin recargar la página
-            window.dispatchEvent(new CustomEvent("vacanteCreada"));
+          const token = localStorage.getItem("token");
+          if (!token) {
+            setMensaje('⚠️ No estás autenticado. Inicia sesión.');
+            return;
+          }
+      
+          // Prepara la config
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data"
+            },
+            withCredentials: true
+          };
+      
+          const formData = new FormData();
+          formData.append("titulo", titulo);
+          formData.append("descripcion", descripcion);
+          formData.append(
+            "salario_ofrecido",
+            isNaN(parseFloat(salario)) ? "0" : salario
+          );
+          if (imagen) {
+            formData.append("imagen_empresa", imagen);
+          }
+      
+          let response;
+          // Si existe vacanteToEdit => PUT, si no => POST
+          if (vacanteToEdit && vacanteToEdit._id) {
+            response = await clienteAxios.put(
+              `/vacantes/${vacanteToEdit._id}`,
+              formData,
+              config
+            );
+          } else {
+            response = await clienteAxios.post(
+              "/vacantes",
+              formData,
+              config
+            );
+          }
+      
+          // Manejo de respuesta y limpieza del formulario
+          setMensaje(response.data.mensaje || '✅ Vacante publicada con éxito');
+          setTitulo('');
+          setDescripcion('');
+          setSalario('');
+          setImagen(null);
+      
+          // Si quieres refrescar la lista en el componente padre:
+          if (onVacanteUpdated) {
+            onVacanteUpdated();
+          }
+      
+          // Opcional: si usas el evento "vacanteCreada" para otros fines
+          window.dispatchEvent(new CustomEvent("vacanteCreada"));
+      
         } catch (error: any) {
-            console.error('Error al crear la vacante:', error);
-
-            if (error.response) {
-                setMensaje(error.response.data?.mensaje || '❌ Error en la solicitud');
-            } else if (error.request) {
-                setMensaje('❌ No se pudo conectar con el servidor');
-            } else {
-                setMensaje('❌ Error desconocido al enviar la vacante');
-            }
+          console.error('Error al crear/actualizar la vacante:', error);
+          if (error.response) {
+            setMensaje(error.response.data?.mensaje || '❌ Error en la solicitud');
+          } else if (error.request) {
+            setMensaje('❌ No se pudo conectar con el servidor');
+          } else {
+            setMensaje('❌ Error desconocido al enviar la vacante');
+          }
         }
-    };
+      };
 
     return (
         <>
@@ -163,7 +216,7 @@ const VacantesSession: React.FC = () => {
                             type="submit"
                             className="inline-flex justify-center rounded-md bg-gray-950 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-500"
                         >
-                            Publicar Vacante
+                            {vacanteToEdit && vacanteToEdit._id ? 'Guardar Cambios' : 'Publicar Vacante'}
                         </button>
                     </div>
                 </form>

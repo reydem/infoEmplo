@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import clienteAxios from '../../config/axios';
 import { AxiosError } from 'axios';
 import VacanteList from './VacanteList';
+import VacantesSession from './VacantesSession';
 
 interface Usuario {
     _id: string;
@@ -25,17 +26,18 @@ interface Vacante {
     titulo: string;
     descripcion: string;
     imagen_empresa?: string;
-  }
-  
-  interface UserSessionState {
+}
+
+interface UserSessionState {
     users: Usuario[];
     vacantes: Vacante[];
-  }
-  
-  export class UserSession extends Component<{}, UserSessionState> {
+}
+
+export class UserSession extends Component<{}, UserSessionState> {
     state: UserSessionState = {
-      users: [],
-      vacantes: [],
+        users: [],
+        vacantes: [],
+        vacanteToEdit: null, // Para saber si editamos una vacante específica
     };
     // Método para obtener los datos del usuario autenticado y vacantes
     async componentDidMount() {
@@ -111,6 +113,18 @@ interface Vacante {
         }
     };
 
+    handleEditVacante = (idVacante) => {
+        const vacanteEncontrada = this.state.vacantes.find(v => v._id === idVacante);
+        if (vacanteEncontrada) {
+            this.setState({ vacanteToEdit: vacanteEncontrada });
+        }
+    }
+
+    handleVacanteUpdated = () => {
+        this.fetchVacantes();     // Refresca la lista de vacantes
+        this.setState({ vacanteToEdit: null }); // Limpia la vacante en edición
+    }
+
 
     render() {
         return (
@@ -168,9 +182,16 @@ interface Vacante {
                     )}
                     {/* Renderiza la lista de vacantes */}
                     <VacanteList
+                        onEdit={this.handleEditVacante}
                         vacantes={this.state.vacantes}
                         onDelete={this.handleDeleteVacante}
                     />
+                    {this.state.vacanteToEdit && (
+                        <VacantesSession
+                            vacanteToEdit={this.state.vacanteToEdit}
+                            onVacanteUpdated={this.handleVacanteUpdated}
+                        />
+                    )}
                 </ul>
 
 
