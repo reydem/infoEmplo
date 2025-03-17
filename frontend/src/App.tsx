@@ -23,6 +23,7 @@ import Vacantes from './components/Vacantes/Vacantes';
 import Ofertas from './components/Ofertas/Ofertas';
 import NuevaOferta from './components/Ofertas/NuevaOferta';
 import { CRMContext, CRMProvider } from './context/CRMContext';
+import Vacante from './components/Vacantes/Vacante';
 
 
 function App() {
@@ -144,7 +145,7 @@ function AppLayout() {
           </InputGroup>
           <Routes>
             {/* <Route path="/" element={<Home />} /> */}
-            <Route path="/" element={<Empleados />} />
+            <Route path="/" element={<Vacantes />} />
             <Route path="/empleados/nuevo" element={<NuevoEmpleado />} />
             <Route path="/empleados/editar/:id" element={<EditarEmpleado />} />
             <Route path="/vacantes" element={<Vacantes />} />
