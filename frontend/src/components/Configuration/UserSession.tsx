@@ -16,26 +16,27 @@ interface Usuario {
     fotoPerfil?: string;
 }
 
+interface ErrorResponse {
+    mensaje?: string;
+}
+
 interface Vacante {
     _id: string;
     titulo: string;
     descripcion: string;
     imagen_empresa?: string;
-}
-
-interface ErrorResponse {
-    mensaje?: string;
-}
-
-export class UserSession extends Component {
-    state: {
-        users: Usuario[];
-        vacantes: Vacante[]; // Estado para almacenar las vacantes
-    } = {
-            users: [],
-            vacantes: [] // Inicializa vacantes como un array vacío
-        };
-
+  }
+  
+  interface UserSessionState {
+    users: Usuario[];
+    vacantes: Vacante[];
+  }
+  
+  export class UserSession extends Component<{}, UserSessionState> {
+    state: UserSessionState = {
+      users: [],
+      vacantes: [],
+    };
     // Método para obtener los datos del usuario autenticado y vacantes
     async componentDidMount() {
         try {
@@ -86,6 +87,30 @@ export class UserSession extends Component {
     componentWillUnmount() {
         window.removeEventListener("vacanteCreada", this.handleVacanteCreada);
     }
+    // Aquí defines el método con el mismo nombre que pasas en onDelete
+    handleDeleteVacante = async (idVacante: string) => {
+        try {
+            let token = localStorage.getItem('token');
+            if (!token) {
+                console.error('❌ No hay token disponible');
+                return;
+            }
+            if (!token.startsWith('Bearer ')) {
+                token = `Bearer ${token}`;
+            }
+            await clienteAxios.delete(`/vacantes/${idVacante}`, {
+                headers: { Authorization: token }
+            });
+            // Actualizar el estado filtrando la vacante eliminada
+            this.setState((prevState) => ({
+                vacantes: prevState.vacantes.filter(v => v._id !== idVacante)
+            }));
+            console.log('✅ Vacante eliminada correctamente');
+        } catch (error) {
+            console.error('❌ Error eliminando la vacante:', error);
+        }
+    };
+
 
     render() {
         return (
@@ -142,7 +167,10 @@ export class UserSession extends Component {
                         <p className="text-center text-gray-600">No hay usuarios registrados.</p>
                     )}
                     {/* Renderiza la lista de vacantes */}
-                    <VacanteList vacantes={this.state.vacantes} />
+                    <VacanteList
+                        vacantes={this.state.vacantes}
+                        onDelete={this.handleDeleteVacante}
+                    />
                 </ul>
 
 
