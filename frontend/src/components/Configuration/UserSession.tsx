@@ -4,6 +4,7 @@ import clienteAxios from '../../config/axios';
 import { AxiosError } from 'axios';
 import VacanteList from './VacanteList';
 import VacantesSession from './VacantesSession';
+import Modal from './Modal';
 
 interface Usuario {
     _id: string;
@@ -33,11 +34,17 @@ interface UserSessionState {
     vacantes: Vacante[];
 }
 
+interface UserSessionState {
+    users: Usuario[];
+    vacantes: Vacante[];
+    vacanteToEdit: Vacante | null;
+}
+
 export class UserSession extends Component<{}, UserSessionState> {
     state: UserSessionState = {
         users: [],
         vacantes: [],
-        vacanteToEdit: null, // Para saber si editamos una vacante específica
+        vacanteToEdit: null,
     };
     // Método para obtener los datos del usuario autenticado y vacantes
     async componentDidMount() {
@@ -71,6 +78,13 @@ export class UserSession extends Component<{}, UserSessionState> {
             console.error('❌ Error obteniendo datos:', err.response?.data?.mensaje || err.message);
         }
     }
+
+   
+    // Función para cerrar el modal sin actualizar
+    handleCloseModal = () => {
+        this.setState({ vacanteToEdit: null });
+    }
+
     // Nueva función para obtener las vacantes
     fetchVacantes = async () => {
         try {
@@ -113,7 +127,10 @@ export class UserSession extends Component<{}, UserSessionState> {
         }
     };
 
-    handleEditVacante = (idVacante) => {
+
+    
+
+    handleEditVacante = (idVacante: string) => {
         const vacanteEncontrada = this.state.vacantes.find(v => v._id === idVacante);
         if (vacanteEncontrada) {
             this.setState({ vacanteToEdit: vacanteEncontrada });
@@ -122,8 +139,9 @@ export class UserSession extends Component<{}, UserSessionState> {
 
     handleVacanteUpdated = () => {
         this.fetchVacantes();     // Refresca la lista de vacantes
-        this.setState({ vacanteToEdit: null }); // Limpia la vacante en edición
+        this.setState({ vacanteToEdit: null }); // Cierra el modal al actualizar
     }
+
 
 
     render() {
@@ -193,6 +211,17 @@ export class UserSession extends Component<{}, UserSessionState> {
                         />
                     )}
                 </ul>
+
+                 {/* Modal para editar la vacante */}
+                 <Modal
+                    isOpen={this.state.vacanteToEdit !== null}
+                    onClose={this.handleCloseModal}
+                >
+                    <VacantesSession
+                        vacanteToEdit={this.state.vacanteToEdit}
+                        onVacanteUpdated={this.handleVacanteUpdated}
+                    />
+                </Modal>
 
 
             </>
