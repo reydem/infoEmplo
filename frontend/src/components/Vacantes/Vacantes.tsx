@@ -11,61 +11,6 @@ import { CRMContext } from '../../context/CRMContext';
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
 
 
-const orders = [
-    {
-        number: 'WU88191111',
-        href: '#',
-        invoiceHref: '#',
-        createdDate: 'Jul 6, 2021',
-        createdDatetime: '2021-07-06',
-        deliveredDate: 'July 12, 2021',
-        deliveredDatetime: '2021-07-12',
-        total: '$160.00',
-        products: [
-            {
-                id: 1,
-                name: 'Micro Backpack',
-                description:
-                    'Are you a minimalist looking for a compact carry option? The Micro Backpack is the perfect size for your essential everyday carry items. Wear it like a backpack or carry it like a satchel for all-day use.',
-                href: '#',
-                price: '$70.00',
-                imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/order-history-page-03-product-01.jpg',
-                imageAlt:
-                    'Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps.',
-            },
-            // More products...
-        ],
-    },
-    // More orders...
-]
-const footerNavigation = {
-    products: [
-        { name: 'Bags', href: '#' },
-        { name: 'Tees', href: '#' },
-        { name: 'Objects', href: '#' },
-        { name: 'Home Goods', href: '#' },
-        { name: 'Accessories', href: '#' },
-    ],
-    company: [
-        { name: 'Who we are', href: '#' },
-        { name: 'Sustainability', href: '#' },
-        { name: 'Press', href: '#' },
-        { name: 'Careers', href: '#' },
-        { name: 'Terms & Conditions', href: '#' },
-        { name: 'Privacy', href: '#' },
-    ],
-    customerService: [
-        { name: 'Contact', href: '#' },
-        { name: 'Shipping', href: '#' },
-        { name: 'Returns', href: '#' },
-        { name: 'Warranty', href: '#' },
-        { name: 'Secure Payments', href: '#' },
-        { name: 'FAQ', href: '#' },
-        { name: 'Find a store', href: '#' },
-    ],
-}
-
-
 // Interfaz para definir la estructura de las vacantes
 interface Vacante {
     _id: string;
