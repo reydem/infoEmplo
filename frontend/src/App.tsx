@@ -148,7 +148,7 @@ function AppLayout() {
             <Route path="/" element={<Vacantes />} />
             <Route path="/empleados/nuevo" element={<NuevoEmpleado />} />
             <Route path="/empleados/editar/:id" element={<EditarEmpleado />} />
-            <Route path="/vacantes" element={<Vacantes />} />
+            <Route path="/vacantes" element={<Empleados />} />
             <Route path="/vacantes/nuevo" element={<NuevoVacante />} />
             <Route path="/vacantes/editar/:id" element={<EditarVacante />} />
 

@@ -7,17 +7,7 @@ import Spinner from '../layout/Spinner';
 import { CRMContext } from '../../context/CRMContext';
 
 
-import {
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    Popover,
-    PopoverButton,
-    PopoverGroup,
-    PopoverPanel,
-} from '@headlessui/react'
-import { EllipsisVerticalIcon, MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
+
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
 
 const navigation = {
@@ -203,14 +193,9 @@ function Vacantes() {
     
 
     return (
-        <div className="bg-gray-50">
-
-
-
+        <div className="bg-gray-50 listado-empleados border-gray-400 border-t-4 my-0 ">
             <main className="">
-
-
-                <section aria-labelledby="recent-heading" className="mt-16">
+                <section aria-labelledby="recent-heading" className="">
                     <h2 id="recent-heading" className="sr-only">
                         Recent orders
                     </h2>
@@ -224,18 +209,14 @@ function Vacantes() {
                                     <h3 className="sr-only">
                                         Order placed on <time dateTime={order.createdDatetime}>{order.createdDate}</time>
                                     </h3>
-
                                     <div className="flex items-center border-b border-gray-200 p-4 sm:grid sm:grid-cols-4 sm:gap-x-6 sm:p-6">
                                         <dl className="grid flex-1 ">
-
-
                                             <div>
                                                 <dt className="font-medium text-gray-900 text-2xl ">Total amount</dt>
 
                                             </div>
                                         </dl>
                                     </div>
-
                                     {/* Products */}
                                     <h4 className="sr-only">Items</h4>
                                     <ul role="list" className="divide-y divide-gray-200">
@@ -253,7 +234,6 @@ function Vacantes() {
                                                         <p className="hidden text-gray-500 sm:mt-2 sm:block">{product.description}</p>
                                                     </div>
                                                 </div>
-
                                                 <div className="mt-6 sm:flex sm:justify-between">
                                                     <div className="flex items-center">
                                                         <CheckCircleIcon aria-hidden="true" className="size-5 text-green-500" />
@@ -261,9 +241,7 @@ function Vacantes() {
                                                             Delivered on <time dateTime={order.deliveredDatetime}>{order.deliveredDate}</time>
                                                         </p>
                                                     </div>
-
                                                     <div className="hidden lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:space-x-4">
-                                                        
                                                         <a
                                                             href={order.invoiceHref}
                                                             className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-xs hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
@@ -282,10 +260,16 @@ function Vacantes() {
                     </div>
                 </section>
             </main>
-
-
         </div>
     )
+
+
+}
+
+export default Vacantes;
+
+
+
 
     // return (
     //     <Fragment>
@@ -305,14 +289,6 @@ function Vacantes() {
     //         </ul>
     //     </Fragment>
     // );
-}
-
-export default Vacantes;
-
-
-
-
-
 
 
 

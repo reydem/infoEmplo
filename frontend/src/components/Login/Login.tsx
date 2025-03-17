@@ -85,7 +85,7 @@ function Login() {
                     />
                 </Link>
                 <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900 bg-amber-300">
-                "Inicio de Sesiónee"
+                "Inicio de Sesióne"
                     </h1>
                 <h2 className="mt-10 text-center text-3xl font-bold tracking-tight text-gray-900">
                     Iniciar Sesión
