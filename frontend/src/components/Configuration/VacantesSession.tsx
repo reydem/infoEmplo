@@ -40,6 +40,8 @@ const VacantesSession: React.FC = () => {
             setDescripcion('');
             setSalario('');
             setImagen(null);
+            // Disparar evento para actualizar la lista de vacantes sin recargar la página
+            window.dispatchEvent(new CustomEvent("vacanteCreada"));
         } catch (error: any) {
             console.error('Error al crear la vacante:', error);
 

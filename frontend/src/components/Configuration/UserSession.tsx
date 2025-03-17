@@ -32,9 +32,9 @@ export class UserSession extends Component {
         users: Usuario[];
         vacantes: Vacante[]; // Estado para almacenar las vacantes
     } = {
-        users: [],
-        vacantes: [] // Inicializa vacantes como un array vacío
-    };
+            users: [],
+            vacantes: [] // Inicializa vacantes como un array vacío
+        };
 
     // Método para obtener los datos del usuario autenticado y vacantes
     async componentDidMount() {
@@ -58,14 +58,33 @@ export class UserSession extends Component {
             console.log("✅ Usuario autenticado:", usuarioResponse.data);
             this.setState({ users: [usuarioResponse.data] });
 
-            // Obtener vacantes
-            const vacantesResponse = await clienteAxios.get('/vacantes');
-            this.setState({ vacantes: vacantesResponse.data || [] }); // Asigna vacantes al estado
+            // Obtener vacantes iniciales
+            this.fetchVacantes();
+            // Agregar listener para actualizar vacantes cuando se cree una nueva
+            window.addEventListener("vacanteCreada", this.handleVacanteCreada);
 
         } catch (error) {
             const err = error as AxiosError<ErrorResponse>;
             console.error('❌ Error obteniendo datos:', err.response?.data?.mensaje || err.message);
         }
+    }
+    // Nueva función para obtener las vacantes
+    fetchVacantes = async () => {
+        try {
+            const vacantesResponse = await clienteAxios.get('/vacantes');
+            this.setState({ vacantes: vacantesResponse.data || [] });
+        } catch (error) {
+            console.error('Error al obtener vacantes:', error);
+        }
+    }
+
+    // Función que maneja el evento de vacante creada
+    handleVacanteCreada = () => {
+        this.fetchVacantes();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("vacanteCreada", this.handleVacanteCreada);
     }
 
     render() {
@@ -122,8 +141,8 @@ export class UserSession extends Component {
                     ) : (
                         <p className="text-center text-gray-600">No hay usuarios registrados.</p>
                     )}
-                   {/* Renderiza la lista de vacantes */}
-                <VacanteList vacantes={this.state.vacantes} />
+                    {/* Renderiza la lista de vacantes */}
+                    <VacanteList vacantes={this.state.vacantes} />
                 </ul>
 
 
