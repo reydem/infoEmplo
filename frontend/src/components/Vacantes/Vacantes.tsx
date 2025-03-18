@@ -65,14 +65,14 @@ function Vacantes() {
 
 
     return (
-        <div className="bg-gray-50 listado-empleados border-gray-400 border-t-4 my-0 ">
+        <div className="bg-gray-50 listado-empleados border-gray-400 border-t-4  ">
             <main className="">
-                <section aria-labelledby="recent-heading" className="">
+                <section aria-labelledby="recent-heading" className="my-3">
                     <h2 id="recent-heading" className="sr-only">Vacantes Disponibles</h2>
                     <div className="mx-auto max-w-7xl sm:px-2 lg:px-8">
                         <div className="mx-auto max-w-2xl space-y-8 sm:px-4 lg:max-w-4xl lg:px-0">
                             {vacantes.map((vacante) => (
-                                <div key={vacante._id} className="">
+                                <div key={vacante._id} className="border-[1px] border-black rounded-[10px] shadow-custom">
                                     {/* Encabezado con el nombre de la empresa */}
                                     <div className="flex items-center border-b border-gray-200 p-4 sm:grid sm:grid-cols-4 sm:gap-x-6 sm:p-6">
                                         <dl className="grid flex-1">
@@ -110,7 +110,7 @@ function Vacantes() {
                                             </div>
                                         </li>
                                     </ul>
-                                    <div className="mt-6 sm:flex sm:justify-between">
+                                    <div className="mt-6 sm:flex sm:justify-between mb-3 mx-3">
                                         <div className="flex items-center">
                                             <CheckCircleIcon aria-hidden="true" className="size-5 text-green-500" />
                                             <p className="ml-2 text-sm font-medium text-gray-500">

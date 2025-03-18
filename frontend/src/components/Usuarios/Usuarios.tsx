@@ -63,13 +63,13 @@ const Usuarios: React.FC = () => {
               <p>No hay usuarios disponibles.</p>
             ) : (
               usuarios.map((usuario) => (
-                <div key={usuario._id} className="">
+                <div key={usuario._id} className="border-[1px] border-black rounded-[10px] shadow-custom">
                   {/* Encabezado con el nombre completo del usuario */}
                   <div className="flex items-center border-b border-gray-200 p-4 sm:grid sm:grid-cols-4 sm:gap-x-6 sm:p-6">
                     <dl className="grid flex-1">
                       <div>
                         <dt className="font-medium text-gray-900 text-2xl">
-                          {usuario.nombre} {usuario.primerApellido} {usuario.segundoApellido}
+                          {usuario.nombre}
                         </dt>
                       </div>
                     </dl>
@@ -95,23 +95,23 @@ const Usuarios: React.FC = () => {
                       </div>
                     </li>
                   </ul>
-                  <div className="mt-6 sm:flex sm:justify-between">
-                                        <div className="flex items-center">
-                                            <CheckCircleIcon aria-hidden="true" className="size-5 text-green-500" />
-                                            <p className="ml-2 text-sm font-medium text-gray-500">
-                                                Delivered on <time ></time>
-                                            </p>
-                                        </div>
-                                        <div className="hidden lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:space-x-4">
-                                            <a
-                                                href="#"
-                                                className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-xs hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
-                                            >
-                                                <span>View Invoice</span>
-                                                <span className="sr-only">for order </span>
-                                            </a>
-                                        </div>
-                                    </div>
+                  <div className="mt-6 sm:flex sm:justify-between mb-3 mx-3">
+                    <div className="flex items-center">
+                      <CheckCircleIcon aria-hidden="true" className="size-5 text-green-500" />
+                      <p className="ml-2 text-sm font-medium text-gray-500">
+                        Delivered on <time ></time>
+                      </p>
+                    </div>
+                    <div className="hidden lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:space-x-4">
+                      <a
+                        href="#"
+                        className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-xs hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
+                      >
+                        <span>View Invoice</span>
+                        <span className="sr-only">for order </span>
+                      </a>
+                    </div>
+                  </div>
                 </div>
               ))
             )}
