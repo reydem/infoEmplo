@@ -141,30 +141,3 @@ function Vacantes() {
 }
 
 export default Vacantes;
-
-
-
-
-// return (
-//     <Fragment>
-//         <h2>Vacantes</h2>
-//         <Link to={'/vacantes/nuevo'} className="btn btn-verde nvo-cliente">
-//             <i className="fas fa-plus-circle"></i>
-//             Nueva Vacante
-//         </Link>
-//         <ul className="listado-vacantes">
-//             {vacantes.map((vacante) => (
-//                 <Vacante
-//                     key={vacante._id}
-//                     vacante={vacante}
-//                     setActualizarVacantes={setActualizarVacantes}
-//                 />
-//             ))}
-//         </ul>
-//     </Fragment>
-// );
-
-
-
-
-

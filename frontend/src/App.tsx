@@ -12,7 +12,7 @@ import Configuration from "./components/Configuration/Configuration";
 import Security from "./components/Security/Security";
 import Preferences from "./components/Preferences/Preferences";
 import Notifications from "./components/Notifications/Notifications";
-// import Home from './components/Home/Home';
+import Home from './components/Home/Home';
 import NuevoEmpleado from './components/Empleados/NuevoEmpleado';
 
 import EditarEmpleado from './components/Empleados/EditarEmpleado';
@@ -24,6 +24,7 @@ import Ofertas from './components/Ofertas/Ofertas';
 import NuevaOferta from './components/Ofertas/NuevaOferta';
 import { CRMContext, CRMProvider } from './context/CRMContext';
 import Vacante from './components/Vacantes/Vacante';
+import Usuarios from './components/Usuarios/Usuarios';
 
 
 function App() {
@@ -144,8 +145,9 @@ function AppLayout() {
             </div>
           </InputGroup>
           <Routes>
+            <Route path="/" element={<Home />} />
             {/* <Route path="/" element={<Home />} /> */}
-            <Route path="/" element={<Vacantes />} />
+            <Route path="/usuarios" element={<Usuarios />} />
             <Route path="/empleados/nuevo" element={<NuevoEmpleado />} />
             <Route path="/empleados/editar/:id" element={<EditarEmpleado />} />
             <Route path="/vacantes" element={<Empleados />} />

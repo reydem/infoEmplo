@@ -33,13 +33,15 @@ function Login() {
             const respuesta = await clienteAxios.post('/iniciar-sesion', credenciales);
 
             // extraer el token y colocarlo en localstorage
-            const { token } = respuesta.data;
+            const { token, esReclutador, correo } = respuesta.data;
             localStorage.setItem('token', token);
 
-            // colocarlo en el state
+            // Actualiza todos los campos del estado
             guardarAuth({
                 token,
                 auth: true,
+                esReclutador,
+                correo
             });
 
             // alerta
@@ -85,8 +87,8 @@ function Login() {
                     />
                 </Link>
                 <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900 bg-amber-300">
-                "Inicio de Sesióne"
-                    </h1>
+                    "Inicio de Sesióned"
+                </h1>
                 <h2 className="mt-10 text-center text-3xl font-bold tracking-tight text-gray-900">
                     Iniciar Sesión
                 </h2>

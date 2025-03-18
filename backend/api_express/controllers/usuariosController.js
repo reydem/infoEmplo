@@ -110,7 +110,13 @@ export const autenticarUsuario = async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        res.json({ token });
+        res.json({
+            token,
+            esReclutador: usuario.esReclutador,
+            correo: usuario.correo
+          });
+
+
     } catch (error) {
         console.error("❌ Error al autenticar usuario:", error);
         res.status(500).json({ mensaje: '❌ Error al autenticar usuario' });
