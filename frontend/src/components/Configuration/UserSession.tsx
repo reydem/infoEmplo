@@ -204,12 +204,6 @@ export class UserSession extends Component<{}, UserSessionState> {
                         vacantes={this.state.vacantes}
                         onDelete={this.handleDeleteVacante}
                     />
-                    {this.state.vacanteToEdit && (
-                        <VacantesSession
-                            vacanteToEdit={this.state.vacanteToEdit}
-                            onVacanteUpdated={this.handleVacanteUpdated}
-                        />
-                    )}
                 </ul>
 
                  {/* Modal para editar la vacante */}
@@ -222,8 +216,6 @@ export class UserSession extends Component<{}, UserSessionState> {
                         onVacanteUpdated={this.handleVacanteUpdated}
                     />
                 </Modal>
-
-
             </>
         )
     }
