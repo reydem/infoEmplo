@@ -11,6 +11,9 @@ import { CRMContext } from '../../context/CRMContext';
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
 
 
+import Pagination from '../Pagination/Pagination';
+
+
 // Interfaz para definir la estructura de las vacantes
 interface Vacante {
     _id: string;
@@ -132,7 +135,7 @@ function Vacantes() {
                         </div>
                     </div>
                 </section>
-
+                <Pagination />
             </main>
         </div>
     )

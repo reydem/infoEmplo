@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import clienteAxios from '../../config/axios';
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
+import Pagination from '../Pagination/Pagination';
+
+
 
 interface Usuario {
   _id: string;
@@ -118,6 +121,7 @@ const Usuarios: React.FC = () => {
           </div>
         </div>
       </section>
+      <Pagination />
     </>
   );
 };
