@@ -1,3 +1,4 @@
+// /webapps/infoEmplo-venv/infoEmplo/backend/api_express/controllers/paginationController.js
 import Vacantes from '../models/Vacantes.js';
 import Usuarios from '../models/Usuarios.js'; // ✅ Importamos el modelo de Usuarios
 
@@ -11,7 +12,7 @@ export const getPaginatedData = async (req, res, entity = 'vacantes') => {
 
         // Evitar valores inválidos
         if (isNaN(page) || page < 1) page = 1;
-        if (isNaN(limit) || limit < 1) limit = 10;
+        if (isNaN(limit) || limit < 1) limit = 1;
 
         // Calcular el salto (skip)
         const skip = (page - 1) * limit;

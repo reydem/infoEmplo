@@ -27,6 +27,11 @@ function Vacantes() {
     const [actualizarVacantes, setActualizarVacantes] = useState(false);
     const navigate = useNavigate();
 
+    const [page, setPage] = useState(1);
+    const limit = 1;
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalDocs, setTotalDocs] = useState(0);
+
     // Usar el contexto como arreglo
     const crmContext = useContext(CRMContext);
 
@@ -41,10 +46,12 @@ function Vacantes() {
         if (auth.token !== '') {
             const consultarAPI = async () => {
                 try {
-                    const vacantesConsulta = await clienteAxios.get('/vacantes', {
+                    const response = await clienteAxios.get(`/vacantes/pagination?page=${page}&limit=${limit}`, {
                         headers: { Authorization: `Bearer ${auth.token}` },
                     });
-                    setVacantes(vacantesConsulta.data);
+                    setVacantes(response.data.data);
+                    setTotalPages(response.data.totalPages);
+                    setTotalDocs(response.data.totalDocs);
                 } catch (error: any) {
                     console.error('Error al consultar la API:', error);
                     if (error.response?.status === 500) {
@@ -57,7 +64,8 @@ function Vacantes() {
         } else {
             navigate('/iniciar-sesion');
         }
-    }, [actualizarVacantes, auth.token, navigate]);
+    }, [page, auth.token, navigate]);  // Se elimina "actualizarVacantes" de las dependencias
+
 
     if (!auth.auth) {
         navigate('/iniciar-sesion');
@@ -135,7 +143,8 @@ function Vacantes() {
                         </div>
                     </div>
                 </section>
-                <Pagination entity="vacantes" />
+                <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+
             </main>
         </div>
     )
