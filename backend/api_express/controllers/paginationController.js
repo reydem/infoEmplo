@@ -1,31 +1,41 @@
-import Vacantes from '../models/Vacantes.js'; // ✅ Importar con ES Modules
+import Vacantes from '../models/Vacantes.js';
+import Usuarios from '../models/Usuarios.js'; // ✅ Importamos el modelo de Usuarios
 
-export const getPaginatedData = async (req, res) => {
+export const getPaginatedData = async (req, res, entity = 'vacantes') => {
     try {
-        // Extraer los parámetros de la consulta (query params)
         let { page = 1, limit = 10 } = req.query;
 
-        // Convertirlos a número
+        // Convertir valores a enteros
         page = parseInt(page);
         limit = parseInt(limit);
 
-        // Calcular el número de documentos a omitir (skip)
+        // Evitar valores inválidos
+        if (isNaN(page) || page < 1) page = 1;
+        if (isNaN(limit) || limit < 1) limit = 10;
+
+        // Calcular el salto (skip)
         const skip = (page - 1) * limit;
 
-        // Obtener datos paginados de la base de datos
-        const results = await Vacantes.find()
-            .skip(skip)
-            .limit(limit)
-            .exec();
+        // Seleccionar el modelo basado en el parámetro de la ruta
+        let Model;
+        if (entity === 'usuarios') {
+            Model = Usuarios;
+        } else {
+            Model = Vacantes; // Por defecto, usa Vacantes
+        }
 
-        // Contar el total de documentos
-        const totalDocs = await Vacantes.countDocuments();
+        // Obtener datos paginados
+        const results = await Model.find().skip(skip).limit(limit).exec();
 
-        // Calcular el total de páginas
+        // Contar el total de registros
+        const totalDocs = await Model.countDocuments();
+
+        // Calcular páginas totales
         const totalPages = Math.ceil(totalDocs / limit);
 
-        // Enviar respuesta
+        // Enviar respuesta JSON
         res.json({
+            entity,
             page,
             limit,
             totalPages,
@@ -34,6 +44,7 @@ export const getPaginatedData = async (req, res) => {
         });
 
     } catch (error) {
-        res.status(500).json({ message: 'Error al obtener los datos paginados', error });
+        console.error(`❌ Error en paginación de ${entity}:`, error);
+        res.status(500).json({ mensaje: 'Error interno del servidor', error });
     }
 };

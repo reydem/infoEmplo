@@ -21,6 +21,7 @@ const routes = () => {
 
     /** PAGINACIÓN ✅ */
     router.get('/vacantes/pagination', getPaginatedData);
+    router.get('/usuarios/pagination', (req, res) => getPaginatedData(req, res, 'usuarios'));
 
     /** VACANTES ✅ */
     router.post('/vacantes', 
