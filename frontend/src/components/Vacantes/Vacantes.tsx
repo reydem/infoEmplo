@@ -27,10 +27,10 @@ function Vacantes() {
     const [actualizarVacantes, setActualizarVacantes] = useState(false);
     const navigate = useNavigate();
 
-    const [page, setPage] = useState(1);
-    const limit = 1;
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalDocs, setTotalDocs] = useState(0);
+    const [page, setPage] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(1);
+    const [totalDocs, setTotalDocs] = useState<number>(0);
+    const limit: number = 1;
 
     // Usar el contexto como arreglo
     const crmContext = useContext(CRMContext);
@@ -143,7 +143,13 @@ function Vacantes() {
                         </div>
                     </div>
                 </section>
-                <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+                <Pagination
+                    page={page}
+                    totalPages={totalPages}
+                    onPageChange={setPage}
+                    totalDocs={totalDocs}
+                    limit={limit}
+                />
 
             </main>
         </div>
