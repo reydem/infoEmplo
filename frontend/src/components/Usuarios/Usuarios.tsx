@@ -20,6 +20,11 @@ const Usuarios: React.FC = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [mensaje, setMensaje] = useState<string>('');
 
+  const [page, setPage] = useState<number>(1);
+  const limit: number = 2;
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalDocs, setTotalDocs] = useState<number>(0);
+
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
@@ -28,18 +33,24 @@ const Usuarios: React.FC = () => {
           setMensaje('⚠️ No estás autenticado. Inicia sesión.');
           return;
         }
-
         const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         };
 
-        const response = await clienteAxios.get('/usuarios', config);
-        // Filtramos para quedarnos solo con los usuarios que no sean reclutadores
-        const usuariosNoReclutadores = response.data.filter((usuario: Usuario) => !usuario.esReclutador);
+        const response = await clienteAxios.get(
+          `/usuarios/pagination?page=${page}&limit=${limit}`,
+          config
+        );
+
+        // Filtramos solo usuarios que NO sean reclutadores
+        const usuariosNoReclutadores = response.data.data.filter(
+          (u: Usuario) => !u.esReclutador
+        );
         setUsuarios(usuariosNoReclutadores);
+
+        setTotalPages(response.data.totalPages);
+        setTotalDocs(response.data.totalDocs);
       } catch (error: any) {
         console.error('Error al obtener usuarios:', error);
         if (error.response) {
@@ -53,8 +64,7 @@ const Usuarios: React.FC = () => {
     };
 
     fetchUsuarios();
-  }, []);
-
+  }, [page]);
   return (
     <>
       <section aria-labelledby="recent-heading" className="">
@@ -121,7 +131,13 @@ const Usuarios: React.FC = () => {
           </div>
         </div>
       </section>
-      <Pagination entity="usuarios" />
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
+        totalDocs={totalDocs}
+        limit={limit}
+      />
 
     </>
   );
