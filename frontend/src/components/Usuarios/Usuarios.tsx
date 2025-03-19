@@ -21,7 +21,7 @@ const Usuarios: React.FC = () => {
   const [mensaje, setMensaje] = useState<string>('');
 
   const [page, setPage] = useState<number>(1);
-  const limit: number = 2;
+  const limit: number = 1;
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalDocs, setTotalDocs] = useState<number>(0);
 
