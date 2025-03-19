@@ -3,7 +3,7 @@ import Usuarios from '../models/Usuarios.js'; // ✅ Importamos el modelo de Usu
 
 export const getPaginatedData = async (req, res, entity = 'vacantes') => {
     try {
-        let { page = 1, limit = 10 } = req.query;
+        let { page = 1, limit = 1 } = req.query;
 
         // Convertir valores a enteros
         page = parseInt(page);

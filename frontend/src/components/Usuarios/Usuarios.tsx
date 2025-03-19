@@ -121,7 +121,8 @@ const Usuarios: React.FC = () => {
           </div>
         </div>
       </section>
-      <Pagination />
+      <Pagination entity="usuarios" />
+
     </>
   );
 };

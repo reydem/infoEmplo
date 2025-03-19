@@ -135,7 +135,7 @@ function Vacantes() {
                         </div>
                     </div>
                 </section>
-                <Pagination />
+                <Pagination entity="vacantes" />
             </main>
         </div>
     )
