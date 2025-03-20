@@ -23,7 +23,7 @@ export const verificarToken = (req, res, next) => {
 // 📌 Obtener todos los usuarios (excluyendo contraseñas)
 export const obtenerUsuarios = async (req, res) => {
     try {
-        const usuarios = await Usuarios.find({}, '-password'); // Excluir el campo password por seguridad
+        const usuarios = await Usuarios.find({}, '-password'); // Excluir el campo password
         res.json(usuarios);
     } catch (error) {
         console.error("❌ Error al obtener usuarios:", error);
@@ -34,7 +34,6 @@ export const obtenerUsuarios = async (req, res) => {
 // 📌 Registrar un nuevo usuario
 export const registrarUsuario = async (req, res) => {
     try {
-        // 📌 Extraer datos del formulario
         const { 
             nombre, 
             primerApellido, 
@@ -51,7 +50,7 @@ export const registrarUsuario = async (req, res) => {
             return res.status(400).json({ mensaje: '❌ El correo ya está registrado' });
         }
 
-        // 📌 Verificar archivos subidos y extraer el nombre del archivo sin la ruta completa
+        // 📌 Manejo de archivos (fotoPerfil y hojaVida)
         const fotoPerfil = req.files?.find(file => file.fieldname === 'fotoPerfil') 
             ? path.basename(req.files.find(file => file.fieldname === 'fotoPerfil').path)
             : null;
@@ -68,9 +67,9 @@ export const registrarUsuario = async (req, res) => {
             correo,
             telefono,
             password: await bcrypt.hash(password, 12), // Hashear contraseña
-            fotoPerfil, // Solo guarda el nombre del archivo
-            hojaVida, // Solo guarda el nombre del archivo
-            esReclutador: esReclutador === 'true' // Convertir string a booleano
+            fotoPerfil,
+            hojaVida,
+            esReclutador: esReclutador === 'true'
         });
 
         await usuario.save();
@@ -87,7 +86,6 @@ export const autenticarUsuario = async (req, res) => {
 
     try {
         const usuario = await Usuarios.findOne({ correo });
-
         if (!usuario) {
             return res.status(401).json({ mensaje: '❌ Credenciales incorrectas' });
         }
@@ -114,8 +112,7 @@ export const autenticarUsuario = async (req, res) => {
             token,
             esReclutador: usuario.esReclutador,
             correo: usuario.correo
-          });
-
+        });
 
     } catch (error) {
         console.error("❌ Error al autenticar usuario:", error);
@@ -127,8 +124,8 @@ export const autenticarUsuario = async (req, res) => {
 export const obtenerUsuarioAutenticado = async (req, res) => {
     try {
         const usuario = await Usuarios.findById(req.usuario.id)
-        .select('-password') // Excluye la contraseña
-        .populate('postulaciones');   // <-- Aquí hacemos populate
+            .select('-password')          // Excluye la contraseña
+            .populate('postulaciones');   // Populate de las vacantes referenciadas
 
         if (!usuario) {
             return res.status(404).json({ mensaje: '❌ Usuario no encontrado' });
