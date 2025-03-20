@@ -1,5 +1,4 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Configuration/PostulacionesList.tsx
-
 import React from 'react';
 
 interface Vacante {
