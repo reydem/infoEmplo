@@ -146,7 +146,9 @@ export class UserSession extends Component<{}, UserSessionState> {
 
     render() {
         return (
+
             <>
+            
                 <ul role="list" className="divide-y divide-gray-200 xl:col-span-3 mt-6">
                     {this.state.users.length > 0 ? (
                         this.state.users.map((user) => (
@@ -199,11 +201,14 @@ export class UserSession extends Component<{}, UserSessionState> {
                         <p className="text-center text-gray-600">No hay usuarios registrados.</p>
                     )}
                     {/* Renderiza la lista de vacantes */}
-                    <VacanteList
+                    <div className="col-span-3 p-4 overflow-y-auto">
+                    <VacanteList 
                         onEdit={this.handleEditVacante}
                         vacantes={this.state.vacantes}
                         onDelete={this.handleDeleteVacante}
                     />
+                    </div>
+                    
                 </ul>
 
                  {/* Modal para editar la vacante */}
