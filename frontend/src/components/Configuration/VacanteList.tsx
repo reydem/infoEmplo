@@ -19,8 +19,8 @@ const VacanteList: React.FC<VacanteListProps> = ({ vacantes = [], onEdit, onDele
         <div className="space-y-6">
             {vacantes.length > 0 ? (
                 vacantes.map((vacante) => (
-                    <div 
-                        key={vacante._id} 
+                    <div
+                        key={vacante._id}
                         className="flex items-center justify-between border p-4 rounded-lg shadow-md bg-white"
                     >
                         <div className="flex items-center space-x-4">
@@ -30,11 +30,15 @@ const VacanteList: React.FC<VacanteListProps> = ({ vacantes = [], onEdit, onDele
                                     ? `http://localhost:5000/uploads/${vacante.imagen_empresa}`
                                     : "https://via.placeholder.com/150"
                                 }
-                                className="size-14 rounded-full bg-gray-50 mt-3"
+                                className="size-14 bg-gray-50 mt-3"
                             />
                             <div className="text-base">
                                 <div className="font-semibold text-gray-900">{vacante.titulo}</div>
-                                <div className="mt-1 text-gray-500">{vacante.descripcion}</div>
+                                <div className="mt-1 text-gray-500">
+                                    {vacante.descripcion.length > 100
+                                        ? vacante.descripcion.substring(0, 50) + "..."
+                                        : vacante.descripcion}
+                                </div>
                             </div>
                         </div>
 
