@@ -16,6 +16,7 @@ interface Usuario {
     esReclutador: boolean;
     hojaVida?: string;
     fotoPerfil?: string;
+    postulaciones?: Vacante[]; // Se agregan las vacantes a las que se ha postulado
 }
 
 interface ErrorResponse {
@@ -79,7 +80,7 @@ export class UserSession extends Component<{}, UserSessionState> {
         }
     }
 
-   
+
     // Función para cerrar el modal sin actualizar
     handleCloseModal = () => {
         this.setState({ vacanteToEdit: null });
@@ -128,7 +129,7 @@ export class UserSession extends Component<{}, UserSessionState> {
     };
 
 
-    
+
 
     handleEditVacante = (idVacante: string) => {
         const vacanteEncontrada = this.state.vacantes.find(v => v._id === idVacante);
@@ -148,7 +149,7 @@ export class UserSession extends Component<{}, UserSessionState> {
         return (
 
             <>
-            
+
                 <ul role="list" className="divide-y divide-gray-200 xl:col-span-3 mt-6">
                     {this.state.users.length > 0 ? (
                         this.state.users.map((user) => (
@@ -169,6 +170,8 @@ export class UserSession extends Component<{}, UserSessionState> {
                                     <p className="text-base/7 text-gray-600">Correo: {user.correo}</p>
                                     <p className="text-base/7 text-gray-600">Teléfono: {user.telefono}</p>
                                     <p className="text-base/7 text-gray-600">Hoja de Vida: {user.hojaVida ? "Disponible" : "No disponible"}</p>
+
+                                    
 
                                     <ul role="list" className="mt-6 flex gap-x-6 mb-3">
                                         <li>
@@ -193,6 +196,7 @@ export class UserSession extends Component<{}, UserSessionState> {
                                         </li>
                                     </ul>
                                 </div>
+                                
 
                             </li>
 
@@ -202,24 +206,18 @@ export class UserSession extends Component<{}, UserSessionState> {
                     )}
                     {/* Renderiza la lista de vacantes */}
                     <div className="col-span-3 p-4 overflow-y-auto">
-                    <VacanteList 
-                        onEdit={this.handleEditVacante}
-                        vacantes={this.state.vacantes}
-                        onDelete={this.handleDeleteVacante}
-                    />
+                        <VacanteList
+                            onEdit={this.handleEditVacante}
+                            vacantes={this.state.vacantes}
+                            onDelete={this.handleDeleteVacante}
+                        />
                     </div>
-                    
+
                 </ul>
 
-                 {/* Modal para editar la vacante */}
-                 <Modal
-                    isOpen={this.state.vacanteToEdit !== null}
-                    onClose={this.handleCloseModal}
-                >
-                    <VacantesSession
-                        vacanteToEdit={this.state.vacanteToEdit}
-                        onVacanteUpdated={this.handleVacanteUpdated}
-                    />
+                {/* Modal para editar la vacante */}
+                <Modal isOpen={this.state.vacanteToEdit !== null} onClose={this.handleCloseModal}>
+                <VacantesSession vacanteToEdit={this.state.vacanteToEdit} onVacanteUpdated={this.handleVacanteUpdated} />
                 </Modal>
             </>
         )

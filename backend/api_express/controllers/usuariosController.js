@@ -126,7 +126,9 @@ export const autenticarUsuario = async (req, res) => {
 // 📌 Obtener el usuario autenticado
 export const obtenerUsuarioAutenticado = async (req, res) => {
     try {
-        const usuario = await Usuarios.findById(req.usuario.id).select('-password'); // Excluye la contraseña
+        const usuario = await Usuarios.findById(req.usuario.id)
+        .select('-password') // Excluye la contraseña
+        .populate('postulaciones');   // <-- Aquí hacemos populate
 
         if (!usuario) {
             return res.status(404).json({ mensaje: '❌ Usuario no encontrado' });
