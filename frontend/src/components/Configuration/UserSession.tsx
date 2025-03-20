@@ -5,6 +5,7 @@ import { AxiosError } from 'axios';
 import VacanteList from './VacanteList';
 import VacantesSession from './VacantesSession';
 import Modal from './Modal';
+import VacanteOPostulaciones from './VacanteOPostulaciones';
 
 interface Usuario {
     _id: string;
@@ -206,11 +207,7 @@ export class UserSession extends Component<{}, UserSessionState> {
                     )}
                     {/* Renderiza la lista de vacantes */}
                     <div className="col-span-3 p-4 overflow-y-auto">
-                        <VacanteList
-                            onEdit={this.handleEditVacante}
-                            vacantes={this.state.vacantes}
-                            onDelete={this.handleDeleteVacante}
-                        />
+                        <VacanteOPostulaciones />
                     </div>
 
                 </ul>
