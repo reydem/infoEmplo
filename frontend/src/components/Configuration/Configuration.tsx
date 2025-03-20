@@ -5,6 +5,7 @@ import { Input, InputGroup } from '../ui';
 import Navegacion from '../custom-ui/Navegacion';
 import UserSession from './UserSession';
 import VacantesSession from './VacantesSession';
+import EsReclutadorNO from './EsReclutadorNO';
 
 
 export class Configuration extends Component {
@@ -80,7 +81,8 @@ export class Configuration extends Component {
 
                 {/* Secuion de usuario obtenidos de la base de datos */}
                 <UserSession />
-                <VacantesSession />
+                <EsReclutadorNO />
+                {/* <VacantesSession /> */}
 
               </div>
             </div>

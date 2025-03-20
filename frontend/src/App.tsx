@@ -127,7 +127,7 @@ function AppLayout() {
 
   // Diseño principal para el resto de las rutas
   return (
-    <div className="main-layout flex min-h-full flex-col p-20 bg-slate-300 font-nanum">
+    <div className="main-layout flex min-h-full flex-col p-20 bg-slate-300 font-nanum pb-96">
       <div className="mx-auto flex w-full max-w-7xl items-start px-0 py-0 sm:px-6 lg:px-8 border-4 border-gray-400 rounded-[32px] bg-white">
         <Asideleft />
         <main className="flex-1 border-l-4 border-gray-400 bg-white">
