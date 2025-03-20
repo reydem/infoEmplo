@@ -12,6 +12,7 @@ interface Usuario {
   primerApellido: string;
   segundoApellido: string;
   correo: string;
+  fotoPerfil: string;
   telefono: string;
   esReclutador: boolean;
 }
@@ -95,7 +96,11 @@ const Usuarios: React.FC = () => {
                           {/* Si en el futuro se añade imagen de perfil, se puede adaptar este tag */}
                           <img
                             alt={`${usuario.nombre}`}
-                            src="https://via.placeholder.com/150"
+                            src={
+                              usuario.fotoPerfil
+                                  ? `http://localhost:5000/uploads/${usuario.fotoPerfil}`
+                                  : "https://via.placeholder.com/150"
+                          }
                             className="size-full object-cover"
                           />
                         </div>
