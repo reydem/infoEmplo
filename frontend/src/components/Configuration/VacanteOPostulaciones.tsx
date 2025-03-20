@@ -2,7 +2,7 @@
 
 import React, { useContext, useState, useEffect } from 'react';
 import { CRMContext } from '../../context/CRMContext';
-import clienteAxios from '../../config/axios';  // Asumiendo que aquí configuras tu baseURL y headers
+import clienteAxios from '../../config/axios';
 import VacanteList from './VacanteList';
 import PostulacionesList from './PostulacionesList';
 
@@ -19,22 +19,20 @@ interface Usuario {
   primerApellido: string;
   segundoApellido: string;
   esReclutador: boolean;
-  postulaciones?: Vacante[];  // Array de vacantes a las que se postuló
-  // ... cualquier otro campo que uses
+  postulaciones?: Vacante[];
 }
 
 const VacanteOPostulaciones: React.FC = () => {
   const crmContext = useContext(CRMContext);
   if (!crmContext) return null;
-
   const [auth] = crmContext;
 
-  // Estado para manejar el usuario y la lista de vacantes
+  // Estados para el usuario y la lista de vacantes
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [vacantes, setVacantes] = useState<Vacante[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Al montar el componente, hacemos las llamadas a la API
+  // Al montar el componente se hacen las llamadas a la API
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,14 +42,13 @@ const VacanteOPostulaciones: React.FC = () => {
           return;
         }
 
-        // Configurar cabeceras con el token
         const config = {
           headers: {
             Authorization: `Bearer ${auth.token}`
           }
         };
 
-        // 1. Obtener el usuario autenticado (populado con postulaciones en el backend)
+        // 1. Obtener el usuario autenticado (con sus postulaciones pobladas)
         const { data: usuarioData } = await clienteAxios.get('/usuario/me', config);
         setUsuario(usuarioData);
 
@@ -71,24 +68,45 @@ const VacanteOPostulaciones: React.FC = () => {
     fetchData();
   }, [auth.token]);
 
-  // Funciones para editar o eliminar vacantes
+  // Función para editar vacantes (solo para reclutadores)
   const handleEditVacante = async (id: string) => {
     console.log('Editar vacante:', id);
-    // Podrías abrir un modal para editar o hacer otra llamada a la API
+    // Aquí podrías abrir un modal o hacer otra llamada a la API para editar
   };
 
+  // Función para eliminar vacantes (para reclutadores)
   const handleDeleteVacante = async (id: string) => {
     if (!auth.token) return;
     try {
-      // Llamada DELETE a la API
       await clienteAxios.delete(`/vacantes/${id}`, {
         headers: { Authorization: `Bearer ${auth.token}` }
       });
-      // Actualizamos la lista de vacantes en el estado
       setVacantes((prev) => prev.filter((v) => v._id !== id));
       console.log('Vacante eliminada correctamente');
     } catch (error) {
       console.error('Error al eliminar la vacante:', error);
+    }
+  };
+
+  // Función para eliminar la postulación (para usuarios postulantes)
+  const handleDeletePostulacion = async (id: string) => {
+    if (!auth.token) return;
+    try {
+      // Se asume que este endpoint elimina la postulación del usuario a la vacante indicada
+      await clienteAxios.delete(`/vacantes/${id}/postular`, {
+        headers: { Authorization: `Bearer ${auth.token}` }
+      });
+      // Actualiza el estado eliminando la postulación eliminada
+      setUsuario((prevUsuario) => {
+        if (!prevUsuario) return prevUsuario;
+        return {
+          ...prevUsuario,
+          postulaciones: prevUsuario.postulaciones?.filter((vac) => vac._id !== id)
+        };
+      });
+      console.log('Postulación eliminada correctamente');
+    } catch (error) {
+      console.error('Error al eliminar la postulación:', error);
     }
   };
 
@@ -100,7 +118,7 @@ const VacanteOPostulaciones: React.FC = () => {
     return <p>No se pudo cargar la información del usuario.</p>;
   }
 
-  // Si es reclutador, mostramos las vacantes
+  // Si es reclutador, mostramos la lista de vacantes
   if (usuario.esReclutador) {
     return (
       <VacanteList
@@ -110,10 +128,11 @@ const VacanteOPostulaciones: React.FC = () => {
       />
     );
   } else {
-    // Caso: usuario postulante
+    // Caso: usuario postulante, mostramos las postulaciones con opción de eliminación
     return (
       <PostulacionesList
         postulaciones={usuario.postulaciones || []}
+        onDelete={handleDeletePostulacion}
       />
     );
   }

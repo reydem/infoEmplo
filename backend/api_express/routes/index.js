@@ -40,6 +40,9 @@ const routes = () => {
     
     /* Postulación a una vacante  ✅ */
     router.post('/vacantes/:idVacante/postular', auth, vacantesController.postularVacante);
+    router.delete('/vacantes/:idVacante/postular', auth, vacantesController.eliminarPostulacion);
+
+
 
     /** OFERTAS ✅ */
     router.post('/ofertas/nuevo/:idUsuario', ofertasController.nuevaOferta);

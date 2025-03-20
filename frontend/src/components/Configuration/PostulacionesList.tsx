@@ -1,5 +1,6 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Configuration/PostulacionesList.tsx
 import React from 'react';
+import { Trash } from 'lucide-react';
 
 interface Vacante {
   _id: string;
@@ -10,13 +11,11 @@ interface Vacante {
 
 interface PostulacionesListProps {
   postulaciones: Vacante[];
-  onEdit?: (id: string) => void;
   onDelete?: (id: string) => void;
 }
 
 const PostulacionesList: React.FC<PostulacionesListProps> = ({
   postulaciones,
-  onEdit,
   onDelete
 }) => {
   return (
@@ -47,22 +46,13 @@ const PostulacionesList: React.FC<PostulacionesListProps> = ({
               </div>
             </div>
             <div className="flex space-x-2">
-              {onEdit && (
-                <button
-                  onClick={() => onEdit(vac._id)}
-                  className="px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition"
-                >
-                  Editar
-                </button>
-              )}
-              {onDelete && (
-                <button
-                  onClick={() => onDelete(vac._id)}
-                  className="px-3 py-1.5 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition"
-                >
-                  Eliminar
-                </button>
-              )}
+              <button
+                onClick={() => onDelete && onDelete(vac._id)}
+                className="flex items-center px-3 py-1.5 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition"
+              >
+                <Trash className="w-4 h-4 mr-1" />
+                Eliminar
+              </button>
             </div>
           </div>
         ))

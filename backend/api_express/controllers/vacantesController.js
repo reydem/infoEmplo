@@ -182,3 +182,25 @@ export const postularVacante = async (req, res, next) => {
       res.status(500).json({ mensaje: '❌ Hubo un error al postularse' });
   }
 };
+
+// /webapps/infoEmplo-venv/infoEmplo/backend/api_express/controllers/vacantesController.js
+
+export const eliminarPostulacion = async (req, res) => {
+  try {
+    // Verificar si el usuario está autenticado
+    if (!req.usuario) {
+      return res.status(401).json({ mensaje: '❌ Debes iniciar sesión para eliminar la postulación' });
+    }
+
+    // Remover la vacante de la lista de postulaciones del usuario
+    await Usuarios.findByIdAndUpdate(req.usuario.id, {
+      $pull: { postulaciones: req.params.idVacante }
+    });
+
+    return res.json({ mensaje: '✅ Se ha eliminado la postulación de tu lista' });
+  } catch (error) {
+    console.error('Error al eliminar la postulación:', error);
+    return res.status(500).json({ mensaje: '❌ Hubo un error al eliminar la postulación' });
+  }
+};
+
