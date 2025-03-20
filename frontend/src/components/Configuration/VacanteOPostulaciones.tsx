@@ -1,6 +1,6 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Configuration/VacanteOPostulaciones.tsx
 
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { CRMContext } from '../../context/CRMContext';
 import clienteAxios from '../../config/axios';
 import VacanteList from './VacanteList';
@@ -32,41 +32,62 @@ const VacanteOPostulaciones: React.FC = () => {
   const [vacantes, setVacantes] = useState<Vacante[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Al montar el componente se hacen las llamadas a la API
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (!auth.token) {
-          console.warn('No hay token, no se puede cargar data');
-          setLoading(false);
-          return;
-        }
-
-        const config = {
-          headers: {
-            Authorization: `Bearer ${auth.token}`
-          }
-        };
-
-        // 1. Obtener el usuario autenticado (con sus postulaciones pobladas)
-        const { data: usuarioData } = await clienteAxios.get('/usuario/me', config);
-        setUsuario(usuarioData);
-
-        // 2. Si es reclutador, obtener la lista de vacantes
-        if (usuarioData.esReclutador) {
-          const { data: vacantesData } = await clienteAxios.get('/vacantes', config);
-          setVacantes(vacantesData);
-        }
-
-      } catch (error) {
-        console.error('Error al cargar datos:', error);
-      } finally {
+  /**
+   * Función que obtiene el usuario y las vacantes (si es reclutador).
+   * La envolvemos en useCallback para poder llamarla varias veces
+   * sin generar problemas en el useEffect.
+   */
+  const fetchData = useCallback(async () => {
+    try {
+      if (!auth.token) {
+        console.warn('No hay token, no se puede cargar data');
         setLoading(false);
+        return;
       }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${auth.token}`
+        }
+      };
+
+      // 1. Obtener el usuario autenticado (con sus postulaciones pobladas)
+      const { data: usuarioData } = await clienteAxios.get('/usuario/me', config);
+      setUsuario(usuarioData);
+
+      // 2. Si es reclutador, obtener la lista de vacantes
+      if (usuarioData.esReclutador) {
+        const { data: vacantesData } = await clienteAxios.get('/vacantes', config);
+        setVacantes(vacantesData);
+      }
+
+    } catch (error) {
+      console.error('Error al cargar datos:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [auth.token]);
+
+  // Al montar el componente:
+  //  - Obtenemos data
+  //  - Nos suscribimos al evento "vacanteCreada" para recargar la lista
+  useEffect(() => {
+    // Llamamos fetchData
+    fetchData();
+
+    // Suscribir al evento "vacanteCreada"
+    const handleVacanteCreada = () => {
+      // Cuando se crea una vacante, recargamos datos
+      fetchData();
     };
 
-    fetchData();
-  }, [auth.token]);
+    window.addEventListener("vacanteCreada", handleVacanteCreada);
+
+    // Cleanup: remover el listener al desmontar
+    return () => {
+      window.removeEventListener("vacanteCreada", handleVacanteCreada);
+    };
+  }, [fetchData]);
 
   // Función para editar vacantes (solo para reclutadores)
   const handleEditVacante = async (id: string) => {
