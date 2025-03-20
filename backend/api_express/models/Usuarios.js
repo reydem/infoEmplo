@@ -41,7 +41,11 @@ const usuariosSchema = new Schema({
     esReclutador: {
         type: Boolean,
         default: false // Si no se marca, el usuario es "no empleado"
-    }
+    },
+    postulaciones: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Vacantes'
+    }]
 }, { timestamps: true });
 
 export default mongoose.model('Usuarios', usuariosSchema);

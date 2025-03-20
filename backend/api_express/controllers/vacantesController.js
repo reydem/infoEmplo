@@ -1,5 +1,6 @@
 // /webapps/infoEmplo-venv/infoEmplo/backend/api_express/controllers/vacantesController.js
 import Vacantes from '../models/Vacantes.js';
+import Usuarios from '../models/Usuarios.js'; 
 import multer from 'multer';
 import shortid from 'shortid';
 import path from 'path';
@@ -168,9 +169,12 @@ export const postularVacante = async (req, res, next) => {
           return res.status(400).json({ mensaje: '⚠️ Ya te has postulado a esta vacante' });
       }
 
-      // Agregar el usuario a la lista de postulantes
+      // Agregar el usuario a la lista de postulantes de la vacante
       vacante.postulantes.push(req.usuario.id);
       await vacante.save();
+
+      // (Opcional) Agregar la vacante al arreglo de postulaciones del usuario
+      await Usuarios.findByIdAndUpdate(req.usuario.id, { $push: { postulaciones: vacante._id } });
 
       res.json({ mensaje: '✅ Te has postulado exitosamente a la vacante' });
   } catch (error) {
