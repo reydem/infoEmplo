@@ -1,24 +1,12 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Configuration/UserSession.tsx
 import React, { Component } from 'react';
-import { CRMContext } from '../../context/CRMContext';
+import { CRMContext, CRMContextType } from '../../context/CRMContext';
 import clienteAxios from '../../config/axios';
 import { AxiosError } from 'axios';
 import VacantesSession from './VacantesSession';
 import Modal from './Modal';
 import VacanteOPostulaciones from './VacanteOPostulaciones';
 
-interface Usuario {
-    _id: string;
-    nombre: string;
-    primerApellido: string;
-    segundoApellido: string;
-    correo: string;
-    telefono: string;
-    esReclutador: boolean;
-    hojaVida?: string;
-    fotoPerfil?: string;
-    postulaciones?: Vacante[];
-}
 
 interface ErrorResponse {
     mensaje?: string;
@@ -36,8 +24,11 @@ interface UserSessionState {
     vacanteToEdit: Vacante | null;
 }
 
+
+
 export class UserSession extends Component<{}, UserSessionState> {
     static contextType = CRMContext;
+    declare context: CRMContextType; // <-- le dices a TS que this.context es de tipo CRMContextType
     
     state: UserSessionState = {
         vacantes: [],

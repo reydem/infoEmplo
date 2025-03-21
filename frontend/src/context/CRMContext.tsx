@@ -15,8 +15,10 @@ interface Usuario {
   // etc...
 }
 
+
+
 // Define el estado de autenticación con la propiedad "user"
-interface AuthState {
+export interface AuthState {
   token: string;
   auth: boolean;
   esReclutador: boolean;
@@ -25,10 +27,12 @@ interface AuthState {
 }
 
 // Define el tipo del contexto (array con [state, setState])
-type CRMContextType = [AuthState, Dispatch<SetStateAction<AuthState>>];
+export type CRMContextType = [AuthState, React.Dispatch<React.SetStateAction<AuthState>>];
+
 
 // Crea el contexto con un valor inicial opcional
 const CRMContext = React.createContext<CRMContextType | undefined>(undefined);
+
 
 // Define las propiedades del proveedor
 const CRMProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
