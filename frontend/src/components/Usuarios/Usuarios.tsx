@@ -108,7 +108,8 @@ const Usuarios: React.FC = () => {
                         <div className="ml-6 flex-1 text-sm">
                           <div className="font-medium text-gray-900 sm:flex sm:justify-between">
                             <h5>{usuario.correo}</h5>
-                            <p className="mt-2 sm:mt-0">{usuario.telefono}</p>
+                            <p className="mt-2 sm:mt-0 text-base font-bold"><samp className="text-base font-light">Teléfono de contacto: </samp>{usuario.telefono}</p>
+                            
                           </div>
                         </div>
                       </div>
@@ -118,7 +119,7 @@ const Usuarios: React.FC = () => {
                     <div className="flex items-center">
                       <CheckCircleIcon aria-hidden="true" className="size-5 text-green-500" />
                       <p className="ml-2 text-sm font-medium text-gray-500">
-                        Delivered on{' '}
+                      Fecha de publicación {' '}
                         <time dateTime={usuario.createdAt}>
                           {new Date(usuario.createdAt).toLocaleDateString('es-ES')}
                         </time>

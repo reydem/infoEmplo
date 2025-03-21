@@ -138,7 +138,7 @@ function Vacantes() {
                                                 <div className="ml-6 flex-1 text-sm">
                                                     <div className="font-medium text-gray-900 sm:flex sm:justify-between">
                                                         <h5>{vacante.titulo}</h5>
-                                                        <p className="mt-2 sm:mt-0">${vacante.salario_ofrecido}</p>
+                                                        <p className="mt-2 sm:mt-0 text-base font-bold"><samp className="text-base font-light">Salario a pagar: </samp>${vacante.salario_ofrecido}</p>
                                                     </div>
                                                     <p className="hidden text-gray-500 sm:mt-2 sm:block">
                                                         {vacante.descripcion}
@@ -152,7 +152,7 @@ function Vacantes() {
                                         <div className="flex items-center">
                                             <CheckCircleIcon aria-hidden="true" className="w-5 h-5 text-green-500" />
                                             <p className="ml-2 text-sm font-medium text-gray-500">
-                                                Delivered on{' '}
+                                            Fecha de publicación{' '}
                                                 <time dateTime={vacante.createdAt}>
                                                     {new Date(vacante.createdAt).toLocaleDateString('es-ES')}
                                                 </time>
