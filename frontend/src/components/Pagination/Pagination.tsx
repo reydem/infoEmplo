@@ -1,5 +1,4 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Pagination/Pagination.tsx
-// /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Pagination/Pagination.tsx
 import React from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 

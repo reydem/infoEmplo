@@ -1,5 +1,4 @@
 // /webapps/infoEmplo-venv/infoEmplo/backend/api_express/controllers/paginationController.js
-// /webapps/infoEmplo-venv/infoEmplo/backend/api_express/controllers/paginationController.js
 import Vacantes from '../models/Vacantes.js';
 import Usuarios from '../models/Usuarios.js';
 
