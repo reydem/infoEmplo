@@ -281,12 +281,12 @@ const Register = () => {
                                         />
                                     </div>
                                     {/* Botón para subir hoja de vida */}
-                                    <div className="flex flex-col items-center border-[1px] border-black rounded-[10px] mt-10 shadow-custom">
+                                    {/* <div className="flex flex-col items-center border-[1px] border-black rounded-[10px] mt-10 shadow-custom">
                                         <label
                                             htmlFor="cv"
                                             className="flex flex-col items-center justify-center w-24 h-24 cursor-pointer border-gray-400 rounded-[10px] bg-slate-300 hover:bg-gray-200"
                                         >
-                                            {/* Ícono SVG diferente */}
+                                           
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 fill="none" viewBox="0 0 24 24"
@@ -298,7 +298,7 @@ const Register = () => {
                                                     strokeLinejoin="round"
                                                     d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12-3-3m0 0-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                                             </svg>
-                                            {/* Texto debajo del ícono */}
+                                            
                                             <span className="mt-2 text-xs text-center font-bold text-black">Agregar hoja de vida</span>
                                         </label>
                                         <input
@@ -307,7 +307,7 @@ const Register = () => {
                                             className="hidden"
                                             onChange={(e) => handleFileChange(e, "hojaVida")}
                                         />
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="ml-4 flex items-center mt-14">
                                     <input
