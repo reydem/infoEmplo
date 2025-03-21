@@ -1,6 +1,7 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Configuration/PostulacionesList.tsx
 import React from 'react';
 import { Trash } from 'lucide-react';
+import Swal from 'sweetalert2';
 
 interface Vacante {
   _id: string;
@@ -18,6 +19,24 @@ const PostulacionesList: React.FC<PostulacionesListProps> = ({
   postulaciones,
   onDelete
 }) => {
+  const handleDelete = (id: string) => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Si eliminas la postulación, no podrás volverte a postularse a esta vacante.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onDelete && onDelete(id);
+        Swal.fire('Eliminado!', 'La postulación ha sido eliminada.', 'success');
+      }
+    });
+  };
+
   return (
     <div className="space-y-6">
       {postulaciones.length > 0 ? (
@@ -47,7 +66,7 @@ const PostulacionesList: React.FC<PostulacionesListProps> = ({
             </div>
             <div className="flex space-x-2">
               <button
-                onClick={() => onDelete && onDelete(vac._id)}
+                onClick={() => handleDelete(vac._id)}
                 className="flex items-center px-3 py-1.5 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition"
               >
                 <Trash className="w-4 h-4 mr-1" />
