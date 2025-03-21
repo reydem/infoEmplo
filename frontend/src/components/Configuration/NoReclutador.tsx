@@ -17,27 +17,34 @@ function NoReclutador({ onPerfilActualizado }: NoReclutadorProps) {
         e.preventDefault();
         const token = localStorage.getItem('token');
         const formData = new FormData();
+      
         formData.append('hojaVida', hojaVida);
         formData.append('telefono', telefono);
         if (fotoPerfil) {
-            formData.append('fotoPerfil', fotoPerfil);
+          formData.append('fotoPerfil', fotoPerfil);
         }
-
+      
         try {
-            const response = await clienteAxios.put('/usuario/update', formData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            console.log(response.data);
-            // Llama al callback para actualizar el estado del usuario en el componente padre
-            onPerfilActualizado(response.data.usuario);
+          const response = await clienteAxios.put('/usuario/update', formData, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          console.log(response.data);
+      
+          // Actualiza el estado en el componente padre
+          onPerfilActualizado(response.data.usuario);
+      
+          // Limpia los campos del formulario
+          setHojaVida('');
+          setTelefono('');
+          setFotoPerfil(null);
+      
         } catch (error) {
-            console.error("Error al actualizar perfil", error);
+          console.error("Error al actualizar perfil", error);
         }
-    };
-
+      };
     return (
         <>
             <div className="max-w-2xl xl:col-span-2 ">
