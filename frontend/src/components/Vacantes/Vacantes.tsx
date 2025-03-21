@@ -20,6 +20,7 @@ interface Vacante {
 
 function Vacantes() {
     const [vacantes, setVacantes] = useState<Vacante[]>([]);
+    const [appliedVacantes, setAppliedVacantes] = useState<string[]>([]);
     const navigate = useNavigate();
 
     const [page, setPage] = useState<number>(1);
@@ -68,7 +69,7 @@ function Vacantes() {
     const handlePostular = (idVacante: string) => {
         Swal.fire({
             title: '¿Confirmas tu postulación?',
-            text: 'Si confirmas, se enviará tu postulación. Si decides no postularte, puedes eliminarla desde el panel de configuración, pero ya no podrás volver a postularte a esta vacante.',
+            text: 'Si confirmas, se enviará tu postulación. Si decides no postularte, podrás eliminarla desde el panel de configuración, pero ya no podrás volver a postularte a esta vacante.',
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Sí, postularme',
@@ -86,7 +87,8 @@ function Vacantes() {
                         title: 'Postulación exitosa',
                         text: response.data.mensaje,
                     });
-                    // Aquí podrías actualizar el estado o refrescar la lista de vacantes si es necesario.
+                    // Se agrega el ID de la vacante al estado de aplicadas
+                    setAppliedVacantes((prev) => [...prev, idVacante]);
                 } catch (error: any) {
                     console.error("Error al postularse:", error);
                     Swal.fire({
@@ -145,7 +147,7 @@ function Vacantes() {
                                             </div>
                                         </li>
                                     </ul>
-                                    {/* Botón de postulación */}
+                                    {/* Sección del botón de postulación */}
                                     <div className="mt-6 sm:flex sm:justify-between mb-3 mx-3">
                                         <div className="flex items-center">
                                             <CheckCircleIcon aria-hidden="true" className="w-5 h-5 text-green-500" />
@@ -157,17 +159,25 @@ function Vacantes() {
                                             </p>
                                         </div>
                                         <div className="lg:flex lg:items-center lg:justify-end">
-                                            <a
-                                                href="#"
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    handlePostular(vacante._id);
-                                                }}
-                                                className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-xs hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                            >
-                                                <span>Postularse</span>
-                                                <span className="sr-only">postularse</span>
-                                            </a>
+                                            {appliedVacantes.includes(vacante._id) ? (
+                                                // Si ya se aplicó, se muestra un check verde y ya no es clickeable
+                                                <div className="flex items-center justify-center rounded-md border border-green-500 bg-white px-2.5 py-2 text-sm font-medium text-green-500 shadow-xs">
+                                                    <CheckCircleIcon aria-hidden="true" className="w-6 h-6" />
+                                                </div>
+                                            ) : (
+                                                // Botón para postularse
+                                                <a
+                                                    href="#"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        handlePostular(vacante._id);
+                                                    }}
+                                                    className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-xs hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                >
+                                                    <span>Postularse</span>
+                                                    <span className="sr-only">postularse</span>
+                                                </a>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
