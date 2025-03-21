@@ -1,13 +1,47 @@
 
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/components/Configuration/noReclutador.tsx
 
-import React from 'react'
+import React, { useState } from 'react';
+import clienteAxios from '../../config/axios';
 
-function NoReclutador() {
+interface NoReclutadorProps {
+    onPerfilActualizado: (usuarioActualizado: any) => void;
+}
+
+function NoReclutador({ onPerfilActualizado }: NoReclutadorProps) {
+    const [hojaVida, setHojaVida] = useState('');
+    const [telefono, setTelefono] = useState('');
+    const [fotoPerfil, setFotoPerfil] = useState<File | null>(null);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const token = localStorage.getItem('token');
+        const formData = new FormData();
+        formData.append('hojaVida', hojaVida);
+        formData.append('telefono', telefono);
+        if (fotoPerfil) {
+            formData.append('fotoPerfil', fotoPerfil);
+        }
+
+        try {
+            const response = await clienteAxios.put('/usuario/update', formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log(response.data);
+            // Llama al callback para actualizar el estado del usuario en el componente padre
+            onPerfilActualizado(response.data.usuario);
+        } catch (error) {
+            console.error("Error al actualizar perfil", error);
+        }
+    };
+
     return (
         <>
             <div className="max-w-2xl xl:col-span-2 ">
-                <div className='pb-10' >
+                <form className='pb-10' onSubmit={handleSubmit}>
 
 
                     <div className=" pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0 mb-3">
@@ -17,39 +51,40 @@ function NoReclutador() {
                             </label>
                             <div className="mt-2 sm:col-span-2 sm:mt-0">
                                 <textarea
-                                    id="about"
-                                    name="about"
+                                    id="hojaVida"
+                                    name="hojaVida"
                                     rows={3}
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:gray-indigo-600"
                                     placeholder="Descripción del puesto"
-                                    // value={descripcion}
-                                    // onChange={(e) => setDescripcion(e.target.value)}
+                                    value={hojaVida}
+                                    onChange={(e) => setHojaVida(e.target.value)}
                                     required
                                 />
                             </div>
                         </div>
                         <div className="sm:grid sm:items-start sm:gap-4 sm:py-6">
                             <label htmlFor="about" className="block text-lg font-bold text-gray-900">
-                            Telefono de contacto:
+                                Telefono de contacto:
                             </label>
                             <div className="sm:col-span-2 sm:mt-0">
                                 <input
-                                    id="first-name"
-                                    name="first-name"
+                                    id="telefono"
+                                    name="telefono"
                                     type="text"
-                                    autoComplete="given-name"
+                                    autoComplete="tel"
                                     className="block w-full rounded-md bg-white  py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:max-w-xs sm:text-sm/6"
-                                    placeholder="Telefono de contacto"
-                                    // value={salario}
-                                    // onChange={(e) => setSalario(e.target.value)}
+                                    placeholder="Teléfono de contacto"
+                                    value={telefono}
+                                    onChange={(e) => setTelefono(e.target.value)}
                                     required
                                 />
                             </div>
-                            {/* {mensaje && <p className="text-sm text-red-500 mt-2">{mensaje}</p>} */}
+
                         </div>
                         <div className="flex flex-col items-center border-[1px] border-black rounded-[10px] shadow-custom w-24 h-24 ">
                             <label
-                                htmlFor="profilePhoto"
+
+                                htmlFor="fotoPerfil"
                                 className="flex flex-col items-center justify-center w-full h-full cursor-pointer border-gray-400 rounded-[10px] bg-slate-300 hover:bg-gray-200"
                             >
                                 <svg
@@ -68,11 +103,11 @@ function NoReclutador() {
                                 </span>
                             </label>
                             <input
-                                id="profilePhoto"
+                                id="fotoPerfil"
                                 type="file"
                                 className="hidden"
                                 accept="image/*"
-                            // onChange={(e) => setImagen(e.target.files?.[0] || null)}
+                                onChange={(e) => setFotoPerfil(e.target.files ? e.target.files[0] : null)}
                             />
                         </div>
                         <div className="mt-6 flex items-center justify-end gap-x-6">
@@ -80,12 +115,12 @@ function NoReclutador() {
                                 type="submit"
                                 className="inline-flex justify-center rounded-md bg-gray-950 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-500"
                             >
-                                {/* {vacanteToEdit && vacanteToEdit._id ? 'Guardar Cambios' : 'Publicar Vacante'} */}
-                                Publicar Hoja de vida
+
+                                Actualizar Perfil
                             </button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </>
     )

@@ -2,7 +2,6 @@
 import React, { Component } from 'react'
 import clienteAxios from '../../config/axios';
 import { AxiosError } from 'axios';
-import VacanteList from './VacanteList';
 import VacantesSession from './VacantesSession';
 import Modal from './Modal';
 import VacanteOPostulaciones from './VacanteOPostulaciones';
@@ -129,9 +128,6 @@ export class UserSession extends Component<{}, UserSessionState> {
         }
     };
 
-
-
-
     handleEditVacante = (idVacante: string) => {
         const vacanteEncontrada = this.state.vacantes.find(v => v._id === idVacante);
         if (vacanteEncontrada) {
@@ -144,14 +140,21 @@ export class UserSession extends Component<{}, UserSessionState> {
         this.setState({ vacanteToEdit: null }); // Cierra el modal al actualizar
     }
 
-
+    handlePerfilActualizado = (usuarioActualizado: Usuario) => {
+        // Sobrescribe el array de usuarios con el usuario recién actualizado
+        this.setState({ users: [usuarioActualizado] });
+    };
 
     render() {
+
+
         return (
 
             <>
-
                 <ul role="list" className="divide-y divide-gray-200 xl:col-span-3 mt-6">
+
+
+
                     {this.state.users.length > 0 ? (
                         this.state.users.map((user) => (
                             <li key={user._id} className="flex flex-col gap-10  first:pt-0 last:pb-0 sm:flex-row mb-3">
@@ -170,9 +173,15 @@ export class UserSession extends Component<{}, UserSessionState> {
                                     </p>
                                     <p className="text-base/7 text-gray-600">Correo: {user.correo}</p>
                                     <p className="text-base/7 text-gray-600">Teléfono: {user.telefono}</p>
-                                    <p className="text-base/7 text-gray-600">Hoja de Vida: {user.hojaVida ? "Disponible" : "No disponible"}</p>
+                                    <p className="text-base/7 text-gray-600">
+                                        Hoja de Vida:
+                                        {user.hojaVida?.length && user.hojaVida.length > 100
+                                            ? user.hojaVida.substring(0, 100) + "..."
+                                            : user.hojaVida ?? "Sin Hoja de Vida"}
+                                    </p>
 
-                                    
+
+
 
                                     <ul role="list" className="mt-6 flex gap-x-6 mb-3">
                                         <li>
@@ -197,7 +206,7 @@ export class UserSession extends Component<{}, UserSessionState> {
                                         </li>
                                     </ul>
                                 </div>
-                                
+
 
                             </li>
 
@@ -207,7 +216,7 @@ export class UserSession extends Component<{}, UserSessionState> {
                     )}
                     {/* Renderiza la lista de vacantes */}
                     <div className="col-span-3 p-4 overflow-y-auto">
-                    <VacanteOPostulaciones onEditVacante={this.handleEditVacante} />
+                        <VacanteOPostulaciones onEditVacante={this.handleEditVacante} />
 
                     </div>
 
@@ -215,7 +224,7 @@ export class UserSession extends Component<{}, UserSessionState> {
 
                 {/* Modal para editar la vacante */}
                 <Modal isOpen={this.state.vacanteToEdit !== null} onClose={this.handleCloseModal}>
-                <VacantesSession vacanteToEdit={this.state.vacanteToEdit} onVacanteUpdated={this.handleVacanteUpdated} />
+                    <VacantesSession vacanteToEdit={this.state.vacanteToEdit} onVacanteUpdated={this.handleVacanteUpdated} />
                 </Modal>
             </>
         )

@@ -137,3 +137,34 @@ export const obtenerUsuarioAutenticado = async (req, res) => {
         res.status(500).json({ mensaje: '❌ Error interno del servidor' });
     }
 };
+
+export const actualizarPerfil = async (req, res) => {
+    try {
+        const { telefono, hojaVida } = req.body;
+        let fotoPerfil = null;
+
+        // Manejo de archivo de fotoPerfil si se envía
+        if (req.files?.find(file => file.fieldname === 'fotoPerfil')) {
+            fotoPerfil = path.basename(req.files.find(file => file.fieldname === 'fotoPerfil').path);
+        }
+
+        const updateData = { telefono, hojaVida };
+        if (fotoPerfil) updateData.fotoPerfil = fotoPerfil;
+
+        // Se utiliza el id del usuario autenticado, que el middleware ya coloca en req.usuario
+        const usuarioActualizado = await Usuarios.findByIdAndUpdate(
+            req.usuario.id,
+            updateData,
+            { new: true }
+        );
+
+        if (!usuarioActualizado) {
+            return res.status(404).json({ mensaje: '❌ Usuario no encontrado' });
+        }
+
+        res.json({ mensaje: '✅ Perfil actualizado', usuario: usuarioActualizado });
+    } catch (error) {
+        console.error("❌ Error actualizando perfil:", error);
+        res.status(500).json({ mensaje: '❌ Error al actualizar perfil' });
+    }
+};

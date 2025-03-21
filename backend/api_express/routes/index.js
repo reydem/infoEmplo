@@ -57,6 +57,7 @@ const routes = () => {
     router.post('/iniciar-sesion', usuariosController.autenticarUsuario);
     router.get('/usuarios', usuariosController.obtenerUsuarios);
     router.get('/usuario/me', auth, usuariosController.obtenerUsuarioAutenticado);
+    router.put('/usuario/update', auth, vacantesController.subirArchivo, usuariosController.actualizarPerfil);
 
     return router;
 };
