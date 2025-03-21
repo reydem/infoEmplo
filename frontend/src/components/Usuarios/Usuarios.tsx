@@ -15,6 +15,7 @@ interface Usuario {
   fotoPerfil: string;
   telefono: string;
   esReclutador: boolean;
+  createdAt: string; // Agregamos la propiedad para la fecha de creación
 }
 
 const Usuarios: React.FC = () => {
@@ -117,7 +118,10 @@ const Usuarios: React.FC = () => {
                     <div className="flex items-center">
                       <CheckCircleIcon aria-hidden="true" className="size-5 text-green-500" />
                       <p className="ml-2 text-sm font-medium text-gray-500">
-                        Delivered on <time ></time>
+                        Delivered on{' '}
+                        <time dateTime={usuario.createdAt}>
+                          {new Date(usuario.createdAt).toLocaleDateString('es-ES')}
+                        </time>
                       </p>
                     </div>
                     <div className="hidden lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:space-x-4">

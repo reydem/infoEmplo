@@ -26,6 +26,6 @@ const vacantesSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuarios'
     }]
-});
+},{ timestamps: true });
 
 export default mongoose.model('Vacantes', vacantesSchema);

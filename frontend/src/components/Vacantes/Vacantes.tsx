@@ -14,6 +14,7 @@ interface Vacante {
     salario_ofrecido: number;
     imagen_empresa?: string;
     descripcion?: string;
+    createdAt: string; // Agregamos la propiedad para la fecha de creación
 }
 
 function Vacantes() {
@@ -128,7 +129,10 @@ function Vacantes() {
                                         <div className="flex items-center">
                                             <CheckCircleIcon aria-hidden="true" className="w-5 h-5 text-green-500" />
                                             <p className="ml-2 text-sm font-medium text-gray-500">
-                                                Delivered on <time></time>
+                                                Delivered on{' '}
+                                                <time dateTime={vacante.createdAt}>
+                                                    {new Date(vacante.createdAt).toLocaleDateString('es-ES')}
+                                                </time>
                                             </p>
                                         </div>
                                         <div className="lg:flex lg:items-center lg:justify-end">
