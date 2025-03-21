@@ -2,6 +2,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import clienteAxios from '../../config/axios';
+import Swal from 'sweetalert2';
 import Spinner from '../layout/Spinner';
 import { CRMContext } from '../../context/CRMContext';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
@@ -14,7 +15,7 @@ interface Vacante {
     salario_ofrecido: number;
     imagen_empresa?: string;
     descripcion?: string;
-    createdAt: string; // Agregamos la propiedad para la fecha de creación
+    createdAt: string; // Fecha de creación
 }
 
 function Vacantes() {
@@ -37,9 +38,10 @@ function Vacantes() {
         if (auth.token !== '') {
             const consultarAPI = async () => {
                 try {
-                    const response = await clienteAxios.get(`/vacantes/pagination?page=${page}&limit=${limit}`, {
-                        headers: { Authorization: `Bearer ${auth.token}` },
-                    });
+                    const response = await clienteAxios.get(
+                        `/vacantes/pagination?page=${page}&limit=${limit}`, 
+                        { headers: { Authorization: `Bearer ${auth.token}` } }
+                    );
                     setVacantes(response.data.data);
                     setTotalPages(response.data.totalPages);
                     setTotalDocs(response.data.totalDocs);
@@ -62,20 +64,39 @@ function Vacantes() {
 
     if (!vacantes.length) return <Spinner />;
 
-    // Función para postularse a una vacante
-    const handlePostular = async (idVacante: string) => {
-        try {
-            const response = await clienteAxios.post(
-                `/vacantes/${idVacante}/postular`, // <--- Ajustar a la ruta del back
-                {},
-                { headers: { Authorization: `Bearer ${auth.token}` } }
-            );
-            alert(response.data.mensaje); // Notifica al usuario
-            // Aquí podrías actualizar el estado o refrescar la lista de vacantes si es necesario.
-        } catch (error: any) {
-            console.error("Error al postularse:", error);
-            alert(error.response?.data.mensaje || "Error al postularse");
-        }
+    // Función para postularse a una vacante con confirmación de SweetAlert2
+    const handlePostular = (idVacante: string) => {
+        Swal.fire({
+            title: '¿Confirmas tu postulación?',
+            text: 'Si confirmas, se enviará tu postulación. Si decides no postularte, puedes eliminarla desde el panel de configuración, pero ya no podrás volver a postularte a esta vacante.',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, postularme',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await clienteAxios.post(
+                        `/vacantes/${idVacante}/postular`, // Ajusta la ruta según tu backend
+                        {},
+                        { headers: { Authorization: `Bearer ${auth.token}` } }
+                    );
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Postulación exitosa',
+                        text: response.data.mensaje,
+                    });
+                    // Aquí podrías actualizar el estado o refrescar la lista de vacantes si es necesario.
+                } catch (error: any) {
+                    console.error("Error al postularse:", error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al postularse',
+                        text: error.response?.data.mensaje || "Error al postularse",
+                    });
+                }
+            }
+        });
     };
 
     return (
