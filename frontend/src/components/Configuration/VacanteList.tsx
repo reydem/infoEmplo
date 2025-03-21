@@ -1,4 +1,5 @@
 import React from 'react';
+import Swal from 'sweetalert2';
 import { Pencil, Trash } from 'lucide-react';
 
 interface Vacante {
@@ -15,6 +16,26 @@ interface VacanteListProps {
 }
 
 const VacanteList: React.FC<VacanteListProps> = ({ vacantes = [], onEdit, onDelete }) => {
+    // Función para confirmar la eliminación usando SweetAlert2
+    const handleDelete = (id: string) => {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarla',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Llama al callback onDelete si existe
+                onDelete && onDelete(id);
+                Swal.fire('Eliminado!', 'La vacante ha sido eliminada.', 'success');
+            }
+        });
+    };
+
     return (
         <div className="space-y-6">
             {vacantes.length > 0 ? (
@@ -26,9 +47,10 @@ const VacanteList: React.FC<VacanteListProps> = ({ vacantes = [], onEdit, onDele
                         <div className="flex items-center space-x-4">
                             <img
                                 alt={vacante.titulo}
-                                src={vacante.imagen_empresa
-                                    ? `http://localhost:5000/uploads/${vacante.imagen_empresa}`
-                                    : "https://via.placeholder.com/150"
+                                src={
+                                    vacante.imagen_empresa
+                                        ? `http://localhost:5000/uploads/${vacante.imagen_empresa}`
+                                        : "https://via.placeholder.com/150"
                                 }
                                 className="size-14 bg-gray-50 mt-3"
                             />
@@ -51,7 +73,7 @@ const VacanteList: React.FC<VacanteListProps> = ({ vacantes = [], onEdit, onDele
                                 Editar
                             </button>
                             <button
-                                onClick={() => onDelete && onDelete(vacante._id)}
+                                onClick={() => handleDelete(vacante._id)}
                                 className="flex items-center px-3 py-1.5 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition"
                             >
                                 <Trash className="w-4 h-4 mr-1" />
@@ -65,6 +87,6 @@ const VacanteList: React.FC<VacanteListProps> = ({ vacantes = [], onEdit, onDele
             )}
         </div>
     );
-}
+};
 
 export default VacanteList;
