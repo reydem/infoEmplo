@@ -1,18 +1,33 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/context/CRMContext.tsx
 import React, { useState, Dispatch, SetStateAction } from 'react';
 
-// Define el estado de autenticación
+// (Opcional) Si quieres tipar el usuario más a detalle, puedes definirlo aquí
+interface Usuario {
+  _id?: string;
+  nombre?: string;
+  primerApellido?: string;
+  segundoApellido?: string;
+  correo?: string;
+  telefono?: string;
+  esReclutador?: boolean;
+  hojaVida?: string;
+  fotoPerfil?: string;
+  // etc...
+}
+
+// Define el estado de autenticación con la propiedad "user"
 interface AuthState {
   token: string;
   auth: boolean;
-  esReclutador: boolean; // <-- Agregamos la propiedad
-  correo:string;
+  esReclutador: boolean;
+  correo: string;
+  user?: Usuario;  // <-- se agrega esta propiedad
 }
 
-// Define el tipo del contexto
+// Define el tipo del contexto (array con [state, setState])
 type CRMContextType = [AuthState, Dispatch<SetStateAction<AuthState>>];
 
-// Crea el contexto con un tipo inicial opcional
+// Crea el contexto con un valor inicial opcional
 const CRMContext = React.createContext<CRMContextType | undefined>(undefined);
 
 // Define las propiedades del proveedor
@@ -21,8 +36,9 @@ const CRMProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
   const [auth, guardarAuth] = useState<AuthState>({
     token: '',
     auth: false,
-    esReclutador: false, // <-- Valor inicial
-    correo:'',
+    esReclutador: false,
+    correo: '',
+    user: undefined, // Valor inicial de user
   });
 
   return (

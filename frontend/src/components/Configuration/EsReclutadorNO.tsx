@@ -10,13 +10,14 @@ function EsReclutadorNO() {
   const crmContextValue = useContext(CRMContext);
   if (!crmContextValue) return null;
 
-  const [auth] = crmContextValue;
+  // Desestructuramos ambos valores para poder usar setAuth
+  const [auth, setAuth] = crmContextValue;
 
   // Callback que se ejecuta cuando se actualiza el perfil de un postulante
   const handlePerfilActualizado = (usuarioActualizado: any) => {
     console.log("Perfil actualizado:", usuarioActualizado);
-    // Si deseas guardar la info en tu contexto global:
-    // setAuth({ ...auth, user: usuarioActualizado });
+    // Actualiza el estado global en el contexto
+    setAuth({ ...auth, user: usuarioActualizado });
   };
 
   // Callback para cuando se actualice la vacante (ejemplo)
@@ -28,7 +29,7 @@ function EsReclutadorNO() {
   // Dependiendo de si es reclutador o no, renderizamos el componente correspondiente
   return auth.esReclutador ? (
     <EsReclutador
-      vacanteToEdit={{}}            // Ajusta esto según tu lógica o estado actual
+      vacanteToEdit={{}}  // Ajusta esto según tu lógica o estado actual
       handleVacanteUpdated={handleVacanteUpdated}
     />
   ) : (
@@ -37,3 +38,4 @@ function EsReclutadorNO() {
 }
 
 export default EsReclutadorNO;
+
