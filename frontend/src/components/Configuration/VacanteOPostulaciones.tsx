@@ -22,7 +22,11 @@ interface Usuario {
   postulaciones?: Vacante[];
 }
 
-const VacanteOPostulaciones: React.FC = () => {
+interface VacanteOPostulacionesProps {
+  onEditVacante: (id: string) => void;
+}
+
+const VacanteOPostulaciones: React.FC<VacanteOPostulacionesProps> = ({ onEditVacante }) => {
   const crmContext = useContext(CRMContext);
   if (!crmContext) return null;
   const [auth] = crmContext;
@@ -34,8 +38,6 @@ const VacanteOPostulaciones: React.FC = () => {
 
   /**
    * Función que obtiene el usuario y las vacantes (si es reclutador).
-   * La envolvemos en useCallback para poder llamarla varias veces
-   * sin generar problemas en el useEffect.
    */
   const fetchData = useCallback(async () => {
     try {
@@ -68,32 +70,20 @@ const VacanteOPostulaciones: React.FC = () => {
     }
   }, [auth.token]);
 
-  // Al montar el componente:
-  //  - Obtenemos data
-  //  - Nos suscribimos al evento "vacanteCreada" para recargar la lista
   useEffect(() => {
-    // Llamamos fetchData
     fetchData();
 
     // Suscribir al evento "vacanteCreada"
     const handleVacanteCreada = () => {
-      // Cuando se crea una vacante, recargamos datos
       fetchData();
     };
 
     window.addEventListener("vacanteCreada", handleVacanteCreada);
 
-    // Cleanup: remover el listener al desmontar
     return () => {
       window.removeEventListener("vacanteCreada", handleVacanteCreada);
     };
   }, [fetchData]);
-
-  // Función para editar vacantes (solo para reclutadores)
-  const handleEditVacante = async (id: string) => {
-    console.log('Editar vacante:', id);
-    // Aquí podrías abrir un modal o hacer otra llamada a la API para editar
-  };
 
   // Función para eliminar vacantes (para reclutadores)
   const handleDeleteVacante = async (id: string) => {
@@ -113,11 +103,9 @@ const VacanteOPostulaciones: React.FC = () => {
   const handleDeletePostulacion = async (id: string) => {
     if (!auth.token) return;
     try {
-      // Se asume que este endpoint elimina la postulación del usuario a la vacante indicada
       await clienteAxios.delete(`/vacantes/${id}/postular`, {
         headers: { Authorization: `Bearer ${auth.token}` }
       });
-      // Actualiza el estado eliminando la postulación eliminada
       setUsuario((prevUsuario) => {
         if (!prevUsuario) return prevUsuario;
         return {
@@ -144,7 +132,7 @@ const VacanteOPostulaciones: React.FC = () => {
     return (
       <VacanteList
         vacantes={vacantes}
-        onEdit={handleEditVacante}
+        onEdit={onEditVacante} // Se utiliza la función pasada desde el padre
         onDelete={handleDeleteVacante}
       />
     );

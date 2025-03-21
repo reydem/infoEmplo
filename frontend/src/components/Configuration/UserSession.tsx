@@ -207,7 +207,8 @@ export class UserSession extends Component<{}, UserSessionState> {
                     )}
                     {/* Renderiza la lista de vacantes */}
                     <div className="col-span-3 p-4 overflow-y-auto">
-                    <VacanteOPostulaciones vacantes={this.state.vacantes} />
+                    <VacanteOPostulaciones onEditVacante={this.handleEditVacante} />
+
                     </div>
 
                 </ul>
