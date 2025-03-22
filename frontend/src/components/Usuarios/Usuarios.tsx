@@ -14,6 +14,7 @@ interface Usuario {
   correo: string;
   fotoPerfil: string;
   telefono: string;
+  hojaVida: string;
   esReclutador: boolean;
   createdAt: string; // Agregamos la propiedad para la fecha de creación
 }
@@ -99,9 +100,9 @@ const Usuarios: React.FC = () => {
                             alt={`${usuario.nombre}`}
                             src={
                               usuario.fotoPerfil
-                                  ? `http://localhost:5000/uploads/${usuario.fotoPerfil}`
-                                  : "https://via.placeholder.com/150"
-                          }
+                                ? `http://localhost:5000/uploads/${usuario.fotoPerfil}`
+                                : "https://via.placeholder.com/150"
+                            }
                             className="size-full object-cover"
                           />
                         </div>
@@ -109,8 +110,10 @@ const Usuarios: React.FC = () => {
                           <div className="font-medium text-gray-900 sm:flex sm:justify-between">
                             <h5>{usuario.correo}</h5>
                             <p className="mt-2 sm:mt-0 text-base font-bold"><samp className="text-base font-light">Teléfono de contacto: </samp>{usuario.telefono}</p>
-                            
                           </div>
+                          <p className="hidden text-gray-500 sm:mt-2 sm:block">
+                            {usuario.hojaVida}
+                          </p>
                         </div>
                       </div>
                     </li>
@@ -119,7 +122,7 @@ const Usuarios: React.FC = () => {
                     <div className="flex items-center">
                       <CheckCircleIcon aria-hidden="true" className="size-5 text-green-500" />
                       <p className="ml-2 text-sm font-medium text-gray-500">
-                      Fecha de publicación {' '}
+                        Fecha de publicación {' '}
                         <time dateTime={usuario.createdAt}>
                           {new Date(usuario.createdAt).toLocaleDateString('es-ES')}
                         </time>
