@@ -27,7 +27,9 @@ const VacanteList: React.FC<VacanteListProps> = ({ vacantes = [], onEdit, onDele
   // Calcula las vacantes que se mostrarán en la página actual
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
-  const paginatedVacantes = vacantes.slice(startIndex, endIndex);
+  const reversedVacantes = [...vacantes].reverse();
+  const paginatedVacantes = reversedVacantes.slice(startIndex, endIndex);
+
 
   // Función para confirmar la eliminación usando SweetAlert2
   const handleDelete = (id: string) => {
