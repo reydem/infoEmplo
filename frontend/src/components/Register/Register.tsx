@@ -73,14 +73,17 @@ const Register = () => {
                     "Content-Type": "multipart/form-data",
                 },
             });
-
+        
             Swal.fire({
                 icon: 'success',
                 title: 'Registro exitoso',
-                text: response.data.mensaje || 'Será redirigido a la dashboard de infoEmpleo',
+                text: response.data.mensaje || 'Por favor, inicie sesión',
+                confirmButtonText: 'Iniciar sesión'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate("/login");
+                }
             });
-
-            navigate("/");
         } catch (error: any) {
             Swal.fire({
                 icon: 'error',

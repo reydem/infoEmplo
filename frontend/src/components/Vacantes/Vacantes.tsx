@@ -26,7 +26,7 @@ function Vacantes() {
     const [page, setPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [totalDocs, setTotalDocs] = useState<number>(0);
-    const limit: number = 3;
+    const limit: number = 5;
 
     // Usar el contexto
     const crmContext = useContext(CRMContext);
