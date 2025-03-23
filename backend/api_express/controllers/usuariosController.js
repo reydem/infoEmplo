@@ -123,20 +123,24 @@ export const autenticarUsuario = async (req, res) => {
 // 📌 Obtener el usuario autenticado
 export const obtenerUsuarioAutenticado = async (req, res) => {
     try {
-        const usuario = await Usuarios.findById(req.usuario.id)
-            .select('-password')          // Excluye la contraseña
-            .populate('postulaciones');   // Populate de las vacantes referenciadas
-
-        if (!usuario) {
-            return res.status(404).json({ mensaje: '❌ Usuario no encontrado' });
-        }
-
-        res.json(usuario);
+      const usuario = await Usuarios.findById(req.usuario.id)
+        .select('-password') // Excluir la contraseña
+        .populate({
+          path: 'postulaciones.vacante',  // Populamos el campo anidado
+          select: 'titulo salario_ofrecido imagen_empresa createdAt' // Selecciona los campos que necesites
+        });
+  
+      if (!usuario) {
+        return res.status(404).json({ mensaje: '❌ Usuario no encontrado' });
+      }
+  
+      res.json(usuario);
     } catch (error) {
-        console.error("❌ Error al obtener usuario autenticado:", error);
-        res.status(500).json({ mensaje: '❌ Error interno del servidor' });
+      console.error("❌ Error al obtener usuario autenticado:", error);
+      res.status(500).json({ mensaje: '❌ Error interno del servidor' });
     }
-};
+  };
+  
 
 export const actualizarPerfil = async (req, res) => {
     try {

@@ -12,6 +12,10 @@ interface Vacante {
   descripcion: string;
   imagen_empresa?: string;
 }
+interface Postulacion {
+  vacante: Vacante;
+  estado: 'aplicado' | 'cancelado';
+}
 
 interface Usuario {
   _id: string;
@@ -19,7 +23,8 @@ interface Usuario {
   primerApellido: string;
   segundoApellido: string;
   esReclutador: boolean;
-  postulaciones?: Vacante[];
+  postulaciones?: Postulacion[]; // <-- en lugar de Vacante[]
+
 }
 
 interface VacanteOPostulacionesProps {
@@ -110,7 +115,9 @@ const VacanteOPostulaciones: React.FC<VacanteOPostulacionesProps> = ({ onEditVac
         if (!prevUsuario) return prevUsuario;
         return {
           ...prevUsuario,
-          postulaciones: prevUsuario.postulaciones?.filter((vac) => vac._id !== id)
+          postulaciones: prevUsuario.postulaciones?.filter(
+            (post) => post.vacante._id !== id
+          ),
         };
       });
       console.log('Postulación eliminada correctamente');
@@ -118,6 +125,7 @@ const VacanteOPostulaciones: React.FC<VacanteOPostulacionesProps> = ({ onEditVac
       console.error('Error al eliminar la postulación:', error);
     }
   };
+
 
   if (loading) {
     return <p>Cargando datos...</p>;
@@ -143,6 +151,7 @@ const VacanteOPostulaciones: React.FC<VacanteOPostulacionesProps> = ({ onEditVac
         postulaciones={usuario.postulaciones || []}
         onDelete={handleDeletePostulacion}
       />
+
     );
   }
 };

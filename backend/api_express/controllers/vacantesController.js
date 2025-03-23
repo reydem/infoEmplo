@@ -151,37 +151,45 @@ export const eliminarVacante = async (req, res, next) => {
   }
 };
 
+// /webapps/infoEmplo-venv/infoEmplo/backend/api_express/controllers/vacantesController.js
 export const postularVacante = async (req, res, next) => {
   try {
-      // Verificar si el usuario está autenticado
-      if (!req.usuario) {
-          return res.status(401).json({ mensaje: '❌ Debes iniciar sesión para postularte' });
-      }
+    // Verificar si el usuario está autenticado
+    if (!req.usuario) {
+      return res.status(401).json({ mensaje: '❌ Debes iniciar sesión para postularte' });
+    }
 
-      const vacante = await Vacantes.findById(req.params.idVacante);
+    const vacante = await Vacantes.findById(req.params.idVacante);
 
-      if (!vacante) {
-          return res.status(404).json({ mensaje: '❌ La vacante no existe' });
-      }
+    if (!vacante) {
+      return res.status(404).json({ mensaje: '❌ La vacante no existe' });
+    }
 
-      // Verificar si el usuario ya está postulado
-      if (vacante.postulantes.includes(req.usuario.id)) {
-          return res.status(400).json({ mensaje: '⚠️ Ya te has postulado a esta vacante' });
-      }
+    // Verificar si el usuario ya se postuló (aquí puedes iterar sobre el array de postulaciones y ver si ya existe con estado "aplicado")
+    const usuario = await Usuarios.findById(req.usuario.id);
+    const yaPostulado = usuario.postulaciones.some(post => 
+      post.vacante.toString() === req.params.idVacante && post.estado === 'aplicado'
+    );
+    if (yaPostulado) {
+      return res.status(400).json({ mensaje: '⚠️ Ya te has postulado a esta vacante' });
+    }
 
-      // Agregar el usuario a la lista de postulantes de la vacante
-      vacante.postulantes.push(req.usuario.id);
-      await vacante.save();
+    // Agregar el usuario a la lista de postulantes de la vacante (si esta lógica la mantienes)
+    vacante.postulantes.push(req.usuario.id);
+    await vacante.save();
 
-      // (Opcional) Agregar la vacante al arreglo de postulaciones del usuario
-      await Usuarios.findByIdAndUpdate(req.usuario.id, { $push: { postulaciones: vacante._id } });
+    // Actualizar el usuario: agregar la postulación con estado "aplicado"
+    await Usuarios.findByIdAndUpdate(req.usuario.id, {
+      $push: { postulaciones: { vacante: vacante._id, estado: 'aplicado' } }
+    });
 
-      res.json({ mensaje: '✅ Te has postulado exitosamente a la vacante' });
+    res.json({ mensaje: '✅ Te has postulado exitosamente a la vacante' });
   } catch (error) {
-      console.error('Error al postularse a la vacante:', error);
-      res.status(500).json({ mensaje: '❌ Hubo un error al postularse' });
+    console.error('Error al postularse a la vacante:', error);
+    res.status(500).json({ mensaje: '❌ Hubo un error al postularse' });
   }
 };
+
 
 // /webapps/infoEmplo-venv/infoEmplo/backend/api_express/controllers/vacantesController.js
 
@@ -192,10 +200,16 @@ export const eliminarPostulacion = async (req, res) => {
       return res.status(401).json({ mensaje: '❌ Debes iniciar sesión para eliminar la postulación' });
     }
 
-    // Remover la vacante de la lista de postulaciones del usuario
-    await Usuarios.findByIdAndUpdate(req.usuario.id, {
-      $pull: { postulaciones: req.params.idVacante }
-    });
+    // Actualizar el estado de la postulación a "cancelado" usando arrayFilters
+    const result = await Usuarios.findOneAndUpdate(
+      { _id: req.usuario.id, "postulaciones.vacante": req.params.idVacante },
+      { $set: { "postulaciones.$.estado": "cancelado" } },
+      { new: true }
+    );
+
+    if (!result) {
+      return res.status(404).json({ mensaje: '❌ No se encontró la postulación' });
+    }
 
     return res.json({ mensaje: '✅ Se ha eliminado la postulación de tu lista' });
   } catch (error) {
@@ -203,4 +217,5 @@ export const eliminarPostulacion = async (req, res) => {
     return res.status(500).json({ mensaje: '❌ Hubo un error al eliminar la postulación' });
   }
 };
+
 

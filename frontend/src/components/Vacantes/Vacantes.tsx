@@ -20,7 +20,7 @@ interface Vacante {
 
 function Vacantes() {
     const [vacantes, setVacantes] = useState<Vacante[]>([]);
-    const [appliedVacantes, setAppliedVacantes] = useState<string[]>([]);
+    const [postulaciones, setPostulaciones] = useState<any[]>([]);
     const navigate = useNavigate();
 
     const [page, setPage] = useState<number>(1);
@@ -36,27 +36,41 @@ function Vacantes() {
     const [auth] = crmContext; // Extraer valores del contexto
 
     useEffect(() => {
-        if (auth.token !== '') {
-            const consultarAPI = async () => {
-                try {
-                    const response = await clienteAxios.get(
-                        `/vacantes/pagination?page=${page}&limit=${limit}`, 
-                        { headers: { Authorization: `Bearer ${auth.token}` } }
-                    );
-                    setVacantes(response.data.data);
-                    setTotalPages(response.data.totalPages);
-                    setTotalDocs(response.data.totalDocs);
-                } catch (error: any) {
-                    console.error('Error al consultar la API:', error);
-                    if (error.response?.status === 500) {
-                        navigate('/iniciar-sesion');
-                    }
-                }
-            };
-            consultarAPI();
-        } else {
+        if (!auth.token) {
             navigate('/iniciar-sesion');
+            return;
         }
+
+        const consultarAPI = async () => {
+            try {
+                const responseVacantes = await clienteAxios.get(
+                    `/vacantes/pagination?page=${page}&limit=${limit}`,
+                    { headers: { Authorization: `Bearer ${auth.token}` } }
+                );
+                setVacantes(responseVacantes.data.data);
+                setTotalPages(responseVacantes.data.totalPages);
+                setTotalDocs(responseVacantes.data.totalDocs);
+            } catch (error: any) {
+                console.error('Error al consultar la API:', error);
+                if (error.response?.status === 500) {
+                    navigate('/iniciar-sesion');
+                }
+            }
+        };
+
+        const obtenerDatosUsuario = async () => {
+            try {
+                const responseUsuario = await clienteAxios.get('/usuario/me', {
+                    headers: { Authorization: `Bearer ${auth.token}` }
+                });
+                setPostulaciones(responseUsuario.data.postulaciones);
+            } catch (error: any) {
+                console.error("Error al obtener datos del usuario:", error);
+            }
+        };
+
+        consultarAPI();
+        obtenerDatosUsuario();
     }, [page, auth.token, navigate]);
 
     if (!auth.auth) {
@@ -78,7 +92,7 @@ function Vacantes() {
             if (result.isConfirmed) {
                 try {
                     const response = await clienteAxios.post(
-                        `/vacantes/${idVacante}/postular`, // Ajusta la ruta según tu backend
+                        `/vacantes/${idVacante}/postular`,
                         {},
                         { headers: { Authorization: `Bearer ${auth.token}` } }
                     );
@@ -88,7 +102,7 @@ function Vacantes() {
                         text: response.data.mensaje,
                     });
                     // Se agrega el ID de la vacante al estado de aplicadas
-                    setAppliedVacantes((prev) => [...prev, idVacante]);
+                    setPostulaciones((prev) => [...prev, { vacante: idVacante, estado: 'aplicado' }]);
                 } catch (error: any) {
                     console.error("Error al postularse:", error);
                     Swal.fire({
@@ -99,6 +113,50 @@ function Vacantes() {
                 }
             }
         });
+    };
+    const handleCancelarPostulacion = (idVacante: string) => {
+        Swal.fire({
+            title: '¿Confirmas cancelar tu postulación?',
+            text: 'Esta acción cancelará tu postulación y la marcará como cancelada.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, cancelar',
+            cancelButtonText: 'No cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await clienteAxios.delete(
+                        `/vacantes/${idVacante}/postular`,
+                        { headers: { Authorization: `Bearer ${auth.token}` } }
+                    );
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Postulación cancelada',
+                        text: response.data.mensaje,
+                    });
+                    // Actualiza el estado de las postulaciones: cambia el estado a "cancelado"
+                    setPostulaciones(prev =>
+                        prev.map(post =>
+                            post.vacante.toString() === idVacante
+                                ? { ...post, estado: 'cancelado' }
+                                : post
+                        )
+                    );
+                } catch (error: any) {
+                    console.error("Error al cancelar la postulación:", error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al cancelar la postulación',
+                        text: error.response?.data.mensaje || "Error al cancelar la postulación",
+                    });
+                }
+            }
+        });
+    };
+
+    const obtenerEstadoPostulacion = (vacanteId: string) => {
+        const postulacion = postulaciones.find(post => post.vacante.toString() === vacanteId);
+        return postulacion ? postulacion.estado : null;
     };
 
     return (
@@ -138,7 +196,9 @@ function Vacantes() {
                                                 <div className="ml-6 flex-1 text-sm">
                                                     <div className="font-medium text-gray-900 sm:flex sm:justify-between">
                                                         <h5>{vacante.titulo}</h5>
-                                                        <p className="mt-2 sm:mt-0 text-base font-bold"><samp className="text-base font-light">Salario a pagar: </samp>${vacante.salario_ofrecido}</p>
+                                                        <p className="mt-2 sm:mt-0 text-base font-bold">
+                                                            <samp className="text-base font-light">Salario a pagar: </samp>${vacante.salario_ofrecido}
+                                                        </p>
                                                     </div>
                                                     <p className="hidden text-gray-500 sm:mt-2 sm:block">
                                                         {vacante.descripcion}
@@ -152,32 +212,55 @@ function Vacantes() {
                                         <div className="flex items-center">
                                             <CheckCircleIcon aria-hidden="true" className="w-5 h-5 text-green-500" />
                                             <p className="ml-2 text-sm font-medium text-gray-500">
-                                            Fecha de publicación{' '}
+                                                Fecha de publicación{' '}
                                                 <time dateTime={vacante.createdAt}>
                                                     {new Date(vacante.createdAt).toLocaleDateString('es-ES')}
                                                 </time>
                                             </p>
                                         </div>
                                         <div className="lg:flex lg:items-center lg:justify-end">
-                                            {appliedVacantes.includes(vacante._id) ? (
-                                                // Si ya se aplicó, se muestra un check verde y ya no es clickeable
-                                                <div className="flex items-center justify-center rounded-md border border-green-500 bg-white px-2.5 py-2 text-sm font-medium text-green-500 shadow-xs">
-                                                    <CheckCircleIcon aria-hidden="true" className="w-6 h-6" />
-                                                </div>
-                                            ) : (
-                                                // Botón para postularse
-                                                <a
-                                                    href="#"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        handlePostular(vacante._id);
-                                                    }}
-                                                    className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-xs hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                                >
-                                                    <span>Postularse</span>
-                                                    <span className="sr-only">postularse</span>
-                                                </a>
-                                            )}
+                                            {(() => {
+                                                const estado = obtenerEstadoPostulacion(vacante._id);
+                                                if (estado === 'aplicado') {
+                                                    return (
+                                                        <div className="flex items-center space-x-2">
+                                                            {/* Ícono clickeable para cancelar la postulación */}
+                                                            <div
+                                                                className="cursor-pointer"
+                                                                onClick={() => handleCancelarPostulacion(vacante._id)}
+                                                            >
+                                                                <CheckCircleIcon aria-hidden="true" className="w-6 h-6 text-green-500" />
+                                                            </div>
+                                                            <button
+                                                                onClick={() => handleCancelarPostulacion(vacante._id)}
+                                                                className="text-sm text-red-500"
+                                                            >
+                                                                Cancelar
+                                                            </button>
+                                                        </div>
+                                                    );
+                                                } else if (estado === 'cancelado') {
+                                                    return (
+                                                        <div className="flex items-center justify-center rounded-md border border-red-500 bg-white px-2.5 py-2 text-sm font-medium text-red-500 shadow-xs">
+                                                            <span>X</span>
+                                                        </div>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <a
+                                                            href="#"
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                handlePostular(vacante._id);
+                                                            }}
+                                                            className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-xs hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                        >
+                                                            <span>Postularse</span>
+                                                            <span className="sr-only">postularse</span>
+                                                        </a>
+                                                    );
+                                                }
+                                            })()}
                                         </div>
                                     </div>
                                 </div>
@@ -194,6 +277,8 @@ function Vacantes() {
                 />
             </main>
         </div>
+
+
     );
 }
 

@@ -43,8 +43,8 @@ const usuariosSchema = new Schema({
         default: false // Si no se marca, el usuario es "no empleado"
     },
     postulaciones: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Vacantes'
+        vacante: { type: Schema.Types.ObjectId, ref: 'Vacantes' },
+        estado: { type: String, enum: ['aplicado', 'cancelado'], default: 'aplicado' }
     }]
 }, { timestamps: true });
 
