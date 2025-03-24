@@ -86,9 +86,13 @@ function Login() {
                         className="mx-auto h-44 w-auto"
                     />
                 </Link>
-                <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900 bg-amber-300">
-                    "Inicio de Sesión"
-                </h1>
+
+                <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                <span className="inline-block bg-amber-300 px-2 py-1">
+                "Inicio de Sesión"
+                </span>
+              </h1>
+                
                 <h2 className="mt-10 text-center text-3xl font-bold tracking-tight text-gray-900">
                     Iniciar Sesión
                 </h2>

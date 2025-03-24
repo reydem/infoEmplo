@@ -25,6 +25,7 @@ import NuevaOferta from './components/Ofertas/NuevaOferta';
 import { CRMContext, CRMProvider } from './context/CRMContext';
 import Vacante from './components/Vacantes/Vacante';
 import Usuarios from './components/Usuarios/Usuarios';
+import NOAsiderightSI from './components/custom-ui/NOAsiderightSI';
 
 
 function App() {
@@ -158,7 +159,7 @@ function AppLayout() {
             <Route path="/ofertas/nuevo" element={<NuevaOferta />} />
           </Routes>
         </main>
-        <Asideright />
+        <NOAsiderightSI />
       </div>
     </div>
   );

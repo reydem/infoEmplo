@@ -75,8 +75,9 @@ export class Configuration extends Component {
               </div>
 
             </InputGroup>
-           
+
             <div className="bg-white mx-auto max-w-7xl px-6 lg:px-2 border-t-4 border-gray-400 mb-10">
+              
               <div className="mx-auto grid max-w-7xl grid-cols-1 gap-20 px-6 lg:px-8 xl:grid-cols-5">
 
                 {/* Secuion de usuario obtenidos de la base de datos */}
@@ -87,7 +88,7 @@ export class Configuration extends Component {
               </div>
             </div>
           </main>
-       
+
 
         </div>
       </div>
