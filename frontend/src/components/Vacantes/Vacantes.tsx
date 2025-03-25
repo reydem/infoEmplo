@@ -26,7 +26,7 @@ function Vacantes() {
     const [page, setPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [totalDocs, setTotalDocs] = useState<number>(0);
-    const limit: number = 5;
+    const limit: number = 2;
 
     // Usar el contexto
     const crmContext = useContext(CRMContext);
@@ -162,8 +162,12 @@ function Vacantes() {
     return (
         <div className="bg-gray-50 listado-empleados border-gray-400 border-t-4">
             <main>
+                <h1 className="mt-6 text-center text-2xl font-extrabold text-gray-900 mb-4">
+                    <span className="inline-block bg-amber-300 px-2 py-1">
+                        "Postulación a Oferta de Trabajo"
+                    </span>
+                </h1>
                 <section aria-labelledby="recent-heading" className="my-3">
-                    <h2 id="recent-heading" className="sr-only">Vacantes Disponibles</h2>
                     <div className="mx-auto max-w-7xl sm:px-2 lg:px-8">
                         <div className="mx-auto max-w-2xl space-y-8 sm:px-4 lg:max-w-4xl lg:px-0">
                             {vacantes.map((vacante) => (
@@ -179,6 +183,7 @@ function Vacantes() {
                                         </dl>
                                     </div>
                                     {/* Detalle de la vacante */}
+
                                     <ul role="list" className="divide-y divide-gray-200">
                                         <li className="p-4 sm:p-6">
                                             <div className="flex items-center sm:items-start">

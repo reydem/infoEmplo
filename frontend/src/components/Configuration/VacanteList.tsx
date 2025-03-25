@@ -54,7 +54,7 @@ const VacanteList: React.FC<VacanteListProps> = ({ vacantes = [], onEdit, onDele
     <div>
       <h1 className="mt-6 text-center text-2xl font-extrabold text-gray-900 mb-4">
         <span className="inline-block bg-amber-300 px-2 py-1">
-          "Publicación de Oferta de Trabajo".
+          "Publicación de Oferta de Trabajo"
         </span>
       </h1>
       <div className="space-y-6">
