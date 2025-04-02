@@ -1,7 +1,7 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/App.tsx
 import './App.css';
 import { Route, BrowserRouter as Router, Routes, useLocation } from 'react-router-dom';
-import Asideleft from "./components/custom-ui/Asideleft";
+import Asideleft from './components/custom-ui/Asideleft';
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { Input, InputGroup } from "./components/ui";
 import Asideright from "./components/custom-ui/Asideright";

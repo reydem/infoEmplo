@@ -1,5 +1,5 @@
 // /webapps/infoEmplo-venv/infoEmplo/frontend/src/context/CRMContext.tsx
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useState} from 'react';
 
 // (Opcional) Si quieres tipar el usuario más a detalle, puedes definirlo aquí
 interface Usuario {
