@@ -13,116 +13,19 @@ const router = express.Router();
 
 const routes = () => {
     /** EMPLEADOS ✅ */
-    /**
-  * @swagger
-  * tags:
-  *   name: Empleados
-  *   description: Gestión de empleados
-  */
 
-    /**
-     * @swagger
-     * /empleados:
-     *   post:
-     *     summary: Crear un nuevo empleado
-     *     tags: [Empleados]
-     *     requestBody:
-     *       required: true
-     *       description: Objeto empleado a crear
-     *       content:
-     *         application/json:
-     *           schema:
-     *             $ref: '#/components/schemas/Empleado'
-     *     responses:
-     *       201:
-     *         description: Empleado creado exitosamente.
-     */
-    router.post('/empleados', empleadoController.nuevoEmpleado);
-
-    /**
-     * @swagger
-     * /empleados:
-     *   get:
-     *     summary: Obtener todos los empleados
-     *     tags: [Empleados]
-     *     responses:
-     *       200:
-     *         description: Lista de empleados.
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: array
-     *               items:
-     *                 $ref: '#/components/schemas/Empleado'
-     */
-    router.get('/empleados', empleadoController.mostrarEmpleados);
-
-    /**
-     * @swagger
-     * /empleados/{idEmpleado}:
-     *   get:
-     *     summary: Obtener un empleado por ID
-     *     tags: [Empleados]
-     *     parameters:
-     *       - in: path
-     *         name: idEmpleado
-     *         schema:
-     *           type: string
-     *         required: true
-     *         description: ID del empleado a obtener
-     *     responses:
-     *       200:
-     *         description: Empleado encontrado.
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/Empleado'
-     */
     router.get('/empleados/:idEmpleado', empleadoController.mostrarEmpleado);
 
-    /**
-     * @swagger
-     * /empleados/{idEmpleado}:
-     *   put:
-     *     summary: Actualizar un empleado existente
-     *     tags: [Empleados]
-     *     parameters:
-     *       - in: path
-     *         name: idEmpleado
-     *         schema:
-     *           type: string
-     *         required: true
-     *         description: ID del empleado a actualizar
-     *     requestBody:
-     *       required: true
-     *       description: Datos a actualizar del empleado
-     *       content:
-     *         application/json:
-     *           schema:
-     *             $ref: '#/components/schemas/Empleado'
-     *     responses:
-     *       200:
-     *         description: Empleado actualizado correctamente.
-     */
+
+    router.get('/empleados', empleadoController.mostrarEmpleados);
+
+
+    router.get('/empleados/:idEmpleado', empleadoController.mostrarEmpleado);
+
+
     router.put('/empleados/:idEmpleado', empleadoController.actualizarEmpleado);
 
-    /**
-     * @swagger
-     * /empleados/{idEmpleado}:
-     *   delete:
-     *     summary: Eliminar un empleado
-     *     tags: [Empleados]
-     *     parameters:
-     *       - in: path
-     *         name: idEmpleado
-     *         schema:
-     *           type: string
-     *         required: true
-     *         description: ID del empleado a eliminar
-     *     responses:
-     *       200:
-     *         description: Empleado eliminado.
-     */
+
     router.delete('/empleados/:idEmpleado', empleadoController.eliminarEmpleado);
 
     /** PAGINACIÓN ✅ */

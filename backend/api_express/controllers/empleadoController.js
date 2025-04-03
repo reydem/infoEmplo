@@ -29,19 +29,23 @@ export const mostrarEmpleados = async (req, res, next) => {
     next(error);
   }
 };
+
 // Muestra un empleado en espefifico por su (ID)
 export const mostrarEmpleado = async (req, res, next) => {
   try {
     const empleado = await Empleados.findById(req.params.idEmpleado);
     if (!empleado) {
-      return res.json({ mensaje: 'Ese empleado no existe' });
+      return res.status(404).json({ mensaje: 'Ese empleado no existe' });
     }
-    res.json(empleado);
+    res.json(empleado); // status 200 por defecto
   } catch (error) {
     console.error(error);
+    // En caso de error inesperado, mandar 500
+    res.status(500).json({ error: 'Error interno del servidor' });
     next(error);
   }
 };
+
 
 export const actualizarEmpleado = async (req, res, next) => {
   try {

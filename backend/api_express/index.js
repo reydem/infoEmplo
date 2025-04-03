@@ -11,6 +11,8 @@ import { fileURLToPath } from "url";
 // Importar dependencias de Swagger
 import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
+// Importar la configuración de Swagger
+import swaggerOptions from "./swaggerConfig.js";
 
 // Conectar con MongoDB
 mongoose.Promise = global.Promise;
@@ -44,37 +46,18 @@ const __dirname = path.dirname(__filename);
 // Servir archivos estáticos desde la carpeta "uploads"
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
-// Puerto predeterminado y búsqueda dinámica
 const defaultPort = 5000;
 getPort({ port: [...Array(101).keys()].map(i => defaultPort + i) })
   .then((port) => {
-    // Configurar Swagger usando el puerto obtenido
-    const swaggerOptions = {
-      definition: {
-        openapi: "3.0.0",
-        info: {
-          title: "InfoEmplo API",
-          version: "1.0.0",
-          description: "Documentación de la API de InfoEmplo"
-        },
-        servers: [
-          {
-            url: `http://localhost:${port}`
-          }
-        ]
-      },
-      // Indica dónde buscar las anotaciones JSDoc para los endpoints
-      apis: ["./routes/*.js", "./controllers/*.js"]
-    };
+    // Actualizar el servidor en la configuración de Swagger si es necesario
+    // (opcional) Puedes modificar swaggerOptions.definition.servers[0].url aquí si quieres usar el puerto dinámico
 
     const swaggerDocs = swaggerJsDoc(swaggerOptions);
-    // Registrar la ruta de documentación Swagger
     app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
     // Rutas de la API
     app.use("/", routes());
 
-    // Arrancar el servidor
     app.listen(port, () => {
       console.log(`🚀 Servidor ejecutándose en el puerto ${port}`);
       console.log(`📂 Archivos subidos disponibles en: http://localhost:${port}/uploads/`);
