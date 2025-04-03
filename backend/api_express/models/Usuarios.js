@@ -1,4 +1,5 @@
 // /webapps/infoEmplo-venv/infoEmplo/backend/api_express/models/Usuarios.js
+
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
