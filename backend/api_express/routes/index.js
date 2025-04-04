@@ -12,20 +12,20 @@ import auth from '../middleware/auth.js';
 const router = express.Router();
 
 const routes = () => {
+
+    /** USUARIOS ✅ */
+    router.post('/crear-cuenta', vacantesController.subirArchivo, usuariosController.registrarUsuario);
+    router.post('/iniciar-sesion', usuariosController.autenticarUsuario);
+    router.get('/usuarios', usuariosController.obtenerUsuarios);
+    router.get('/usuario/me', auth, usuariosController.obtenerUsuarioAutenticado);
+    router.put('/usuario/update', auth, vacantesController.subirArchivo, usuariosController.actualizarPerfil);
+
+    
     /** EMPLEADOS ✅ */
-
     router.get('/empleados/:idEmpleado', empleadoController.mostrarEmpleado);
-
-
     router.get('/empleados', empleadoController.mostrarEmpleados);
-
-
     router.get('/empleados/:idEmpleado', empleadoController.mostrarEmpleado);
-
-
     router.put('/empleados/:idEmpleado', empleadoController.actualizarEmpleado);
-
-
     router.delete('/empleados/:idEmpleado', empleadoController.eliminarEmpleado);
 
     /** PAGINACIÓN ✅ */
@@ -51,8 +51,6 @@ const routes = () => {
     router.post('/vacantes/:idVacante/postular', auth, vacantesController.postularVacante);
     router.delete('/vacantes/:idVacante/postular', auth, vacantesController.eliminarPostulacion);
 
-
-
     /** OFERTAS ✅ */
     router.post('/ofertas/nuevo/:idUsuario', ofertasController.nuevaOferta);
     router.get('/ofertas', ofertasController.mostrarOfertas);
@@ -61,12 +59,6 @@ const routes = () => {
     router.delete('/ofertas/:idOferta', ofertasController.eliminarOferta);
     router.post('/ofertas/busqueda/:query', ofertasController.buscarOferta);
 
-    /** USUARIOS ✅ */
-    router.post('/crear-cuenta', vacantesController.subirArchivo, usuariosController.registrarUsuario);
-    router.post('/iniciar-sesion', usuariosController.autenticarUsuario);
-    router.get('/usuarios', usuariosController.obtenerUsuarios);
-    router.get('/usuario/me', auth, usuariosController.obtenerUsuarioAutenticado);
-    router.put('/usuario/update', auth, vacantesController.subirArchivo, usuariosController.actualizarPerfil);
 
     return router;
 };

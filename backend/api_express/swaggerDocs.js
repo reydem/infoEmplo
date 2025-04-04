@@ -129,3 +129,50 @@
  *       '200':
  *         description: Empleado eliminado.
  */
+
+
+
+/**
+ * @swagger
+ * /crear-cuenta:
+ *   post:
+ *     summary: Registrar un nuevo usuario
+ *     tags: [Usuarios]
+ *     requestBody:
+ *       required: true
+ *       description: Datos para registrar un usuario.
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *               primerApellido:
+ *                 type: string
+ *               segundoApellido:
+ *                 type: string
+ *               correo:
+ *                 type: string
+ *               telefono:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               esReclutador:
+ *                 type: boolean
+ *           example:
+ *             nombre: "Juan"
+ *             primerApellido: "Pérez"
+ *             segundoApellido: "García"
+ *             correo: "juan@example.com"
+ *             telefono: "3001234567"
+ *             password: "123456"
+ *             esReclutador: false
+ *     responses:
+ *       '200':
+ *         description: Usuario creado correctamente.
+ *       '400':
+ *         description: Error de validación.
+ *       '500':
+ *         description: Error interno del servidor.
+ */
