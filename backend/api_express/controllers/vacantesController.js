@@ -1,6 +1,6 @@
 // /webapps/infoEmplo-venv/infoEmplo/backend/api_express/controllers/vacantesController.js
 import Vacantes from '../models/Vacantes.js';
-import Usuarios from '../models/Usuarios.js'; 
+import Usuarios from '../models/Usuarios.js';
 import multer from 'multer';
 import shortid from 'shortid';
 import path from 'path';
@@ -54,27 +54,30 @@ export const subirArchivo = (req, res, next) => {
 
 export const nuevoVacante = async (req, res, next) => {
   try {
-      // Verificar si el usuario autenticado es reclutador
-      if (!req.usuario || !req.usuario.esReclutador) {
-          return res.status(403).json({ mensaje: '❌ No tienes permiso para crear vacantes' });
-      }
+    // Verificar si el usuario autenticado es reclutador
+    if (!req.usuario || !req.usuario.esReclutador) {
+      return res.status(403).json({ mensaje: '❌ No tienes permiso para crear vacantes' });
+    }
 
-      const vacante = new Vacantes({
-          titulo: req.body.titulo,
-          descripcion: req.body.descripcion,
-          salario_ofrecido: req.body.salario_ofrecido,
-          reclutador: req.usuario.id // Asigna la vacante al usuario reclutador
-      });
+    const vacante = new Vacantes({
+      titulo: req.body.titulo,
+      descripcion: req.body.descripcion,
+      salario_ofrecido: req.body.salario_ofrecido,
+      reclutador: req.usuario.id // Asigna la vacante al usuario reclutador
+    });
 
-      if (req.files && req.files.length > 0) {
-          vacante.imagen_empresa = req.files[0].filename;
-      }
+    if (req.files && req.files.length > 0) {
+      vacante.imagen_empresa = req.files[0].filename;
+    }
 
-      await vacante.save();
-      res.json({ mensaje: '✅ Vacante creada correctamente' });
+    await vacante.save();
+    res.json({
+      mensaje: '✅ Vacante creada correctamente',
+      vacante // devuelve todo el objeto creado
+    });
   } catch (error) {
-      console.log(error);
-      next();
+    console.log(error);
+    next();
   }
 };
 
@@ -167,7 +170,7 @@ export const postularVacante = async (req, res, next) => {
 
     // Verificar si el usuario ya se postuló (aquí puedes iterar sobre el array de postulaciones y ver si ya existe con estado "aplicado")
     const usuario = await Usuarios.findById(req.usuario.id);
-    const yaPostulado = usuario.postulaciones.some(post => 
+    const yaPostulado = usuario.postulaciones.some(post =>
       post.vacante.toString() === req.params.idVacante && post.estado === 'aplicado'
     );
     if (yaPostulado) {

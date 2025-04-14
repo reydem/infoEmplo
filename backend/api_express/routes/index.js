@@ -22,6 +22,7 @@ const routes = () => {
 
     
     /** EMPLEADOS ✅ */
+    router.post('/empleados', empleadoController.nuevoEmpleado);
     router.get('/empleados/:idEmpleado', empleadoController.mostrarEmpleado);
     router.get('/empleados', empleadoController.mostrarEmpleados);
     router.get('/empleados/:idEmpleado', empleadoController.mostrarEmpleado);

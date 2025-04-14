@@ -73,7 +73,16 @@ export const registrarUsuario = async (req, res) => {
         });
 
         await usuario.save();
-        res.json({ mensaje: '✅ Usuario creado correctamente' });
+        res.json({ 
+            mensaje: '✅ Usuario creado correctamente',
+            usuario: {
+                id: usuario._id,
+                nombre: usuario.nombre,
+                correo: usuario.correo,
+                esReclutador: usuario.esReclutador
+            }
+        });
+        
     } catch (error) {
         console.error("❌ Error al registrar usuario:", error);
         res.status(500).json({ mensaje: '❌ Hubo un error al registrar el usuario' });
