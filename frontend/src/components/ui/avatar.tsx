@@ -42,7 +42,7 @@ export function Avatar({
           {alt && <title>{alt}</title>}
           <text x="50%" y="50%" alignmentBaseline="middle" dominantBaseline="middle" textAnchor="middle" dy=".125em">
             {initials}
-          </text>
+          </text> 
         </svg>
       )}
       {src && <img className="size-full" src={src} alt={alt} />}

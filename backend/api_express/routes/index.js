@@ -19,7 +19,6 @@ const routes = () => {
     router.get('/usuarios', usuariosController.obtenerUsuarios);
     router.get('/usuario/me', auth, usuariosController.obtenerUsuarioAutenticado);
     router.put('/usuario/update', auth, vacantesController.subirArchivo, usuariosController.actualizarPerfil);
-
     
     /** EMPLEADOS ✅ */
     router.post('/empleados', empleadoController.nuevoEmpleado);
@@ -59,8 +58,7 @@ const routes = () => {
     router.put('/ofertas/:idOferta', ofertasController.actualizarOferta);
     router.delete('/ofertas/:idOferta', ofertasController.eliminarOferta);
     router.post('/ofertas/busqueda/:query', ofertasController.buscarOferta);
-
-
+    
     return router;
 };
 
