@@ -29,3 +29,9 @@ const vacantesSchema = new Schema({
 },{ timestamps: true });
 
 export default mongoose.model('Vacantes', vacantesSchema);
+
+
+
+
+
+

@@ -1,4 +1,3 @@
-// /webapps/infoEmplo-venv/infoEmplo/backend/api_express/models/Empleado.js
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
@@ -19,9 +18,10 @@ const empleadosSchema = new Schema(
       email: {
         type: String,
         unique: true,
+        sparse: true,
         lowercase: true,
-        trim: true,
-      },
+        trim: true
+      },      
       telefono: {
         type: String,
         trim: true,
@@ -36,9 +36,13 @@ const empleadosSchema = new Schema(
       },
     },
     {
-      timestamps: true, // Agrega automáticamente createdAt y updatedAt
+      timestamps: true, 
     }
   );
   
   export default mongoose.model('Empleado', empleadosSchema);
+  
+
+
+
   

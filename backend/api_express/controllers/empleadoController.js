@@ -1,4 +1,3 @@
-// /webapps/infoEmplo-venv/infoEmplo/backend/api_express/controllers/empleadoController.js
 import Empleados from '../models/Empleado.js';
 export const nuevoEmpleado = async (req, res, next) => {
   console.log(req.body);
@@ -19,6 +18,8 @@ export const nuevoEmpleado = async (req, res, next) => {
     }
   }
 };
+
+
 // Muestra todos los Empleados
 export const mostrarEmpleados = async (req, res, next) => {
   try {

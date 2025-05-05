@@ -1,4 +1,3 @@
-// /webapps/infoEmplo-venv/infoEmplo/backend/api_express/middleware/auth.js
 import jwt from 'jsonwebtoken';
 
 const auth = (req, res, next) => {
@@ -26,3 +25,6 @@ const auth = (req, res, next) => {
 };
 
 export default auth;
+
+
+

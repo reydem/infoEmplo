@@ -1,4 +1,3 @@
-// /webapps/infoEmplo-venv/infoEmplo/backend/api_express/models/Ofertas.js
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
@@ -20,3 +19,11 @@ const ofertasSchema = new Schema({
 });
 
 export default mongoose.model('Ofertas', ofertasSchema);
+
+
+
+
+
+
+
+

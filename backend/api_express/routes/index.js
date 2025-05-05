@@ -1,4 +1,3 @@
-// /webapps/infoEmplo-venv/infoEmplo/backend/api_express/routes/index.js
 import express from "express";
 import * as empleadoController from "../controllers/empleadoController.js";
 import * as vacantesController from "../controllers/vacantesController.js";

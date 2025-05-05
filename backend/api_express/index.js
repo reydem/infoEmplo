@@ -1,4 +1,3 @@
-// /webapps/infoEmplo-venv/infoEmplo/backend/api_express/index.js
 import getPort from "get-port";
 import express from "express";
 import routes from "./routes/index.js";
@@ -49,9 +48,6 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 const defaultPort = 5000;
 getPort({ port: [...Array(101).keys()].map(i => defaultPort + i) })
   .then((port) => {
-    // Actualizar el servidor en la configuración de Swagger si es necesario
-    // (opcional) Puedes modificar swaggerOptions.definition.servers[0].url aquí si quieres usar el puerto dinámico
-
     const swaggerDocs = swaggerJsDoc(swaggerOptions);
     app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
@@ -69,9 +65,3 @@ getPort({ port: [...Array(101).keys()].map(i => defaultPort + i) })
   });
 
 
-// mongoose.connect('mongodb://127.0.0.1:27017/restapis')
-//     .then(() => {
-//         console.log('Conexión a la base de datos restapis correcta !!!');
-//     })
-//     .catch(err => {
-//         console.error('Error conectando a la base de datos', err);

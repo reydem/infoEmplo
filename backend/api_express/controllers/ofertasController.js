@@ -1,4 +1,3 @@
-// /webapps/infoEmplo-venv/infoEmplo/backend/api_express/controllers/ofertasController.js
 import Ofertas from '../models/Ofertas.js';
 
 export const nuevaOferta = async (req, res, next) => {
@@ -11,6 +10,7 @@ export const nuevaOferta = async (req, res, next) => {
         next();
     }
 }
+
 // Muestra todos los ofertas
 export const mostrarOfertas = async (req, res, next) => {
     try {
