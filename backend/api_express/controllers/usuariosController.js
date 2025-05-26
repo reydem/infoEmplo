@@ -33,64 +33,81 @@ export const obtenerUsuarios = async (req, res) => {
 
 // 📌 Registrar un nuevo usuario
 export const registrarUsuario = async (req, res) => {
-    try {
-        const { 
-            nombre, 
-            primerApellido, 
-            segundoApellido, 
-            correo, 
-            telefono, 
-            password,
-            esReclutador
-        } = req.body;
+  try {
+    // 1) Capturamos también el texto de 'hojaVida' si viene como campo Text
+    const {
+      nombre,
+      primerApellido,
+      segundoApellido,
+      correo,
+      telefono,
+      password,
+      esReclutador,
+      hojaVida: hojaVidaText
+    } = req.body;
 
-        // 📌 Verificar si el correo ya está registrado
-        const usuarioExistente = await Usuarios.findOne({ correo });
-        if (usuarioExistente) {
-            return res.status(400).json({ mensaje: '❌ El correo ya está registrado' });
-        }
-
-        // 📌 Manejo de archivos (fotoPerfil y hojaVida)
-        const fotoPerfil = req.files?.find(file => file.fieldname === 'fotoPerfil') 
-            ? path.basename(req.files.find(file => file.fieldname === 'fotoPerfil').path)
-            : null;
-
-        const hojaVida = req.files?.find(file => file.fieldname === 'hojaVida') 
-            ? path.basename(req.files.find(file => file.fieldname === 'hojaVida').path)
-            : null;
-
-        // 📌 Crear nuevo usuario
-        const usuario = new Usuarios({
-            nombre,
-            primerApellido,
-            segundoApellido,
-            correo,
-            telefono,
-            password: await bcrypt.hash(password, 12), // Hashear contraseña
-            fotoPerfil,
-            hojaVida,
-            esReclutador: esReclutador === 'true'
-        });
-
-        await usuario.save();
-        res.json({ 
-            mensaje: '✅ Usuario creado correctamente',
-            usuario: {
-                id: usuario._id,
-                nombre: usuario.nombre,
-                correo: usuario.correo,
-                esReclutador: usuario.esReclutador
-            }
-        });
-        
-    } catch (error) {
-        console.error("❌ Error al registrar usuario:", error);
-        res.status(500).json({ mensaje: '❌ Hubo un error al registrar el usuario' });
+    // 2) Verificar si el correo ya está registrado
+    const usuarioExistente = await Usuarios.findOne({ correo });
+    if (usuarioExistente) {
+      return res
+        .status(400)
+        .json({ mensaje: '❌ El correo ya está registrado' });
     }
+
+    // 3) Manejo de archivos: fotoPerfil y hojaVida
+    const fotoPerfilFile = req.files?.find(
+      (f) => f.fieldname === 'fotoPerfil'
+    );
+    const hojaVidaFile = req.files?.find(
+      (f) => f.fieldname === 'hojaVida'
+    );
+
+    const fotoPerfil = fotoPerfilFile
+      ? path.basename(fotoPerfilFile.path)
+      : null;
+
+    // Si viene como File, lo usamos; si viene como Text, usamos el texto; si no, null
+    const hojaVida = hojaVidaFile
+      ? path.basename(hojaVidaFile.path)
+      : hojaVidaText || null;
+
+    // 4) Crear y guardar el usuario
+    const usuario = new Usuarios({
+      nombre,
+      primerApellido,
+      segundoApellido,
+      correo,
+      telefono,
+      password: await bcrypt.hash(password, 12),
+      fotoPerfil,
+      hojaVida,
+      esReclutador: esReclutador === 'true',
+    });
+
+    await usuario.save();
+
+    // 5) Respuesta al cliente
+    res.json({
+      mensaje: '✅ Usuario creado correctamente',
+      usuario: {
+        id: usuario._id,
+        nombre: usuario.nombre,
+        correo: usuario.correo,
+        esReclutador: usuario.esReclutador,
+      },
+    });
+  } catch (error) {
+    console.error('❌ Error al registrar usuario:', error);
+    res
+      .status(500)
+      .json({ mensaje: '❌ Hubo un error al registrar el usuario' });
+  }
 };
+
 
 // 📌 Autenticación de usuario (login)
 export const autenticarUsuario = async (req, res) => {
+    console.log('▶️ autenticarUsuario.body:', req.body);
     const { correo, password } = req.body;
 
     try {
@@ -107,11 +124,11 @@ export const autenticarUsuario = async (req, res) => {
 
         // 📌 Generar token con información relevante
         const token = jwt.sign(
-            { 
-                id: usuario._id, 
-                correo: usuario.correo, 
+            {
+                id: usuario._id,
+                correo: usuario.correo,
                 nombre: usuario.nombre,
-                esReclutador: usuario.esReclutador 
+                esReclutador: usuario.esReclutador
             },
             'LLAVESECRETA',
             { expiresIn: '1h' }
@@ -132,24 +149,24 @@ export const autenticarUsuario = async (req, res) => {
 // 📌 Obtener el usuario autenticado
 export const obtenerUsuarioAutenticado = async (req, res) => {
     try {
-      const usuario = await Usuarios.findById(req.usuario.id)
-        .select('-password') // Excluir la contraseña
-        .populate({
-          path: 'postulaciones.vacante',  // Populamos el campo anidado
-          select: 'titulo salario_ofrecido imagen_empresa createdAt' // Selecciona los campos que necesites
-        });
-  
-      if (!usuario) {
-        return res.status(404).json({ mensaje: '❌ Usuario no encontrado' });
-      }
-  
-      res.json(usuario);
+        const usuario = await Usuarios.findById(req.usuario.id)
+            .select('-password') // Excluir la contraseña
+            .populate({
+                path: 'postulaciones.vacante',  // Populamos el campo anidado
+                select: 'titulo salario_ofrecido imagen_empresa createdAt' // Selecciona los campos que necesites
+            });
+
+        if (!usuario) {
+            return res.status(404).json({ mensaje: '❌ Usuario no encontrado' });
+        }
+
+        res.json(usuario);
     } catch (error) {
-      console.error("❌ Error al obtener usuario autenticado:", error);
-      res.status(500).json({ mensaje: '❌ Error interno del servidor' });
+        console.error("❌ Error al obtener usuario autenticado:", error);
+        res.status(500).json({ mensaje: '❌ Error interno del servidor' });
     }
-  };
-  
+};
+
 
 export const actualizarPerfil = async (req, res) => {
     try {
