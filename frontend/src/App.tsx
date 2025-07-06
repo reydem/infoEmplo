@@ -66,15 +66,7 @@ function AppLayout() {
     );
   }
 
-  // if (isRegisterRoute) {
-  //   return (
-  //     <div>
-  //       <Routes>
-  //         <Route path="/register" element={<Register />} />
-  //       </Routes>
-  //     </div>
-  //   );
-  // }
+
 
   if (isContentRoute) {
     return (
