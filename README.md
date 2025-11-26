@@ -1,6 +1,3 @@
-Perfecto, acá tienes una propuesta de `README.md` para la **versión web** de InfoEmpleo, parecida a la de Android. La puedes pegar en el `README.md` de la raíz del repo y ajustar lo que quieras:
-
-````markdown
 # 🌐 InfoEmpleo - Plataforma Web
 
 ## 🎥 Video de presentación en YouTube
